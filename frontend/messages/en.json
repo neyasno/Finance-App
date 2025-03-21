@@ -1,0 +1,54 @@
+{
+"components":{
+    "header":{
+        "search" : "Search",
+        "settings": "Settings",
+        "logout": "Logout"
+    },
+    "footer":{
+        "footer" : "©2025"
+    },
+    "main":{
+        "taskboard":{
+            "forms":{
+                "new_taskboard": {
+                    "title": "Title",
+                    "add_user": "Add User",
+                    "email": "E-mail",
+                    "create_taskboard": "Create"
+                },
+                "new_task": {
+                    "title": "Title",
+                    "description": "Description",
+                    "priority": "Priority",
+                    "create_task": "Create"
+                }
+            }
+        }
+    }
+},
+"verification":{
+    "login":{
+        "login": "Login",
+        "email": "E-mail",
+        "password": "Password",
+        "sing_in": "Sing in",
+        "no_account": "Don't have an account?",
+        "create":"Create" ,
+        "err_409" : "Password not match" , 
+        "err_500" : "Server Error" ,
+        "err_404" : "User not exist"
+    },
+    "registration":{
+        "registration": "Registration",
+        "email": "E-mail",
+        "password": "Password",
+        "confirm": "Confirm password",
+        "create": "Create",
+        "have_account": "Already have an account?",
+        "sing_in":"Sing in" , 
+        "err_409" : "Email already exist" , 
+        "err_500" : "Server Error"
+    }
+}
+}

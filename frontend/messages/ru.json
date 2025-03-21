@@ -1,0 +1,54 @@
+{
+"components":{
+    "header":{
+        "search" : "Поиск",
+        "settings": "Настройки",
+        "logout": "Выйти"
+    },
+    "footer":{
+        "footer" : "©2025"
+    },
+    "main":{
+        "taskboard":{
+            "forms":{
+                "new_taskboard":{
+                    "title": "Название",
+                    "add_user": "Добавить пользователя",
+                    "email": "Почта",
+                    "create_taskboard": "Создать"
+                },
+                "new_task": {
+                    "title": "Название",
+                    "description": "Описание",
+                    "priority": "Приоритет",
+                    "create_task": "Создать"
+                }
+            }
+        }
+    }
+},
+"verification":{
+    "login":{
+        "login": "Вход",
+        "email": "Почта",
+        "password": "Пароль",
+        "sing_in": "Войти",
+        "no_account": "Нет записи?",
+        "create":"Создать" , 
+        "err_409" : "Неверный пароль" , 
+        "err_500" : "Ошибка Сервера" ,
+        "err_404" : "Пользователь не существует"
+    },
+    "registration":{
+        "registration": "Регистрация",
+        "email": "Почта",
+        "password": "Пароль",
+        "confirm": "Подтвердить пароль",
+        "create": "Создать",
+        "have_account": "Уже есть запись?",
+        "sing_in":"Войти" , 
+        "err_409" : "Пользователь уже существует" , 
+        "err_500" : "Ошибка Сервера"
+    }
+}
+}
