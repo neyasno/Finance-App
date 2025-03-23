@@ -1,19 +1,21 @@
-package org.example.authservice;
+package org.example.authservice.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.example.authservice.dto.UserIdDTO;
+import org.example.authservice.services.JwtService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/auth/token")
 @RequiredArgsConstructor
-public class AuthController {
+public class TokenController {
 
     private final JwtService jwtService;
 
     @GetMapping("/validate")
-    public ResponseEntity<UserDetailsDto> validateToken(@RequestHeader("Authorization") String token) {
+    public ResponseEntity<UserIdDTO> validateToken(@RequestHeader("Authorization") String token) {
         String jwt = token.replace("Bearer ", "");
 
         if (!jwtService.validateToken(jwt)) {
@@ -21,17 +23,9 @@ public class AuthController {
         }
 
         String userId = jwtService.extractUserId(jwt);
-        UserDetailsDto userDetailsDto = new UserDetailsDto(userId);
+        UserIdDTO userDetailsDto = new UserIdDTO(userId);
 
         return ResponseEntity.ok(userDetailsDto);
     }
-
-    @PostMapping("/token")
-    public ResponseEntity<String> createToken(@RequestBody UserDetailsDto userDetailsDto) {
-        String token = jwtService.generateToken(userDetailsDto.getUserId());
-
-        return ResponseEntity.ok(token);
-    }
 }
-
 

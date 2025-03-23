@@ -1,13 +1,10 @@
-package org.example.authservice;
+package org.example.authservice.dto;
 
 import lombok.*;
 
 @Data
-@Getter
-@Setter
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDetailsDto {
+public class UserIdDTO {
     private String userId;
 }
