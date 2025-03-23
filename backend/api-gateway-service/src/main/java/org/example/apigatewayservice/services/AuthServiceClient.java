@@ -1,7 +1,6 @@
 package org.example.apigatewayservice.services;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.example.apigatewayservice.UserDetailsDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -20,7 +19,7 @@ public class AuthServiceClient {
 
     public Mono<UserDetailsDto> validateToken(String token) {
         return webClient.get()
-                .uri(authHost + "/auth/validate")
+                .uri(authHost + "/auth/token/validate")
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, clientResponse -> Mono.error(new ResponseStatusException(HttpStatus.UNAUTHORIZED, clientResponse.logPrefix())))
@@ -28,19 +27,3 @@ public class AuthServiceClient {
                 .mapNotNull(HttpEntity::getBody);
     }
 }
-
-
-//@FeignClient(name = "auth-service", path = "/auth")
-//public interface AuthServiceClient {
-//
-//    @GetMapping("/validate")
-//    ResponseEntity<UserDetailsDto> validateToken(@RequestHeader("Authorization") String token);
-//}
-//
-//
-//@ReactiveFeignClient(name = "auth-service", path = "/auth")
-//public interface AuthServiceClient {
-//
-//    @GetMapping("/validate")
-//    Mono<ResponseEntity<UserDetailsDto>> validateToken(@RequestHeader("Authorization") String token);
-//}
