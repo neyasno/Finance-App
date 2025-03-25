@@ -1,8 +1,10 @@
-import { ThemeProvider } from 'next-themes'
-import React, { ReactNode } from 'react'
+import { ThemeProvider } from 'next-themes';
+import React, { ReactNode } from 'react';
 
-export default function ThemesProvider({children} : {children : ReactNode}) {
+export default function ThemesProvider({ children }: { children: ReactNode }) {
   return (
-    <ThemeProvider attribute={'class'} defaultTheme='system' >{children}</ThemeProvider>
-  )
+    <ThemeProvider attribute={'class'} defaultTheme="system">
+      {children}
+    </ThemeProvider>
+  );
 }

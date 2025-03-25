@@ -1,42 +1,32 @@
+type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
-type RequestMethod = "GET" | "POST" | "PUT" | "DELETE"
+const fetchApi = async (path: string, method: RequestMethod, body = {}) => {
+  const token = localStorage.getItem('token');
 
-const fetchApi = async ( path : string , method : RequestMethod , body = {} )=>{
+  let response: Response;
 
-    const token = localStorage.getItem('token')
+  if (method === 'GET') {
+    response = await fetch(path, {
+      method,
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    });
+  } else {
+    response = await fetch(path, {
+      method,
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(body),
+    });
+  }
 
-    let response : Response
+  if (!response.ok) {
+    throw new Error(`${response.status}`);
+  }
 
-    if(method === "GET"){
-        response = await fetch( path , 
-            {
-                method , 
-                headers : {
-                    authorization : `Bearer ${token}`
-                },
-            }
-        );
-    }
-    else{
-        response = await fetch( path , 
-            {
-                method , 
-                headers : {
-                    authorization : `Bearer ${token}`
-                },
-                body : JSON.stringify(body)
-            }
-        );
-    }
-
-    
-
-    if(!response.ok){
-        throw new Error(`${response.status}`);
-    }
-    
-    return response.json()
+  return response.json();
 };
 
-
-export default fetchApi
+export default fetchApi;

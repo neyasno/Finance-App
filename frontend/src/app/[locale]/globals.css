@@ -2,17 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-*{
+* {
   box-sizing: border-box;
 }
 
-html , body{
+html,
+body {
   min-height: 100svh;
 }
-::-webkit-scrollbar{
+::-webkit-scrollbar {
   display: none;
 }
-html::-webkit-scrollbar, 
+html::-webkit-scrollbar,
 body::-webkit-scrollbar {
   display: none;
 }
