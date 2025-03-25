@@ -9,6 +9,7 @@ import CreateConstraintForm from './modals/CreateConstraintForm';
 import CreateTransantionForm from './modals/CreateTransantionForm';
 import DeleteSuggestion from './modals/DeleteSuggestion';
 import ChangeTransactionForm from './modals/ChangeTransactionForm';
+import ExitSuggestion from './modals/ExitSuggestion';
 
 export default function Modal() {
   const state = useAppSelector((state) => state.modal);
@@ -53,6 +54,14 @@ export default function Modal() {
       return (
         <ModalLayout>
           <DeleteSuggestion />
+        </ModalLayout>
+      );
+    }
+
+    case ModalType.ExitSuggestion: {
+      return (
+        <ModalLayout>
+          <ExitSuggestion />
         </ModalLayout>
       );
     }

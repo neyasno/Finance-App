@@ -7,6 +7,7 @@ export enum ModalType {
   CreateTransaction,
   ChangeTransaction,
   DeleteSuggestion,
+  ExitSuggestion,
 }
 
 type ModalSlice = {
@@ -23,6 +24,7 @@ const modalSlice = createSlice({
   reducers: {
     setModalType: (state, action) => {
       console.log(action.payload);
+
       state.type = action.payload;
     },
   },

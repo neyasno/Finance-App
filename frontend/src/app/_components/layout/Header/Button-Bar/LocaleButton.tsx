@@ -1,15 +1,18 @@
 'use client';
+
+import { usePathname } from '@/i18n/routing';
 import { useLocale } from 'next-intl';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
-export default function LanguageButton() {
+export default function LocaleButton() {
   const router = useRouter();
   const currentLocale = useLocale();
+  const path = usePathname();
 
   const switchLanguage = () => {
     const newLocale = currentLocale === 'en' ? 'ru' : 'en';
-    router.push(`/${newLocale}`);
+    router.push(`/${newLocale}${path}`);
   };
 
   return (

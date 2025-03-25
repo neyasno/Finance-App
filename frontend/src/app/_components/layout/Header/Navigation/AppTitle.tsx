@@ -1,9 +1,11 @@
-import Image from 'next/image';
+import AppIcon from '../../../../../../public/images/components/AppIcon';
 
 export default function AppTitle() {
   return (
     <div className="flex gap-2">
-      <Image alt="app-icon" src={'/images/koi.svg'} width={50} height={50} />
+      <div className="w-2/12">
+        <AppIcon />
+      </div>
       <div className="text-xl my-auto hover:cursor-pointer">Koi</div>
     </div>
   );
