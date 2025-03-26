@@ -1,0 +1,46 @@
+networks:
+  internal_network:
+    driver: bridge
+
+services:
+  discovery-service:
+    build:
+      context: ./discovery-service
+      dockerfile: Dockerfile
+    networks:
+      - internal_network
+
+  api-gateway-service:
+    build:
+      context: ./api-gateway-service
+      dockerfile: Dockerfile
+    networks:
+      - internal_network
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_EUREKA_DEFAULT_ZONE=discovery-service
+
+  auth-service:
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+    networks:
+      - internal_network
+#    depends_on:
+#      - discovery-service
+#      - user-service
+    environment:
+      - SPRING_EUREKA_DEFAULT_ZONE=discovery-service
+
+
+  user-service:
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+    networks:
+      - internal_network
+#    depends_on:
+#      - discovery-service
+    environment:
+      - SPRING_EUREKA_DEFAULT_ZONE=discovery-service

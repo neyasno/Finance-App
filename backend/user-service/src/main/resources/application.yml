@@ -13,6 +13,13 @@ spring:
       ddl-auto: create-drop
     generate-ddl: true
 
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://${SPRING_EUREKA_DEFAULT_ZONE:localhost}:8761/eureka/
+
 server:
   port: 8003
 

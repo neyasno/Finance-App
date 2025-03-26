@@ -4,6 +4,19 @@ spring:
 
   cloud:
     gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowed-origin-patterns:
+              - http://localhost:${server.port}
+              - https://localhost:${server.port}
+              - http://internal_network
+              - https://internal_network
+            allowed-methods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
       routes:
         - id: auth-service
           uri: lb://auth-service
@@ -27,16 +40,14 @@ spring:
 
 logging:
   level:
-#    org.springframework.cloud.gateway: DEBUG
-#    reactor.netty.http.client: DEBUG
-#    root: debug
     web: debug
 
 server:
-  port: 8001
+  port: 8080
+  address: 0.0.0.0
 eureka:
   client:
     register-with-eureka: true
 #    fetch-registry: true
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://${SPRING_EUREKA_DEFAULT_ZONE:localhost}:8761/eureka/
