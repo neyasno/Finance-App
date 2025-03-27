@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function RestorePasswordRequestPage() {
+export default function RestorePasswordPage() {
   return (
     <>
       <h1>Restore password</h1>

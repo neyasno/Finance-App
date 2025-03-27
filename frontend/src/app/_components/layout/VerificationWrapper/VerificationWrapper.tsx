@@ -13,7 +13,7 @@ export default function VerificationWrapper({
 }: {
   children: ReactNode;
 }) {
-  const [isLoanding, setIsLoanding] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -27,18 +27,18 @@ export default function VerificationWrapper({
       .then(() => {
         dispatch(setIsLogined(true));
 
-        setIsLoanding(false);
+        setIsLoading(false);
       })
       .catch((err) => {
         console.log('Verification error : ' + err);
 
         router.push(ERoutes.LOGIN);
 
-        setIsLoanding(false);
+        setIsLoading(false);
       });
   }, []);
 
-  if (isLoanding) {
+  if (isLoading) {
     return (
       <div className="w-full h-min-screen flex items-center p-10">
         <Loading />
