@@ -9,7 +9,7 @@ import fetchApi from '@/utils/fetchApi';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
-export default function Page() {
+export default function RegistrationPage() {
   const t = useTranslations('verification.registration');
 
   const router = useRouter();
@@ -18,24 +18,23 @@ export default function Page() {
   const [password, setPassword] = useState('');
   const [passwordAgain, setPasswordAgain] = useState('');
 
-  const [isLoanding, setIsLoanding] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
   const sendForm = async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.preventDefault();
-    console.log(`Send form: ${email}, ${password}, ${passwordAgain}`);
 
     try {
-      setIsLoanding(true);
+      setIsLoading(true);
+
       setError('');
 
-      const response = await fetchApi(EApi.REGISTRATION, 'POST', {
+      await fetchApi(EApi.REGISTRATION, 'POST', {
         email,
         password,
       });
-      console.log(response);
 
-      setIsLoanding(false);
+      setIsLoading(false);
 
       router.push(ERoutes.LOGIN);
     } catch (err) {
@@ -45,53 +44,51 @@ export default function Page() {
         } else {
           setError(t('err_500'));
         }
-        setIsLoanding(false);
+        setIsLoading(false);
       }
     }
   };
 
   return (
-    <div className="w-full flex items-center justify-center flex-col mt-10">
-      <div className=" flex flex-col gap-3 items-center justify-items-center w-10/12 max-w-md">
-        <h1 className="text-3xl">{t('registration')}</h1>
+    <>
+      <h1 className="text-3xl">{t('registration')}</h1>
 
-        <TextInput
-          placeholder={t('email')}
-          value={email}
-          handleChange={setEmail}
-        />
+      <TextInput
+        placeholder={t('email')}
+        value={email}
+        handleChange={setEmail}
+      />
 
-        <TextInput
-          isPassword
-          placeholder={t('password')}
-          value={password}
-          handleChange={setPassword}
-        />
+      <TextInput
+        isPassword
+        placeholder={t('password')}
+        value={password}
+        handleChange={setPassword}
+      />
 
-        <TextInput
-          isPassword
-          placeholder={t('confirm')}
-          value={passwordAgain}
-          handleChange={setPasswordAgain}
-        />
+      <TextInput
+        isPassword
+        placeholder={t('confirm')}
+        value={passwordAgain}
+        handleChange={setPasswordAgain}
+      />
 
-        <div className="w-28">
-          {isLoanding ? (
-            <Loading />
-          ) : (
-            <Button text={t('create')} handleClick={sendForm} />
-          )}
-        </div>
-
-        <div className="flex gap-1">
-          <p>{t('have_account')}</p>
-          <Link href={ERoutes.LOGIN}>
-            <p className="hover:underline text-link">{t('sing_in')}</p>
-          </Link>
-        </div>
-
-        <p className="text-warn">{error}</p>
+      <div className="w-28">
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <Button text={t('create')} handleClick={sendForm} />
+        )}
       </div>
-    </div>
+
+      <div className="flex gap-1">
+        <p>{t('have_account')}</p>
+        <Link href={ERoutes.LOGIN}>
+          <p className="hover:underline text-link">{t('sing_in')}</p>
+        </Link>
+      </div>
+
+      <p className="text-warn">{error}</p>
+    </>
   );
 }

@@ -8,7 +8,7 @@ export default function ThemeButton() {
 
   return (
     <button
-      className="text-center justify-center items-center  transition-all px-4 rounded-full dark:hover:bg-white hover:bg-black transition-all "
+      className="text-center justify-center items-center px-4 rounded-full dark:hover:bg-white hover:bg-black transition-all "
       onClick={() => {
         setTheme(theme === 'dark' ? 'light' : 'dark');
       }}

@@ -1,6 +1,11 @@
+'use client';
+
+import { useTheme } from 'next-themes';
 import React from 'react';
 
 export default function AppIcon() {
+  const { theme } = useTheme();
+
   return (
     <div className="w-full h-full">
       <svg
@@ -8,7 +13,7 @@ export default function AppIcon() {
         viewBox="0 0 100 100"
         className="w-full h-full"
       >
-        <g fill="none" stroke="#000">
+        <g fill="none" stroke={theme === 'dark' ? '#fff' : '#000'}>
           <path
             opacity="NaN"
             d="M525.038 335.154c14 8.615 30.616-2.77 25.539 9.846s-39.539-18.462-25.539-9.846z"

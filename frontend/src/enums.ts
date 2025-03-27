@@ -19,5 +19,5 @@ export enum ERoutes {
   LOGIN = '/verification/login',
   REGISTRATION = '/verification/registration',
 
-  PROFILE_SETTINGS = '/profile/settings',
+  ANALITICS = '/analitics',
 }

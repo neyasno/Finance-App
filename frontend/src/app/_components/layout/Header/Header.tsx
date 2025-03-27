@@ -1,29 +1,25 @@
 'use client';
 
 import React, { useEffect } from 'react';
-
-import { useAppSelector } from '@/store/store';
-import ThemeButton from './Button-Bar/ThemeButton';
-
-import AppTitle from './Navigation/AppTitle';
-import LocaleButton from './Button-Bar/LocaleButton';
-import LogoutButton from './Button-Bar/LogoutButton';
+import { useLogin } from '@/utils/hooks/useLogin';
+import Navigation from './Navigation/Navigation';
+import ButtonBar from './Button-Bar/ButtonBar';
+import AppTitle from './AppTitle';
 
 export default function Header() {
-  const isLogined = useAppSelector((state) => state.user.isLogined);
+  const { isLogined } = useLogin();
 
   useEffect(() => {}, [isLogined]);
 
   return (
     <div className="dark:bg-black w-full flex flex-nowrap justify-between px-6 py-1">
-      <div className="flex flex-nowrap gap-x-2">
+      <div className="flex gap-10 justify-center items-center">
         <AppTitle />
+        <div className="pt-1">
+          <Navigation />
+        </div>
       </div>
-      <div className="flex gap-2">
-        <LocaleButton />
-        <ThemeButton />
-        {true && <LogoutButton />}
-      </div>
+      <ButtonBar />
     </div>
   );
 }

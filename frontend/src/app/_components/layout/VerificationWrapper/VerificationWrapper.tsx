@@ -1,4 +1,5 @@
 'use client';
+
 import { EApi, ERoutes } from '@/enums';
 import fetchApi from '@/utils/fetchApi';
 import React, { ReactNode, useEffect, useState } from 'react';
@@ -25,11 +26,14 @@ export default function VerificationWrapper({
     verifyRequest()
       .then(() => {
         dispatch(setIsLogined(true));
+
         setIsLoanding(false);
       })
       .catch((err) => {
         console.log('Verification error : ' + err);
+
         router.push(ERoutes.LOGIN);
+
         setIsLoanding(false);
       });
   }, []);
