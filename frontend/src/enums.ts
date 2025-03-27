@@ -18,6 +18,8 @@ export enum ERoutes {
 
   LOGIN = '/verification/login',
   REGISTRATION = '/verification/registration',
+  RESTORE_PASSWORD_REQ = '/verification/restore_password_req',
+  RESTORE_PASSWORD = '/verification/restore_password',
 
   ANALITICS = '/analitics',
 }

@@ -37,7 +37,9 @@
       "create": "Create",
       "err_409": "Password not match",
       "err_500": "Server Error",
-      "err_404": "User not exist"
+      "err_404": "User not exist",
+      "restore": "Restore",
+      "forgot_password": "Forgot password?"
     },
     "registration": {
       "registration": "Registration",
@@ -48,7 +50,9 @@
       "have_account": "Already have an account?",
       "sing_in": "Sing in",
       "err_409": "Email already exist",
-      "err_500": "Server Error"
+      "err_500": "Server Error",
+      "restore": "Restore",
+      "forgot_password": "Forgot password?"
     }
   }
 }

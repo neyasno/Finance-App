@@ -81,6 +81,13 @@ export default function LoginPage() {
         </Link>
       </div>
 
+      <div className="flex gap-1">
+        <p>{t('forgot_password')}</p>
+        <Link href={ERoutes.RESTORE_PASSWORD_REQ}>
+          <p className="hover:underline text-link">{t('restore')}</p>
+        </Link>
+      </div>
+
       <p className="text-warn">{error}</p>
     </>
   );

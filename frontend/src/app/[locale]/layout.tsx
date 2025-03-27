@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Geist_Mono } from 'next/font/google';
+import { Fira_Mono } from 'next/font/google';
 import './globals.css';
 import ReduxProvider from '@/store/ReduxProvider';
 import ThemesProvider from '@/utils/ThemesProvider';
@@ -9,9 +9,9 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import VerificationWrapper from '../_components/layout/VerificationWrapper/VerificationWrapper';
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
+const firaMono = Fira_Mono({
+  weight: '400',
+  subsets: ['latin', 'cyrillic'],
 });
 
 export const metadata: Metadata = {
@@ -28,7 +28,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistMono.className} antialiased`}>
+      <body className={`${firaMono.className} antialiased`}>
         <ReduxProvider>
           <NextIntlClientProvider messages={messages}>
             <ThemesProvider>

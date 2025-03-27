@@ -1,5 +1,9 @@
 import React from 'react';
 
-export default function page() {
-  return <div>page</div>;
+export default function RestorePasswordRequestPage() {
+  return (
+    <>
+      <h1>Restore password</h1>
+    </>
+  );
 }
