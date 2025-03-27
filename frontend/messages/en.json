@@ -53,6 +53,19 @@
       "err_500": "Server Error",
       "restore": "Restore",
       "forgot_password": "Forgot password?"
+    },
+    "restore_password_req": {
+      "restore_password_req": "Restore password",
+      "email": "Enter email",
+      "send": "Send",
+      "had_account": "Already had account?",
+      "sing_in": "Sing in"
+    },
+    "restore_password": {
+      "restore_password": "Restore password",
+      "password": "New password",
+      "confirm_password": "Confirm password",
+      "send": "Send"
     }
   }
 }

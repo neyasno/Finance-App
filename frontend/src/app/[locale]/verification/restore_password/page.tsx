@@ -1,9 +1,65 @@
-import React from 'react';
+'use client';
+
+import Button from '@/app/_components/common/Button';
+import Loading from '@/app/_components/common/Loading';
+import TextInput from '@/app/_components/common/TextInput';
+import { EApi } from '@/enums';
+import fetchApi from '@/utils/fetchApi';
+import { useTranslations } from 'next-intl';
+import React, { useState } from 'react';
 
 export default function RestorePasswordPage() {
+  const t = useTranslations('verification.restore_password');
+
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const sendForm = async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    e.preventDefault();
+
+    try {
+      setIsLoading(true);
+
+      setError('');
+
+      await fetchApi(EApi.LOGIN, 'POST', { password });
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <>
-      <h1>Restore password</h1>
+      <h1 className="text-3xl">{t('restore_password')}</h1>
+
+      <TextInput
+        isPassword
+        placeholder={t('password')}
+        value={password}
+        handleChange={setPassword}
+      />
+
+      <TextInput
+        isPassword
+        placeholder={t('confirm_password')}
+        value={confirmPassword}
+        handleChange={setConfirmPassword}
+      />
+
+      <div className="w-28">
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <Button text={t('send')} handleClick={sendForm} />
+        )}
+      </div>
+
+      <p className="text-warn">{error}</p>
     </>
   );
 }

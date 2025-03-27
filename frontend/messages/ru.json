@@ -53,6 +53,19 @@
       "err_500": "Ошибка Сервера",
       "restore": "Восстановить",
       "forgot_password": "Забыли пароль?"
+    },
+    "restore_password_req": {
+      "restore_password_req": "Восстановление",
+      "email": "Ваша почта",
+      "send": "Отправить",
+      "had_account": "Уже есть запись?",
+      "sing_in": "Войти"
+    },
+    "restore_password": {
+      "restore_password": "Восстановление",
+      "password": "Новый пароль",
+      "confirm_password": "Подтвердите пароль",
+      "send": "Отправить"
     }
   }
 }
