@@ -1,7 +1,19 @@
 # Finance-App
 
+### Table of contents
 
-### Technological stack :
+- [Technologies](#technological-stack)
+- [Requirements](#requirements)
+- Microservice Architecture
+  - [Services description](#microsevice-arhitecture)
+  - [Services relationship scheme](#services-relationship)
+- [Database](#database-models)
+- [API](#api)
+- [Frontend pages](#frontend-pages)
+
+---
+
+### Technological stack
 
  - Frontend :
     - React , Redux-Toolkit 
@@ -41,7 +53,7 @@
 - Frontend
     1. Well
 
-### Microsevice Arhitecture :
+### Microsevice Arhitecture
 
 >_Income service request_  <-( _service_ ) \
 >_Outcome service request_  ( _service_ ) -> 
@@ -93,6 +105,11 @@
         - categories outcome
         - timeline income/outcome
         - ...
+
+### Services Relationship
+
+![services relationships](docs/services_realtionship.jpg)
+
 
 ### Database Models
 
