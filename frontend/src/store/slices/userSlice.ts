@@ -17,7 +17,7 @@ const initialState: User = {
   email: '',
   password: '',
   tasks: [],
-  isLogined: false,
+  isLogined: true,
 };
 
 const userSlice = createSlice({

@@ -7,6 +7,7 @@ import Loading from '../../common/Loading';
 import { useAppDispatch } from '@/store/store';
 import { setIsLogined } from '@/store/slices/userSlice';
 import { useRouter } from '@/i18n/routing';
+import { useLogin } from '@/utils/hooks/useLogin';
 
 export default function VerificationWrapper({
   children,
@@ -15,8 +16,7 @@ export default function VerificationWrapper({
 }) {
   const [isLoading, setIsLoading] = useState(true);
 
-  const router = useRouter();
-  const dispatch = useAppDispatch();
+  const { setLogined } = useLogin();
 
   useEffect(() => {
     const verifyRequest = async () => {
@@ -25,18 +25,16 @@ export default function VerificationWrapper({
 
     verifyRequest()
       .then(() => {
-        dispatch(setIsLogined(true));
+        setLogined(true);
 
         setIsLoading(false);
       })
       .catch((err) => {
         console.log('Verification error : ' + err);
 
-        router.push(ERoutes.LOGIN);
-
         setIsLoading(false);
       });
-  }, []);
+  }, [setLogined]);
 
   if (isLoading) {
     return (
