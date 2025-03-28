@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/auth/sign-in")
+@RequestMapping("/sign-in")
 @RequiredArgsConstructor
 public class SignInController {
 
