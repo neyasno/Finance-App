@@ -24,13 +24,12 @@
 - Backend : 
     - Spring-Boot
     - Spring Cloud (Eureka)
-    - Spring Security + JWT , OAuth 
+    - Spring Security + JWT 
     - Spring Data JPA + PostgreSQL
     - Redis
     - Docker
-    - Kybernate
-    - ??? Kafka
-    - ??? Prometeus
+    - Docker Compose
+    - Kafka
 
 - Mobile : 
     - Capacitor / React-Native(WebWiew) / React-Native(Rebase)
