@@ -23,14 +23,14 @@ spring:
           predicates:
             - Path=/api/**
           filters:
-            - StripPrefix=2
+            - StripPrefix=1
         - id: user-service
           uri: lb://user-service
           predicates:
             - Path=/api/**
           filters:
             - JwtAuthenticationFilter
-            - StripPrefix=2
+            - StripPrefix=q
       discovery:
         locator:
           enabled: false
