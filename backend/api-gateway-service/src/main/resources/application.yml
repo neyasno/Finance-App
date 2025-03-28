@@ -21,13 +21,13 @@ spring:
         - id: auth-service
           uri: lb://auth-service
           predicates:
-            - Path=/api/auth-service/**
+            - Path=/api/**
           filters:
             - StripPrefix=2
         - id: user-service
           uri: lb://user-service
           predicates:
-            - Path=/api/user-service/**
+            - Path=/api/**
           filters:
             - JwtAuthenticationFilter
             - StripPrefix=2
