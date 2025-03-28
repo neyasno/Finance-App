@@ -6,41 +6,82 @@ services:
   discovery-service:
     build:
       context: ./discovery-service
-      dockerfile: Dockerfile
+      dockerfile: ../docker/Dockerfile
     networks:
       - internal_network
+    volumes:
+      - gradle-cache:/root/.gradle
 
   api-gateway-service:
     build:
       context: ./api-gateway-service
-      dockerfile: Dockerfile
+      dockerfile: ../docker/Dockerfile
     networks:
       - internal_network
     ports:
       - "8080:8080"
     environment:
       - SPRING_EUREKA_DEFAULT_ZONE=discovery-service
+    volumes:
+      - gradle-cache:/root/.gradle
 
   auth-service:
     build:
       context: ./auth-service
-      dockerfile: Dockerfile
+      dockerfile: ../docker/Dockerfile
     networks:
       - internal_network
-#    depends_on:
-#      - discovery-service
-#      - user-service
+    depends_on:
+      - discovery-service
+      - user-service
     environment:
       - SPRING_EUREKA_DEFAULT_ZONE=discovery-service
-
+    volumes:
+      - gradle-cache:/root/.gradle
 
   user-service:
     build:
       context: ./user-service
-      dockerfile: Dockerfile
+      dockerfile: ../docker/Dockerfile
     networks:
       - internal_network
-#    depends_on:
-#      - discovery-service
+    depends_on:
+      - discovery-service
     environment:
       - SPRING_EUREKA_DEFAULT_ZONE=discovery-service
+      - POSTGRES_DB_NAME=finance_app_db
+      - POSTGRES_DB_USERNAME=aboba
+      - POSTGRES_DB_PASSWORD=aboba
+      - POSTGRES_DB_HOST=postgres_db
+      - POSTGRES_DB_PORT=5432
+    volumes:
+      - gradle-cache:/root/.gradle
+
+  postgres_db:
+    image: postgres:13.15-alpine
+    networks:
+      - internal_network
+    environment:
+      POSTGRES_DB: "finance_app_db"
+      POSTGRES_USER: "aboba"
+      POSTGRES_PASSWORD: "aboba"
+    expose:
+      - 5432:5432
+    volumes:
+      - app-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aboba -d finance_app_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 2
+      start_period: 10s
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 2G
+
+volumes:
+  app-data:
+  gradle-cache:

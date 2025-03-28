@@ -19,7 +19,7 @@ public class AuthServiceClient {
 
     public Mono<UserDetailsDto> validateToken(String token) {
         return webClient.get()
-                .uri(authHost + "/auth/token/validate")
+                .uri(authHost + "/token/validate")
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, clientResponse -> Mono.error(new ResponseStatusException(HttpStatus.UNAUTHORIZED, clientResponse.logPrefix())))

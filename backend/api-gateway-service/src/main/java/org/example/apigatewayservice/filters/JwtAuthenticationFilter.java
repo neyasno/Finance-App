@@ -31,8 +31,7 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
         return (exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
             if (!request.getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
-                exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
-                return exchange.getResponse().setComplete();
+               return failedAuthorizationResponse(exchange, new RuntimeException("Authorization header missing"));
             }
 
             String token = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION).substring("Bearer ".length());
