@@ -25,9 +25,13 @@ export default {
         white_dd: 'rgba(145, 145, 145)',
         white_c: 'rgba(190, 190, 220)',
 
-        gray: 'rgba(190,190,190)',
+        gray_l: 'rgba(190,190,190)',
+        gray_d: 'rgba(100,100,100)',
         green: 'rgba(40,170,40)',
         red: 'rgba(170,50,50)',
+      },
+      borderWidth: {
+        1: '1px',
       },
     },
   },

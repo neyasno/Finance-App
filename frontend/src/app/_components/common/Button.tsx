@@ -8,7 +8,7 @@ type ButtonProps = {
 export default function Button({ text, handleClick }: ButtonProps) {
   return (
     <button
-      className="w-full py-2 border-2 transition 
+      className="w-full py-2 border-1 transition 
                         px-1 md:px-3
                         text-center border-black 
                         hover:bg-black hover:text-white 

@@ -20,7 +20,7 @@ export default function TransactionOverview() {
       <div className="flex gap-2 justify-between items-center">
         <h2 className="text-lg">{title}</h2>
         <p
-          className="text-gray text-sm
+          className="dark:text-gray_l text-gray_d  text-sm
         "
         >
           {t('date')}: {time}

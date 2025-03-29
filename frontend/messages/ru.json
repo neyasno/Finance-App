@@ -56,6 +56,21 @@
           "change": "Изменить",
           "delete": "Удалить"
         }
+      },
+      "statistic": {
+        "day": "День",
+        "month": "Месяц",
+        "year": "Год"
+      },
+      "constraint": {
+        "constraint": "Ограничение",
+        "available": "Доступно",
+        "change": "Изменить"
+      },
+      "categories": {
+        "sort_by": "Сортировать по",
+        "income": "получено",
+        "outcome": "отдано"
       }
     }
   }

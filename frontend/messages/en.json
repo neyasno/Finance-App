@@ -56,6 +56,21 @@
           "change": "Change",
           "delete": "Delete"
         }
+      },
+      "statistic": {
+        "day": "Day",
+        "month": "Month",
+        "year": "Year"
+      },
+      "constraint": {
+        "constraint": "Constraint",
+        "available": "Available",
+        "change": "Change"
+      },
+      "categories": {
+        "sort_by": "Sort by",
+        "income": "income",
+        "outcome": "outcome"
       }
     }
   }
