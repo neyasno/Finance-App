@@ -11,7 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/auth/sign-up")
+@RequestMapping("/sign-up")
 @RequiredArgsConstructor
 public class SignUpController {
     private final UserServiceClient userServiceClient;

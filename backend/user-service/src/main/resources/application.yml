@@ -3,16 +3,23 @@ spring:
     name: user-service
 
   datasource:
-    url: jdbc:postgresql://${POSTGRES_DB_HOST:localhost}:${POSTGRES_DB_PORT:5432}/${POSTGRES_DB_NAME:postgres}
+    url: jdbc:postgresql://${POSTGRES_DB_HOST:localhost}:${POSTGRES_DB_PORT:5432}/${POSTGRES_DB_NAME:postgres}?currentSchema=users_schema
     username: ${POSTGRES_DB_USERNAME:postgres}
     password: ${POSTGRES_DB_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
+
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: create-drop
     generate-ddl: true
-
+    properties:
+      hibernate:
+        default_schema: users_schema
+  sql:
+    init:
+      schema-locations: classpath:schema.sql
+      mode: always
 eureka:
   client:
     register-with-eureka: true
@@ -26,3 +33,4 @@ server:
 logging:
   level:
     web: debug
+    sql: debug

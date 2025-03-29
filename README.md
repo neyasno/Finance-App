@@ -119,6 +119,8 @@
 
     Transaction :
         - id
+        - title
+        - type ('income' | 'outcome')
         - value
         - time
         - category
