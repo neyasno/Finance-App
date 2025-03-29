@@ -70,7 +70,9 @@
       "categories": {
         "sort_by": "Sort by",
         "income": "income",
-        "outcome": "outcome"
+        "outcome": "outcome",
+        "create": "Create",
+        "category_name": "New category name..."
       }
     }
   }

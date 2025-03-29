@@ -20,13 +20,40 @@ export default function Categories() {
       </div>
       <div className="flex flex-wrap gap-2">
         <div className="w-5/12">
-          <CategoryBrick title="Food" type="income" value={24300} />
+          <CategoryBrick
+            title="Food"
+            day_income={1}
+            day_outcome={1}
+            id={1}
+            month_income={1000}
+            month_outcome={1}
+            year_income={1}
+            year_outcome={1}
+          />
         </div>
         <div className="w-5/12">
-          <CategoryBrick title="Food" type="income" value={24300} />
+          <CategoryBrick
+            title="Food"
+            day_income={1}
+            day_outcome={1}
+            id={1}
+            month_income={1}
+            month_outcome={11000}
+            year_income={1}
+            year_outcome={1}
+          />
         </div>
         <div className="w-5/12">
-          <CategoryBrick title="Food" type="income" value={24300} />
+          <CategoryBrick
+            title="Food"
+            day_income={1}
+            day_outcome={1}
+            id={1}
+            month_income={1}
+            month_outcome={1}
+            year_income={1}
+            year_outcome={1}
+          />
         </div>
         <div className="w-1/3">
           <CreateCategoryButton />

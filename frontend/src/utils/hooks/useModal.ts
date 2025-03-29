@@ -1,4 +1,5 @@
 import { TransactionProps } from '@/app/_components/pages/home/aside/TransactionHistory/TransactionContainer/Transaction';
+import { CategoryBrickProps } from '@/app/_components/pages/home/section/Category/CategoryBrick';
 import {
   ModalType,
   setModalType,
@@ -19,7 +20,9 @@ export const useModal = () => {
 
 export const useTransactionOverview = () => {
   const dispatch = useAppDispatch();
-  const transaction = useAppSelector((state) => state.modal.content);
+  const transaction: TransactionProps = useAppSelector(
+    (state) => state.modal.content
+  ) as TransactionProps;
 
   const setTransaction = useCallback(
     (content: TransactionProps) => {
@@ -33,4 +36,24 @@ export const useTransactionOverview = () => {
     [dispatch]
   );
   return { transaction, setTransaction };
+};
+
+export const useCategoryOverview = () => {
+  const dispatch = useAppDispatch();
+  const category = useAppSelector(
+    (state) => state.modal.content
+  ) as CategoryBrickProps;
+
+  const setCategory = useCallback(
+    (content: CategoryBrickProps) => {
+      dispatch(
+        setModalTypeWithContent({
+          type: ModalType.CategoryOverview,
+          content,
+        })
+      );
+    },
+    [dispatch]
+  );
+  return { category, setCategory };
 };

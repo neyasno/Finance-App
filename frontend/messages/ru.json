@@ -70,7 +70,9 @@
       "categories": {
         "sort_by": "Сортировать по",
         "income": "получено",
-        "outcome": "отдано"
+        "outcome": "отдано",
+        "create": "Создать",
+        "category_name": "Имя категории..."
       }
     }
   }

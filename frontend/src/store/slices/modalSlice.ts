@@ -1,4 +1,5 @@
 import { TransactionProps } from '@/app/_components/pages/home/aside/TransactionHistory/TransactionContainer/Transaction';
+import { CategoryBrickProps } from '@/app/_components/pages/home/section/Category/CategoryBrick';
 import { createSlice } from '@reduxjs/toolkit';
 
 export enum ModalType {
@@ -10,11 +11,13 @@ export enum ModalType {
   DeleteSuggestion,
   ExitSuggestion,
   TransactionOverview,
+  CreateCategory,
+  CategoryOverview,
 }
 
 type ModalSlice = {
   type: ModalType;
-  content?: TransactionProps;
+  content?: TransactionProps | CategoryBrickProps;
 };
 
 const initialState: ModalSlice = {

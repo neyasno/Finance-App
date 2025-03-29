@@ -1,3 +1,4 @@
+import MoneyValue from '@/app/_components/common/MoneyValue';
 import { useTransactionOverview } from '@/utils/hooks/useModal';
 import React from 'react';
 
@@ -22,11 +23,7 @@ export default function Transaction(transaction: TransactionProps) {
       <div className="flex w-full justify-between items-center gap-5">
         <p>{transaction.category}</p>
         <p className="dark:text-gray_l text-gray_d">{transaction.time}</p>
-        <p
-          className={` ${transaction.type === 'income' ? 'text-green' : 'text-red'}`}
-        >
-          {transaction.value}
-        </p>
+        <MoneyValue type={transaction.type} value={transaction.value} />
       </div>
     </div>
   );

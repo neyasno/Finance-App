@@ -1,4 +1,3 @@
-import Button from '@/app/_components/common/Button';
 import { TransactionProps } from '@/app/_components/pages/home/aside/TransactionHistory/TransactionContainer/Transaction';
 import { useTransactionOverview } from '@/utils/hooks/useModal';
 import { useTranslations } from 'next-intl';
@@ -12,8 +11,7 @@ export default function TransactionOverview() {
 
   if (!transaction) return;
 
-  const { id, category, time, title, type, value }: TransactionProps =
-    transaction;
+  const { category, time, title, type, value }: TransactionProps = transaction;
 
   return (
     <div className="flex flex-col gap-5 w-full">

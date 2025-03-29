@@ -11,6 +11,8 @@ import DeleteSuggestion from './modals/DeleteSuggestion';
 import ChangeTransactionForm from './modals/ChangeTransactionForm';
 import ExitSuggestion from './modals/ExitSuggestion';
 import TransactionOverview from './modals/TransactionOverview/TransactionOverview';
+import CreateCategoryForm from './modals/CreateCategoryForm';
+import CategoryOverview from './modals/CategoryOverview/CategoryOverview';
 
 export default function Modal() {
   const state = useAppSelector((state) => state.modal);
@@ -71,6 +73,30 @@ export default function Modal() {
       return (
         <ModalLayout contentWidth="w-96">
           <TransactionOverview />
+        </ModalLayout>
+      );
+    }
+
+    case ModalType.CreateCategory: {
+      return (
+        <ModalLayout>
+          <CreateCategoryForm />
+        </ModalLayout>
+      );
+    }
+
+    case ModalType.CreateCategory: {
+      return (
+        <ModalLayout>
+          <CreateCategoryForm />
+        </ModalLayout>
+      );
+    }
+
+    case ModalType.CategoryOverview: {
+      return (
+        <ModalLayout contentWidth="w-96">
+          <CategoryOverview />
         </ModalLayout>
       );
     }
