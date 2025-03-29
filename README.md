@@ -125,10 +125,31 @@
         - time
         - category
 
-    Constraint :
-        - category  
+    Constraint : 
+        - id
         - value  
+        - available (value - moment_outcome)
         - time
+
+    Category :
+        - id
+        - title
+        - day_income
+        - day_outcome
+        - month_income
+        - month_outcome
+        - year_income
+        - year_outcome
+
+    Budget :
+        - id
+        - budget_value (available money)
+        - day_income
+        - day_outcome
+        - month_income
+        - month_outcome
+        - year_income
+        - year_outcome
 
 ### API 
 
@@ -182,6 +203,8 @@
         > DELETE /api/constraints/:id
     5. Update Constrain-Limit
         > PUT /api/constraints/limit/:id 
+    6. Get budget information
+        > GET /api/budget/:id
 
 - Notification Service 
     1. Send Email Notification for password change 
