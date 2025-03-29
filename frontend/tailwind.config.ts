@@ -24,6 +24,10 @@ export default {
         white_d: 'rgba(190, 190, 190)',
         white_dd: 'rgba(145, 145, 145)',
         white_c: 'rgba(190, 190, 220)',
+
+        gray: 'rgba(190,190,190)',
+        green: 'rgba(40,170,40)',
+        red: 'rgba(170,50,50)',
       },
     },
   },

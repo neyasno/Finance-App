@@ -1,32 +1,4 @@
 {
-  "components": {
-    "header": {
-      "search": "Поиск",
-      "settings": "Настройки",
-      "logout": "Выйти"
-    },
-    "footer": {
-      "footer": "©2025"
-    },
-    "main": {
-      "taskboard": {
-        "forms": {
-          "new_taskboard": {
-            "title": "Название",
-            "add_user": "Добавить пользователя",
-            "email": "Почта",
-            "create_taskboard": "Создать"
-          },
-          "new_task": {
-            "title": "Название",
-            "description": "Описание",
-            "priority": "Приоритет",
-            "create_task": "Создать"
-          }
-        }
-      }
-    }
-  },
   "verification": {
     "login": {
       "login": "Вход",
@@ -66,6 +38,25 @@
       "password": "Новый пароль",
       "confirm_password": "Подтвердите пароль",
       "send": "Отправить"
+    }
+  },
+  "home": {
+    "unregistrated": {
+      "registration": "Регистрация",
+      "sing_in": "Войти",
+      "not_registrated": "Зарегистрируйтесь , чтобы начать управлять своими денигами!"
+    },
+    "content": {
+      "transactions": {
+        "create": "Создать",
+        "history": "История",
+        "transaction": {
+          "date": "Дата",
+          "category": "Категория",
+          "change": "Изменить",
+          "delete": "Удалить"
+        }
+      }
     }
   }
 }

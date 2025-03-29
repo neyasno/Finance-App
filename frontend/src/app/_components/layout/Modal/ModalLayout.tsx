@@ -2,7 +2,13 @@ import { ModalType, setModalType } from '@/store/slices/modalSlice';
 import { useAppDispatch } from '@/store/store';
 import { ReactNode } from 'react';
 
-export default function ModalLayout({ children }: { children: ReactNode }) {
+export default function ModalLayout({
+  children,
+  contentWidth,
+}: {
+  children: ReactNode;
+  contentWidth?: string;
+}) {
   const dispatcher = useAppDispatch();
 
   const closeModal = () => {
@@ -11,11 +17,13 @@ export default function ModalLayout({ children }: { children: ReactNode }) {
 
   return (
     <div
-      className={`z-50 w-screen h-screen bg-modal flex items-center justify-center fixed`}
+      className={
+        'z-50 w-screen h-screen bg-modal flex items-center justify-center fixed'
+      }
       onClick={closeModal}
     >
       <div
-        className="bg-white dark:bg-black w-80 p-5"
+        className={`bg-white dark:bg-black w-80 p-5 ${contentWidth}`}
         onClick={(e) => e.stopPropagation()}
       >
         {children}

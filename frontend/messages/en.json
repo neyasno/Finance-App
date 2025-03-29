@@ -1,32 +1,4 @@
 {
-  "components": {
-    "header": {
-      "search": "Search",
-      "settings": "Settings",
-      "logout": "Logout"
-    },
-    "footer": {
-      "footer": "©2025"
-    },
-    "main": {
-      "taskboard": {
-        "forms": {
-          "new_taskboard": {
-            "title": "Title",
-            "add_user": "Add User",
-            "email": "E-mail",
-            "create_taskboard": "Create"
-          },
-          "new_task": {
-            "title": "Title",
-            "description": "Description",
-            "priority": "Priority",
-            "create_task": "Create"
-          }
-        }
-      }
-    }
-  },
   "verification": {
     "login": {
       "login": "Login",
@@ -66,6 +38,25 @@
       "password": "New password",
       "confirm_password": "Confirm password",
       "send": "Send"
+    }
+  },
+  "home": {
+    "unregistrated": {
+      "registration": "Registration",
+      "sing_in": "Sing in",
+      "not_registrated": "Registrate to manage your finances!"
+    },
+    "content": {
+      "transactions": {
+        "create": "Create",
+        "history": "History",
+        "transaction": {
+          "date": "Date",
+          "category": "Category",
+          "change": "Change",
+          "delete": "Delete"
+        }
+      }
     }
   }
 }

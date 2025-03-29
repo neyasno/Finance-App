@@ -10,6 +10,7 @@ import CreateTransantionForm from './modals/CreateTransantionForm';
 import DeleteSuggestion from './modals/DeleteSuggestion';
 import ChangeTransactionForm from './modals/ChangeTransactionForm';
 import ExitSuggestion from './modals/ExitSuggestion';
+import TransactionOverview from './modals/TransactionOverview/TransactionOverview';
 
 export default function Modal() {
   const state = useAppSelector((state) => state.modal);
@@ -62,6 +63,14 @@ export default function Modal() {
       return (
         <ModalLayout>
           <ExitSuggestion />
+        </ModalLayout>
+      );
+    }
+
+    case ModalType.TransactionOverview: {
+      return (
+        <ModalLayout contentWidth="w-96">
+          <TransactionOverview />
         </ModalLayout>
       );
     }

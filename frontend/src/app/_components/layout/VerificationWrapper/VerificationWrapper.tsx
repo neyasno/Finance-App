@@ -1,12 +1,9 @@
 'use client';
 
-import { EApi, ERoutes } from '@/enums';
+import { EApi } from '@/enums';
 import fetchApi from '@/utils/fetchApi';
 import React, { ReactNode, useEffect, useState } from 'react';
 import Loading from '../../common/Loading';
-import { useAppDispatch } from '@/store/store';
-import { setIsLogined } from '@/store/slices/userSlice';
-import { useRouter } from '@/i18n/routing';
 import { useLogin } from '@/utils/hooks/useLogin';
 
 export default function VerificationWrapper({
