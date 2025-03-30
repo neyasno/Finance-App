@@ -19,6 +19,7 @@ const fetchApi = async (path: string, method: RequestMethod, body = {}) => {
       method,
       headers: {
         authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),
     });
