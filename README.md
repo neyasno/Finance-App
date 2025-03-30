@@ -19,7 +19,6 @@
     - React , Redux-Toolkit 
     - NextJs , Next-Intl , Next-Themes
     - Tailwind 
-    - *??? RTK-Query / React-Query ,*
 
 - Backend : 
     - Spring-Boot
@@ -32,7 +31,7 @@
     - Kafka
 
 - Mobile : 
-    - Capacitor / React-Native(WebWiew) / React-Native(Rebase)
+    - Capacitor / React-Native(WebWiew)
 
 ### Requirements
 
@@ -68,7 +67,7 @@
 - Auth Service 
     1. Register user ->(User Service)
     2. Login User
-    3. OAuth User
+    3. Verify token
     4. Password Change Req -> (Notification Service)
     5. Password Change -> (User Service)
 
@@ -79,7 +78,7 @@
     4. Get One Transaction
     5. Get All Transactions (Pagination)
 
-- Budget Service
+- Constraints Service
     1. Get Constraint 
     2. Create Constraint
     3. Update Constraint 
@@ -104,6 +103,12 @@
         - categories outcome
         - timeline income/outcome
         - ...
+    3.Get analitics data for diagrams. (...)
+
+- Statistic servise
+    1.Get budget
+    2.Get day , month , year , alltime - income/outcome
+    3.Get day , month , year , alltime for category
 
 ### Services Relationship
 
@@ -134,22 +139,11 @@
     Category :
         - id
         - title
-        - day_income
-        - day_outcome
-        - month_income
-        - month_outcome
-        - year_income
-        - year_outcome
 
     Budget :
         - id
         - budget_value (available money)
-        - day_income
-        - day_outcome
-        - month_income
-        - month_outcome
-        - year_income
-        - year_outcome
+
 
 ### API 
 
@@ -164,11 +158,9 @@
     
 - Auth Service 
     1. Register user 
-        >POST /api/auth/registration
+        > POST /api/auth/registration
     2. Login User
         > POST /api/auth/login
-    3. OAuth User
-        > POST /api/auth/oauth
     4. Password Change Req
         > POST /api/auth/password_change_req
     5. Password Change
@@ -192,19 +184,21 @@
     5. Get All Transactions (Pagination)
         > GET /api/transactions?page=x&size=x
 
-- Budget Service
+- Statistic servise
+    1. Get budget
+        > GET ///
+    2. Get all statistic (day , month , year , alltime) , income / outcome
+    3. Get category statistic
+
+- Constraints Service
     1. Get Constraint 
-        > GET /api/constraints/:id
+        > GET /api/constraints/:userid
     2. Create Constraint
         > POST /api/constraints
     3. Update Constraint 
-        > PUT /api/constraints/:id
+        > PUT /api/constraints/:userid
     4. Delete Constraint
-        > DELETE /api/constraints/:id
-    5. Update Constrain-Limit
-        > PUT /api/constraints/limit/:id 
-    6. Get budget information
-        > GET /api/budget/:id
+        > DELETE /api/constraints/:userid
 
 - Notification Service 
     1. Send Email Notification for password change 
@@ -273,7 +267,136 @@
     - Aside
         - Raw Data Container 
         - Generate-CSV-Button
-        
+
+
+```
+
+├── app
+|  ├── favicon.ico
+|  ├── globals.css
+|  ├── layout.tsx
+|  ├── [locale]
+|  |  ├── layout.tsx
+|  |  ├── page.tsx
+|  |  └── verification
+|  |     ├── layout.tsx
+|  |     ├── login
+|  |     |  └── page.tsx
+|  |     ├── registration
+|  |     |  └── page.tsx
+|  |     ├── restore_password
+|  |     |  └── page.tsx
+|  |     └── restore_password_req
+|  |        └── page.tsx
+|  └── _components
+|     ├── common
+|     |  ├── Button.tsx
+|     |  ├── ContsraintValue.tsx
+|     |  ├── DeleteButton.tsx
+|     |  ├── DropdownMenu.tsx
+|     |  ├── Loading.tsx
+|     |  ├── MoneyValue.tsx
+|     |  └── TextInput.tsx
+|     ├── layout
+|     |  ├── Header
+|     |  |  ├── AppTitle.tsx
+|     |  |  ├── Button-Bar
+|     |  |  |  ├── ButtonBar.tsx
+|     |  |  |  └── buttons
+|     |  |  |     ├── LocaleButton.tsx
+|     |  |  |     ├── LogoutButton.tsx
+|     |  |  |     └── ThemeButton.tsx
+|     |  |  ├── Header.tsx
+|     |  |  └── Navigation
+|     |  |     ├── links
+|     |  |     |  ├── AnaliticsLink.tsx
+|     |  |     |  └── HomeLink.tsx
+|     |  |     └── Navigation.tsx
+|     |  ├── Modal
+|     |  |  ├── Modal.tsx
+|     |  |  ├── ModalLayout.tsx
+|     |  |  └── modals
+|     |  |     ├── CategoryOverview
+|     |  |     |  ├── buttons
+|     |  |     |  |  ├── ChangeCategoryButton.tsx
+|     |  |     |  |  └── DeleteCategoryButton.tsx
+|     |  |     |  └── CategoryOverview.tsx
+|     |  |     ├── ChangeConstraintForm.tsx
+|     |  |     ├── ChangeTransactionForm.tsx
+|     |  |     ├── CreateCategoryForm.tsx
+|     |  |     ├── CreateConstraintForm.tsx
+|     |  |     ├── CreateTransantionForm.tsx
+|     |  |     ├── DeleteSuggestion.tsx
+|     |  |     ├── ExitSuggestion.tsx
+|     |  |     └── TransactionOverview
+|     |  |        ├── buttons
+|     |  |        |  ├── ChangeTransactionButton.tsx
+|     |  |        |  └── DeleteTransactionButton.tsx
+|     |  |        └── TransactionOverview.tsx
+|     |  └── VerificationWrapper
+|     |     └── VerificationWrapper.tsx
+|     └── pages
+|        ├── analitics
+|        |  ├── aside
+|        |  |  ├── GenerateCSVButton.tsx
+|        |  |  └── RawDataContainer.tsx
+|        |  └── section
+|        |     ├── CategoriesStatistic
+|        |     |  └── StatisticCategory.tsx
+|        |     ├── CircleDiagrams
+|        |     |  └── CircleDiagram.tsx
+|        |     ├── StatisticBricks
+|        |     |  └── StatisticBrick.tsx
+|        |     └── TimeGraph
+|        |        └── TimeGraph.tsx
+|        └── home
+|           ├── aside
+|           |  ├── AddTransactionButton
+|           |  |  └── AddTransactionButton.tsx
+|           |  ├── ContentAside.tsx
+|           |  └── TransactionHistory
+|           |     ├── TransactionContainer
+|           |     |  ├── Transaction.tsx
+|           |     |  └── TransactionContainer.tsx
+|           |     └── TransactionHistory.tsx
+|           ├── ContentPage.tsx
+|           ├── section
+|           |  ├── Budget
+|           |  |  ├── Budget.tsx
+|           |  |  └── Statistic
+|           |  |     └── PeriodStatistic.tsx
+|           |  ├── Category
+|           |  |  ├── Categories.tsx
+|           |  |  ├── CategoryBrick.tsx
+|           |  |  └── CreateCategoryButton.tsx
+|           |  ├── Constraint
+|           |  |  ├── AddConstraintButton.tsx
+|           |  |  └── Constraint.tsx
+|           |  └── ContentSection.tsx
+|           └── UnloginedPage.tsx
+├── enums.ts
+├── i18n
+|  ├── request.ts
+|  └── routing.ts
+├── middleware.ts
+├── store
+|  ├── ReduxProvider.tsx
+|  ├── slices
+|  |  ├── dragSlice.ts
+|  |  ├── modalSlice.ts
+|  |  ├── taskBoardsSlice.ts
+|  |  └── userSlice.ts
+|  └── store.ts
+└── utils
+   ├── calculator.ts
+   ├── fetchApi.ts
+   ├── hooks
+   |  ├── useLogin.ts
+   |  └── useModal.ts
+   ├── jwt.ts
+   └── ThemesProvider.tsx
+
+```        
 
 
 

@@ -1,10 +1,13 @@
 import Button from '@/app/_components/common/Button';
 import ContsraintValue from '@/app/_components/common/ContsraintValue';
+import { ModalType } from '@/store/slices/modalSlice';
+import { useModal } from '@/utils/hooks/useModal';
 import { useTranslations } from 'next-intl';
 import React from 'react';
 
 export default function Constraint() {
   const t = useTranslations('home.content.constraint');
+  const setModal = useModal();
   return (
     <div className="flex justify-between items-center">
       <div className="flex flex-col gap-1">
@@ -19,7 +22,12 @@ export default function Constraint() {
       </div>
       <div className="">
         {' '}
-        <Button text={t('change')} handleClick={() => {}} />
+        <Button
+          text={t('change')}
+          handleClick={() => {
+            setModal(ModalType.CreateConstraint);
+          }}
+        />
       </div>
     </div>
   );

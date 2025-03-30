@@ -32,7 +32,7 @@ docker-compose up --build -d
 
 Services' names are provided as follows: `<name of service>-service`. All words separated by dashes.
 
-Examples: `auth-service`, `api-gateway-service`, `user-service`, etc. - <b><i>These names are used in gateway</i>.</b>
+Examples: `auth-service`, `api-gateway-service`, `user-service`, etc.
 
 All communication with services is done through api gateway.
 
@@ -48,14 +48,13 @@ The port of gateway is 8080.
 Request pattern:
 
 
-`POST http://localhost:8080/api/<service-name>/<service-enpoint>`
+> POST http://localhost:8080/api/<service-enpoint>
 
 
 Example request:
 
-```
-POST http://localhost:8080/api/auth-service/auth/sign-up/
-```
+> POST http://localhost:8080/api/auth/sign-up/
+
 
 ## Eureka Discovery Service
 

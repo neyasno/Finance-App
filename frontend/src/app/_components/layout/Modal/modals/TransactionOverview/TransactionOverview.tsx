@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl';
 import React from 'react';
 import ChangeTransactionButton from './buttons/ChangeTransactionButton';
 import DeleteTransactionButton from './buttons/DeleteTransactionButton';
+import MoneyValue from '@/app/_components/common/MoneyValue';
 
 export default function TransactionOverview() {
   const t = useTranslations('home.content.transactions.transaction');
@@ -28,11 +29,7 @@ export default function TransactionOverview() {
         <p>
           {t('category')} : {category}
         </p>
-        <p
-          className={`text-xl ${type === 'income' ? 'text-green' : 'text-red'}`}
-        >
-          {value}
-        </p>
+        <MoneyValue value={value} type={type} />
       </div>
       <div className=" flex justify-between w-full">
         <p></p>
