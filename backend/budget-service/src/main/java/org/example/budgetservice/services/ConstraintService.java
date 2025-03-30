@@ -11,12 +11,11 @@ public class ConstraintService {
 
     private final ConstraintRepository constraintRepository;
 
-    public Constraint updateConstraint(Long id, Double value) {
-        Constraint constraint = constraintRepository.findById(id).orElse(null);
-        if (constraint == null) {
+    public Constraint updateConstraint(Constraint constraint) {
+        Constraint item = constraintRepository.findById(constraint.getId()).orElse(null);
+        if (item == null) {
             throw new RuntimeException("Constraint not found");
         }
-        constraint.setValue(value);
         return constraintRepository.save(constraint);
     }
 

@@ -29,6 +29,7 @@ public class ConstraintController {
     public ResponseEntity<Constraint> createConstraint(@RequestBody CreateConstraintRequest request) {
         Constraint constraintData = Constraint.builder()
                 .value(request.getValue())
+                .time(request.getTime())
                 .id(request.getId()).build();
 
         try {
@@ -41,12 +42,17 @@ public class ConstraintController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Constraint> updateConstraint(@RequestBody UpdateConstraintRequest request, @PathVariable Long id) {
-        Constraint constraintData = Constraint.builder()
-                .value(request.getValue())
-                .id(id).build();
-
         try {
-            Constraint data = constraintService.updateConstraint(constraintData.getId(), constraintData.getValue());
+            Constraint item = constraintService.getConstraint(id);
+            if(request.getTime() != null) {
+                item.setTime(request.getTime());
+            }
+            if(request.getValue() != null) {
+                item.setValue(request.getValue());
+            }
+
+            Constraint data = constraintService.updateConstraint(item);
+
             return ResponseEntity.ok(data);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
@@ -66,11 +72,5 @@ public class ConstraintController {
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
         }
-    }
-
-    @PutMapping("/limit/{id}")
-    public ResponseEntity<Constraint> updateConstraintLimit(@PathVariable Long id) {
-        return ResponseEntity.notFound().build();
-        //ОТЛОЖЕНО
     }
 }
