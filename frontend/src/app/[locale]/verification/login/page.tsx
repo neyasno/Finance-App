@@ -5,6 +5,7 @@ import Loading from '@/app/_components/common/Loading';
 import TextInput from '@/app/_components/common/TextInput';
 import { EApi, ERoutes } from '@/enums';
 import { Link, useRouter } from '@/i18n/routing';
+import { setCookie } from '@/utils/cookie';
 import fetchApi from '@/utils/fetchApi';
 import { useLogin } from '@/utils/hooks/useLogin';
 import { useTranslations } from 'next-intl';
@@ -31,7 +32,7 @@ export default function LoginPage() {
       setError('');
 
       const response = await fetchApi(EApi.LOGIN, 'POST', { email, password });
-      localStorage.setItem('token', response.token);
+      setCookie('token', response.token);
 
       setLogined(true);
 

@@ -1,7 +1,9 @@
+import { getCookie } from './cookie';
+
 type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
 const fetchApi = async (path: string, method: RequestMethod, body = {}) => {
-  const token = localStorage.getItem('token');
+  const token = getCookie('token');
 
   let response: Response;
 
