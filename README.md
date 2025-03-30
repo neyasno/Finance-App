@@ -19,7 +19,6 @@
     - React , Redux-Toolkit 
     - NextJs , Next-Intl , Next-Themes
     - Tailwind 
-    - *??? RTK-Query / React-Query ,*
 
 - Backend : 
     - Spring-Boot
@@ -32,7 +31,7 @@
     - Kafka
 
 - Mobile : 
-    - Capacitor / React-Native(WebWiew) / React-Native(Rebase)
+    - Capacitor / React-Native(WebWiew)
 
 ### Requirements
 
@@ -68,7 +67,7 @@
 - Auth Service 
     1. Register user ->(User Service)
     2. Login User
-    3. OAuth User
+    3. Verify token
     4. Password Change Req -> (Notification Service)
     5. Password Change -> (User Service)
 
@@ -79,7 +78,7 @@
     4. Get One Transaction
     5. Get All Transactions (Pagination)
 
-- Budget Service
+- Constraints Service
     1. Get Constraint 
     2. Create Constraint
     3. Update Constraint 
@@ -104,6 +103,12 @@
         - categories outcome
         - timeline income/outcome
         - ...
+    3.Get analitics data for diagrams. (...)
+
+- Statistic servise
+    1.Get budget
+    2.Get day , month , year , alltime - income/outcome
+    3.Get day , month , year , alltime for category
 
 ### Services Relationship
 
@@ -190,19 +195,23 @@
     5. Get All Transactions (Pagination)
         > GET /api/transactions?page=x&size=x
 
-- Budget Service
+- Statistic servise
+    1. Get budget
+        > GET ///
+    2. Get all statistic (day , month , year , alltime) , income / outcome
+    3. Get category statistic
+
+- Constraints Service
     1. Get Constraint 
-        > GET /api/constraints/:id
+        > GET /api/constraints/:userid
     2. Create Constraint
         > POST /api/constraints
     3. Update Constraint 
-        > PUT /api/constraints/:id
+        > PUT /api/constraints/:userid
     4. Delete Constraint
-        > DELETE /api/constraints/:id
+        > DELETE /api/constraints/:userid
     5. Update Constrain-Limit
-        > PUT /api/constraints/limit/:id 
-    6. Get budget information
-        > GET /api/budget/:id
+        > PUT /api/constraints/limit/:userid 
 
 - Notification Service 
     1. Send Email Notification for password change 
