@@ -5,6 +5,8 @@ const fetchApi = async (path: string, method: RequestMethod, body = {}) => {
 
   let response: Response;
 
+  console.log(path);
+
   if (method === 'GET') {
     response = await fetch(path, {
       method,

@@ -11,7 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/sign-up")
+@RequestMapping("/registration")
 @RequiredArgsConstructor
 public class SignUpController {
     private final UserServiceClient userServiceClient;
@@ -31,7 +31,7 @@ public class SignUpController {
 
         return ResponseEntity.badRequest().body(MessageResponse.fromMessage("Fail"));
     }
-
+    // Что это за говно ?
     @PutMapping("/{id}")
     public ResponseEntity<MessageResponse> updateUserPassword(@PathVariable Long id, @RequestBody String newPassword) {
         var encodedPassword = passwordEncoder.encode(newPassword);

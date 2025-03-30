@@ -1,16 +1,11 @@
 export enum EApi {
-  DEFAULT = '/api',
+  DEFAULT = 'http://localhost:8080/api',
 
-  USERS = DEFAULT + '/users',
+  USERS = DEFAULT + '/auth',
 
   LOGIN = USERS + '/login',
   VERIFICATION = USERS + '/verification',
   REGISTRATION = USERS + '/registration',
-
-  TASKBOARDS = DEFAULT + '/taskboards',
-  TASKBOARD = DEFAULT + '/taskboards/',
-
-  TACK_CONTAINER = DEFAULT + '/taskcontainer',
 }
 
 export enum ERoutes {

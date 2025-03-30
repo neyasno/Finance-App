@@ -164,11 +164,9 @@
     
 - Auth Service 
     1. Register user 
-        >POST /api/auth/registration
+        > POST /api/auth/registration
     2. Login User
         > POST /api/auth/login
-    3. OAuth User
-        > POST /api/auth/oauth
     4. Password Change Req
         > POST /api/auth/password_change_req
     5. Password Change
@@ -273,7 +271,136 @@
     - Aside
         - Raw Data Container 
         - Generate-CSV-Button
-        
+
+
+```
+
+├── app
+|  ├── favicon.ico
+|  ├── globals.css
+|  ├── layout.tsx
+|  ├── [locale]
+|  |  ├── layout.tsx
+|  |  ├── page.tsx
+|  |  └── verification
+|  |     ├── layout.tsx
+|  |     ├── login
+|  |     |  └── page.tsx
+|  |     ├── registration
+|  |     |  └── page.tsx
+|  |     ├── restore_password
+|  |     |  └── page.tsx
+|  |     └── restore_password_req
+|  |        └── page.tsx
+|  └── _components
+|     ├── common
+|     |  ├── Button.tsx
+|     |  ├── ContsraintValue.tsx
+|     |  ├── DeleteButton.tsx
+|     |  ├── DropdownMenu.tsx
+|     |  ├── Loading.tsx
+|     |  ├── MoneyValue.tsx
+|     |  └── TextInput.tsx
+|     ├── layout
+|     |  ├── Header
+|     |  |  ├── AppTitle.tsx
+|     |  |  ├── Button-Bar
+|     |  |  |  ├── ButtonBar.tsx
+|     |  |  |  └── buttons
+|     |  |  |     ├── LocaleButton.tsx
+|     |  |  |     ├── LogoutButton.tsx
+|     |  |  |     └── ThemeButton.tsx
+|     |  |  ├── Header.tsx
+|     |  |  └── Navigation
+|     |  |     ├── links
+|     |  |     |  ├── AnaliticsLink.tsx
+|     |  |     |  └── HomeLink.tsx
+|     |  |     └── Navigation.tsx
+|     |  ├── Modal
+|     |  |  ├── Modal.tsx
+|     |  |  ├── ModalLayout.tsx
+|     |  |  └── modals
+|     |  |     ├── CategoryOverview
+|     |  |     |  ├── buttons
+|     |  |     |  |  ├── ChangeCategoryButton.tsx
+|     |  |     |  |  └── DeleteCategoryButton.tsx
+|     |  |     |  └── CategoryOverview.tsx
+|     |  |     ├── ChangeConstraintForm.tsx
+|     |  |     ├── ChangeTransactionForm.tsx
+|     |  |     ├── CreateCategoryForm.tsx
+|     |  |     ├── CreateConstraintForm.tsx
+|     |  |     ├── CreateTransantionForm.tsx
+|     |  |     ├── DeleteSuggestion.tsx
+|     |  |     ├── ExitSuggestion.tsx
+|     |  |     └── TransactionOverview
+|     |  |        ├── buttons
+|     |  |        |  ├── ChangeTransactionButton.tsx
+|     |  |        |  └── DeleteTransactionButton.tsx
+|     |  |        └── TransactionOverview.tsx
+|     |  └── VerificationWrapper
+|     |     └── VerificationWrapper.tsx
+|     └── pages
+|        ├── analitics
+|        |  ├── aside
+|        |  |  ├── GenerateCSVButton.tsx
+|        |  |  └── RawDataContainer.tsx
+|        |  └── section
+|        |     ├── CategoriesStatistic
+|        |     |  └── StatisticCategory.tsx
+|        |     ├── CircleDiagrams
+|        |     |  └── CircleDiagram.tsx
+|        |     ├── StatisticBricks
+|        |     |  └── StatisticBrick.tsx
+|        |     └── TimeGraph
+|        |        └── TimeGraph.tsx
+|        └── home
+|           ├── aside
+|           |  ├── AddTransactionButton
+|           |  |  └── AddTransactionButton.tsx
+|           |  ├── ContentAside.tsx
+|           |  └── TransactionHistory
+|           |     ├── TransactionContainer
+|           |     |  ├── Transaction.tsx
+|           |     |  └── TransactionContainer.tsx
+|           |     └── TransactionHistory.tsx
+|           ├── ContentPage.tsx
+|           ├── section
+|           |  ├── Budget
+|           |  |  ├── Budget.tsx
+|           |  |  └── Statistic
+|           |  |     └── PeriodStatistic.tsx
+|           |  ├── Category
+|           |  |  ├── Categories.tsx
+|           |  |  ├── CategoryBrick.tsx
+|           |  |  └── CreateCategoryButton.tsx
+|           |  ├── Constraint
+|           |  |  ├── AddConstraintButton.tsx
+|           |  |  └── Constraint.tsx
+|           |  └── ContentSection.tsx
+|           └── UnloginedPage.tsx
+├── enums.ts
+├── i18n
+|  ├── request.ts
+|  └── routing.ts
+├── middleware.ts
+├── store
+|  ├── ReduxProvider.tsx
+|  ├── slices
+|  |  ├── dragSlice.ts
+|  |  ├── modalSlice.ts
+|  |  ├── taskBoardsSlice.ts
+|  |  └── userSlice.ts
+|  └── store.ts
+└── utils
+   ├── calculator.ts
+   ├── fetchApi.ts
+   ├── hooks
+   |  ├── useLogin.ts
+   |  └── useModal.ts
+   ├── jwt.ts
+   └── ThemesProvider.tsx
+
+```        
 
 
 
