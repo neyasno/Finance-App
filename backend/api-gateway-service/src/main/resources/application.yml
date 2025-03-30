@@ -8,10 +8,11 @@ spring:
         cors-configurations:
           '[/**]':
             allowed-origin-patterns:
-              - http://localhost:${server.port}
-              - https://localhost:${server.port}
-              - http://internal_network
-              - https://internal_network
+#              - http://localhost:${server.port}
+#              - https://localhost:${server.port}
+#              - http://internal_network
+#              - https://internal_network
+              - "*"
             allowed-methods:
               - GET
               - POST
