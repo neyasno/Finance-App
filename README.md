@@ -139,22 +139,11 @@
     Category :
         - id
         - title
-        - day_income
-        - day_outcome
-        - month_income
-        - month_outcome
-        - year_income
-        - year_outcome
 
     Budget :
         - id
         - budget_value (available money)
-        - day_income
-        - day_outcome
-        - month_income
-        - month_outcome
-        - year_income
-        - year_outcome
+
 
 ### API 
 
@@ -210,8 +199,6 @@
         > PUT /api/constraints/:userid
     4. Delete Constraint
         > DELETE /api/constraints/:userid
-    5. Update Constrain-Limit
-        > PUT /api/constraints/limit/:userid 
 
 - Notification Service 
     1. Send Email Notification for password change 
