@@ -39,7 +39,7 @@ public class JwtService {
         }
     }
 
-    public boolean validateToken(String token) {
+    public boolean isValidToken(String token) {
         try {
             SignedJWT signedJWT = SignedJWT.parse(token);
             JWSVerifier verifier = new MACVerifier(SECRET_KEY.getBytes());

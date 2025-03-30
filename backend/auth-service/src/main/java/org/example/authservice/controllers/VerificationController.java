@@ -8,17 +8,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/token")
+@RequestMapping("/verification")
 @RequiredArgsConstructor
-public class TokenController {
+public class VerificationController {
 
     private final JwtService jwtService;
 
-    @GetMapping("/validate")
+    @GetMapping
     public ResponseEntity<UserIdDTO> validateToken(@RequestHeader("Authorization") String token) {
         String jwt = token.replace("Bearer ", "");
 
-        if (!jwtService.validateToken(jwt)) {
+        if (!jwtService.isValidToken(jwt)) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 

@@ -5,6 +5,8 @@ import org.example.userservice.models.User;
 import org.example.userservice.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -19,7 +21,7 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(Exception::new);
     }
 
-    public User getUserByEmail(String email) {
+    public Optional<User> getUserByEmail(String email) {
         return userRepository.findUserByEmail(email);
     }
 

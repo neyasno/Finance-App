@@ -5,10 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.userservice.dto.CreateUserRequest;
 import org.example.userservice.services.UserService;
 import org.example.userservice.models.User;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -29,16 +31,22 @@ public class UserController {
 
     @GetMapping("/by-email/{email}")
     public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
-        try {
-            User data = userService.getUserByEmail(email);
-            return ResponseEntity.ok(data);
-        } catch (Exception e) {
-            return ResponseEntity.notFound().build();
-        }
+        Optional<User> data = userService.getUserByEmail(email);
+
+        return data
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping("/")
     public ResponseEntity<User> createUser(@RequestBody CreateUserRequest request) {
+
+        Optional<User> existingUser = userService.getUserByEmail(request.getEmail());
+
+        if (existingUser.isPresent()) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+
         User userData = User.builder()
                 .email(request.getEmail())
                 .password(request.getPassword())
