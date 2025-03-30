@@ -1,11 +1,13 @@
 networks:
   internal_network:
     driver: bridge
+  gateway_network:
+    driver: bridge
 
 services:
   discovery-service:
     build:
-      context: ./discovery-service
+      context: ./backend/discovery-service
       dockerfile: ../docker/Dockerfile
     networks:
       - internal_network
@@ -14,10 +16,11 @@ services:
 
   api-gateway-service:
     build:
-      context: ./api-gateway-service
+      context: ./backend/api-gateway-service
       dockerfile: ../docker/Dockerfile
     networks:
       - internal_network
+      - gateway_network
     ports:
       - "8080:8080"
     environment:
@@ -27,7 +30,7 @@ services:
 
   auth-service:
     build:
-      context: ./auth-service
+      context: ./backend/auth-service
       dockerfile: ../docker/Dockerfile
     networks:
       - internal_network
@@ -41,12 +44,31 @@ services:
 
   user-service:
     build:
-      context: ./user-service
+      context: ./backend/user-service
       dockerfile: ../docker/Dockerfile
     networks:
       - internal_network
     depends_on:
       - discovery-service
+    environment:
+      - SPRING_EUREKA_DEFAULT_ZONE=discovery-service
+      - POSTGRES_DB_NAME=finance_app_db
+      - POSTGRES_DB_USERNAME=aboba
+      - POSTGRES_DB_PASSWORD=aboba
+      - POSTGRES_DB_HOST=postgres_db
+      - POSTGRES_DB_PORT=5432
+    volumes:
+      - gradle-cache:/root/.gradle
+
+  transaction-service:
+    build:
+      context: ./backend/transaction-service
+      dockerfile: ../docker/Dockerfile
+    networks:
+      - internal_network
+    depends_on:
+      - discovery-service
+      - user-service
     environment:
       - SPRING_EUREKA_DEFAULT_ZONE=discovery-service
       - POSTGRES_DB_NAME=finance_app_db
@@ -81,6 +103,19 @@ services:
         limits:
           cpus: '1'
           memory: 2G
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ./dockerfile
+    networks:
+      - gateway_network
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api-gateway-service
+    environment:
+      - REACT_APP_API_URL=http://api-gateway-service:8080
 
 volumes:
   app-data:
