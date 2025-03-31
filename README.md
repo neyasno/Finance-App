@@ -40,13 +40,12 @@
 
 - Mobile
     1. User authentication and secure login.
-    2. OAuth
-    3. Add, edit, and delete transactions (income & expenses).
-    4. Generate monthly expense reports with charts.
-    5. Set budget limits and receive alerts when exceeding limits.
-    6. Categorization of transactions (food, transport, rent, etc.).
-    7. Cloud backup and synchronization across multiple devices.
-    8. Export reports to CSV or PDF.
+    2. Add, edit, and delete transactions (income & expenses).
+    3. Generate monthly expense reports with charts.
+    4. Set budget limits and receive alerts when exceeding limits.
+    5. Categorization of transactions (food, transport, rent, etc.).
+    6. Cloud backup and synchronization across multiple devices.
+    7. Export reports to CSV or PDF.
 
 - Frontend
     1. Well
@@ -103,12 +102,12 @@
         - categories outcome
         - timeline income/outcome
         - ...
-    3.Get analitics data for diagrams. (...)
+    3. Get analitics data for diagrams. (...)
 
 - Statistic servise
-    1.Get budget
-    2.Get day , month , year , alltime - income/outcome
-    3.Get day , month , year , alltime for category
+    1. Get budget
+    2. Get day , month , year , alltime - income/outcome
+    3. Get day , month , year , alltime for category
 
 ### Services Relationship
 
@@ -161,17 +160,15 @@
         > POST /api/auth/registration
     2. Login User
         > POST /api/auth/login
-    4. Password Change Req
+    3. Password Change Req
         > POST /api/auth/password_change_req
-    5. Password Change
+    4. Password Change
         > POST /api/auth/password_change
-    6. Logout User  
+    5. Logout User  
         > POST /api/auth/logout
-    7. Refresh Token  
+    6. Refresh Token  
         > POST /api/auth/refresh
-
-
-
+       
 - Transaction Service
     1. Create Transaction 
         > POST /api/transactions
@@ -183,8 +180,21 @@
         > GET /api/transactions/:id
     5. Get All Transactions (Pagination)
         > GET /api/transactions?page=x&size=x
+    
+- Transaction Service (Categories)
+    1. Get One Category by ID
+        > GET /api/categories/:categoryId
+    2. Get All Categories
+        > GET /api/categories
+    3. Create Category
+        > POST /api/categories
+    4. Update Category
+        > PUT /api/categories/:categoryId
+    5. Delete Category
+        > DELETE /api/category/:categoryId
+        
 
-- Statistic servise
+- Statistics service
     1. Get budget
         > GET ///
     2. Get all statistic (day , month , year , alltime) , income / outcome
@@ -192,13 +202,15 @@
 
 - Constraints Service
     1. Get Constraint 
-        > GET /api/constraints/:userid
-    2. Create Constraint
+        > GET /api/constraints/:constraintId
+    2. Get All Constraints
+        > GET /api/constraints
+    3. Create Constraint
         > POST /api/constraints
-    3. Update Constraint 
-        > PUT /api/constraints/:userid
-    4. Delete Constraint
-        > DELETE /api/constraints/:userid
+    4. Update Constraint 
+        > PUT /api/constraints/:constraintId
+    5. Delete Constraint
+        > DELETE /api/constraints/:constraintId
 
 - Notification Service 
     1. Send Email Notification for password change 
