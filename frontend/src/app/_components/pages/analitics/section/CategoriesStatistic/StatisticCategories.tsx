@@ -1,5 +1,5 @@
 import React from 'react';
 
-export default function StatisticCategory() {
+export default function StatisticCategories() {
   return <div>StatisticCategory</div>;
 }

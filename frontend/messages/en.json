@@ -79,5 +79,19 @@
         "category_name": "New category name..."
       }
     }
+  },
+  "analitics": {
+    "content": {
+      "export_csv": "Export CSV ",
+      "export_pdf": "Export PDF ",
+      "all_income": "All income",
+      "all_outcome": "All outcome",
+      "categories": "Categories",
+      "timeline": "Timeline",
+      "day": "Day",
+      "month": "Month",
+      "year": "Year",
+      "all": "All time"
+    }
   }
 }

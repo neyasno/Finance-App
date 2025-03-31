@@ -79,5 +79,19 @@
         "category_name": "Имя категории..."
       }
     }
+  },
+  "analitics": {
+    "content": {
+      "export_csv": "Экспорт в CSV ",
+      "export_pdf": "Экспорт в PDF ",
+      "all_income": "Доходы",
+      "all_outcome": "Расходы",
+      "categories": "Категории",
+      "timeline": "Временной промежуток",
+      "day": "День",
+      "month": "Месяц",
+      "year": "Год",
+      "all": "Все время"
+    }
   }
 }
