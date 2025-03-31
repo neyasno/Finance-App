@@ -12,8 +12,8 @@ export default function Header() {
   useEffect(() => {}, [isLogined]);
 
   return (
-    <div className="dark:bg-black w-full flex flex-nowrap justify-between px-6">
-      <div className="flex gap-10 justify-center items-center">
+    <div className="dark:bg-black w-full flex flex-nowrap justify-between px-2 md:px-6">
+      <div className="flex gap-3 justify-center items-center">
         <AppTitle />
         <div className="pt-1">{isLogined && <Navigation />}</div>
       </div>

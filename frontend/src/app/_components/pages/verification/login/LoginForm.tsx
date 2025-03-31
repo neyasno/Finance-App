@@ -31,6 +31,14 @@ export default function LoginForm() {
 
       setError('');
 
+      if (email.length < 6 || password.length < 6) {
+        setError(t('err_wrong_data'));
+
+        setIsLoading(false);
+
+        return;
+      }
+
       const response = await fetchApi(EApi.LOGIN, 'POST', { email, password });
       setCookie('token', response.token);
 

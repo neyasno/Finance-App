@@ -10,6 +10,7 @@
       "err_409": "Password not match",
       "err_500": "Server Error",
       "err_404": "User not exist",
+      "err_wrong_data": "Wrong data",
       "restore": "Restore",
       "forgot_password": "Forgot password?"
     },
@@ -22,6 +23,9 @@
       "have_account": "Already have an account?",
       "sing_in": "Sing in",
       "err_409": "Email already exist",
+      "err_password": "Passwords not match",
+      "err_password_length": "Short password",
+      "err_email": "Bad email",
       "err_500": "Server Error",
       "restore": "Restore",
       "forgot_password": "Forgot password?"

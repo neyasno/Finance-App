@@ -16,7 +16,7 @@ export default function RegistrationForm() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [passwordAgain, setPasswordAgain] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -28,6 +28,30 @@ export default function RegistrationForm() {
       setIsLoading(true);
 
       setError('');
+
+      if (email.length < 6) {
+        setError(t('err_email'));
+
+        setIsLoading(false);
+
+        return;
+      }
+
+      if (password.length < 6) {
+        setError(t('err_password_length'));
+
+        setIsLoading(false);
+
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        setError(t('err_password'));
+
+        setIsLoading(false);
+
+        return;
+      }
 
       await fetchApi(EApi.REGISTRATION, 'POST', {
         email,
@@ -69,8 +93,8 @@ export default function RegistrationForm() {
       <TextInput
         isPassword
         placeholder={t('confirm')}
-        value={passwordAgain}
-        handleChange={setPasswordAgain}
+        value={confirmPassword}
+        handleChange={setConfirmPassword}
       />
 
       <div className="w-28">

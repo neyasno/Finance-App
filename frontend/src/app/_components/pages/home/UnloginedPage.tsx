@@ -11,7 +11,7 @@ export default function UnloginedPage() {
   const t = useTranslations('home.unregistrated');
   const router = useRouter();
   return (
-    <section className="flex flex-col gap-4 py-10 w-1/5 justify-center items-center">
+    <section className="flex flex-col gap-4 py-40  md:w-1/5 justify-center items-center">
       <div className="w-1/2">
         <AppIcon />
       </div>
