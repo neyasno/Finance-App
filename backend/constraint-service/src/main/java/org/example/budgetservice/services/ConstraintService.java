@@ -5,6 +5,8 @@ import org.example.budgetservice.models.Constraint;
 import org.example.budgetservice.repositories.ConstraintRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ConstraintService {
@@ -36,12 +38,10 @@ public class ConstraintService {
     }
 
     public Constraint getConstraint(Long id) {
-        Constraint constraint = constraintRepository.findById(id).orElse(null);
+        return constraintRepository.findById(id).orElseThrow(() -> new RuntimeException("Constraint not found"));
+    }
 
-        if(constraint == null) {
-            throw new RuntimeException("Constraint not found");
-        }
-
-        return constraint;
+    public List<Constraint> getAllConstraints() {
+        return constraintRepository.findAll();
     }
 }

@@ -69,6 +69,26 @@ services:
     depends_on:
       - discovery-service
       - user-service
+      - kafka
+    environment:
+      - SPRING_EUREKA_DEFAULT_ZONE=discovery-service
+      - POSTGRES_DB_NAME=finance_app_db
+      - POSTGRES_DB_USERNAME=aboba
+      - POSTGRES_DB_PASSWORD=aboba
+      - POSTGRES_DB_HOST=postgres_db
+      - POSTGRES_DB_PORT=5432
+    volumes:
+      - gradle-cache:/root/.gradle
+
+  constraint-service:
+    build:
+      context: ./backend/budget-service
+      dockerfile: ../docker/Dockerfile
+    networks:
+      - internal_network
+    depends_on:
+      - discovery-service
+      - kafka
     environment:
       - SPRING_EUREKA_DEFAULT_ZONE=discovery-service
       - POSTGRES_DB_NAME=finance_app_db
