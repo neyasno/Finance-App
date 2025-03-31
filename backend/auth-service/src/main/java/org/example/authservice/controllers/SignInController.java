@@ -1,5 +1,6 @@
 package org.example.authservice.controllers;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.authservice.dto.LoginUserRequest;
 import org.example.authservice.dto.LoginUserResponse;
@@ -22,7 +23,7 @@ public class SignInController {
     private final PasswordEncoder passwordEncoder;
 
     @PostMapping
-    public ResponseEntity<LoginUserResponse> loginUser(@RequestBody LoginUserRequest request) {
+    public ResponseEntity<LoginUserResponse> loginUser(@RequestBody @Valid LoginUserRequest request) {
 
         ResponseEntity<UserCredentialsDTO> response = userService.getUserByEmail(request.getEmail());
 
