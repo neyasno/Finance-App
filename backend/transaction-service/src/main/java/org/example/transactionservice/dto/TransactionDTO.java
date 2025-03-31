@@ -17,8 +17,8 @@ public class TransactionDTO {
     private Long categoryId;
 
     private String title;
-    private TransactionType type;
     private Double value;
+    private TransactionType type;
     private LocalDateTime time;
 
 
@@ -27,8 +27,8 @@ public class TransactionDTO {
                 transaction.getId(),
                 transaction.getCategory().getId(),
                 transaction.getTitle(),
-                transaction.getType(),
                 transaction.getValue(),
+                transaction.getType(),
                 transaction.getTime()
         );
     }

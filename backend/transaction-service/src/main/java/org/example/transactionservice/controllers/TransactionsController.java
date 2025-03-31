@@ -1,5 +1,6 @@
 package org.example.transactionservice.controllers;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.transactionservice.dto.SaveTransactionRequest;
@@ -45,7 +46,7 @@ public class TransactionsController {
     }
 
     @PostMapping
-    public ResponseEntity<Transaction> createTransaction(@RequestBody SaveTransactionRequest request, @RequestHeader(name = X_USER_ID) Long userId) {
+    public ResponseEntity<Transaction> createTransaction(@RequestBody @Valid SaveTransactionRequest request, @RequestHeader(name = X_USER_ID) Long userId) {
         Transaction transaction;
 
         try {
@@ -74,7 +75,7 @@ public class TransactionsController {
     }
 
     @PutMapping("/{transactionId}")
-    public ResponseEntity<Transaction> updateTransaction(@PathVariable Long transactionId, @RequestBody SaveTransactionRequest request) {
+    public ResponseEntity<Transaction> updateTransaction(@PathVariable Long transactionId, @RequestBody @Valid SaveTransactionRequest request) {
         Transaction transaction;
 
         try {
