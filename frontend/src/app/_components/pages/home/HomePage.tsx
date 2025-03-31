@@ -1,3 +1,5 @@
+'use client';
+
 import { useLogin } from '@/utils/hooks/useLogin';
 import React from 'react';
 import ContentPage from './ContentPage';

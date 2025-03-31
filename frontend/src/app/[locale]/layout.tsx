@@ -1,4 +1,4 @@
-import ThemesProvider from '@/utils/ThemesProvider';
+import ThemesProvider from '@/app/_components/layout/ThemesProvider/ThemesProvider';
 import Header from '../_components/layout/Header/Header';
 import Modal from '../_components/layout/Modal/Modal';
 import { NextIntlClientProvider } from 'next-intl';

@@ -1,23 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-type Task = {
-  title: string;
-  text: string;
-  isActive: boolean;
-};
-
 type User = {
-  email: string;
-  password: string;
-  tasks: Task[];
+  id: string | number;
   isLogined: boolean;
 };
 
 const initialState: User = {
-  email: '',
-  password: '',
-  tasks: [],
-  isLogined: true,
+  id: '',
+  isLogined: false,
 };
 
 const userSlice = createSlice({
@@ -27,11 +17,11 @@ const userSlice = createSlice({
     setIsLogined: (state, action) => {
       state.isLogined = action.payload;
     },
-    setTasks: (state, action) => {
-      state.tasks = action.payload;
+    setUserId: (state, action) => {
+      state.id = action.payload;
     },
   },
 });
 
-export const { setIsLogined, setTasks } = userSlice.actions;
+export const { setIsLogined, setUserId } = userSlice.actions;
 export default userSlice.reducer;

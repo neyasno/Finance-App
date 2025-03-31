@@ -1,12 +1,19 @@
 import Button from '@/app/_components/common/Button';
 import { ModalType } from '@/store/slices/modalSlice';
+import { setCookie } from '@/utils/cookie';
+import { useLogin } from '@/utils/hooks/useLogin';
 import { useModal } from '@/utils/hooks/useModal';
 import React from 'react';
 
 export default function ExitSuggestion() {
   const setModal = useModal();
+  const { setLogined } = useLogin();
 
   const logOut = () => {
+    setCookie('token', '');
+
+    setLogined(false);
+
     setModal(ModalType.None);
   };
 
