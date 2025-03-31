@@ -1,5 +1,9 @@
 package org.example.userservice.controllers;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.userservice.dto.CreateUserRequest;
@@ -30,7 +34,7 @@ public class UserController {
     }
 
     @GetMapping("/by-email/{email}")
-    public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
+    public ResponseEntity<User> getUserByEmail(@PathVariable @Valid @Email String email) {
         Optional<User> data = userService.getUserByEmail(email);
 
         return data
@@ -39,7 +43,7 @@ public class UserController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<User> createUser(@RequestBody CreateUserRequest request) {
+    public ResponseEntity<User> createUser(@RequestBody @Valid CreateUserRequest request) {
 
         Optional<User> existingUser = userService.getUserByEmail(request.getEmail());
 
@@ -61,7 +65,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUserPassword(@PathVariable Long id, @RequestBody String password) {
+    public ResponseEntity<User> updateUserPassword(@PathVariable @NotNull Long id, @RequestBody @Valid @Size(min = 6, max = 32) String password) {
         try {
             User data = userService.updateUserPassword(id, password);
             return ResponseEntity.ok(data);
