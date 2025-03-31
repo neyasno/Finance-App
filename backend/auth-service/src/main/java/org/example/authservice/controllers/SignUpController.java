@@ -1,14 +1,13 @@
 package org.example.authservice.controllers;
 
 import feign.FeignException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.authservice.dto.CreateUserRequest;
 import org.example.authservice.dto.MessageResponse;
 import org.example.authservice.dto.UserCredentialsDTO;
 import org.example.authservice.services.UserServiceClient;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +24,7 @@ public class SignUpController {
     private final PasswordEncoder passwordEncoder;
 
     @PostMapping
-    public ResponseEntity<MessageResponse> registerUser(@RequestBody CreateUserRequest createUserRequest) {
+    public ResponseEntity<MessageResponse> registerUser(@RequestBody @Valid CreateUserRequest createUserRequest) {
 
         String encodedPassword = passwordEncoder.encode(createUserRequest.getPassword());
         createUserRequest.setPassword(encodedPassword);
