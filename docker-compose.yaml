@@ -90,9 +90,9 @@ services:
     expose:
       - 5432:5432
     volumes:
-      - app-data:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U aboba -d finance_app_db"]
+      test: [ "CMD-SHELL", "pg_isready -U aboba -d finance_app_db" ]
       interval: 5s
       timeout: 5s
       retries: 2
@@ -104,19 +104,57 @@ services:
           cpus: '1'
           memory: 2G
 
-  # frontend:
-  #   build:
-  #     context: ./frontend
-  #     dockerfile: ./dockerfile
-  #   networks:
-  #     - gateway_network
-  #   ports:
-  #     - "3000:3000"
-  #   depends_on:
-  #     - api-gateway-service
-  #   environment:
-  #     - REACT_APP_API_URL=http://api-gateway-service:8080
+  zookeeper:
+    image: bitnami/zookeeper:3.9.3
+    container_name: zookeeper
+    restart: unless-stopped
+    networks:
+      - internal_network
+    expose:
+      - 2181:2181
+    environment:
+      ALLOW_ANONYMOUS_LOGIN: "yes"
+    volumes:
+      - zookeeper-data:/bitnami
+
+  kafka:
+    image: bitnami/kafka:4.0.0
+    container_name: kafka
+    restart: unless-stopped
+    networks:
+      - internal_network
+    environment:
+      - KAFKA_CFG_NODE_ID=0
+      - KAFKA_CFG_PROCESS_ROLES=controller,broker
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:9093
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+
+    expose:
+      - 3000:3000
+    depends_on:
+      - zookeeper
+    volumes:
+      - kafka-data:/bitnami
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ./dockerfile
+    networks:
+      - gateway_network
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api-gateway-service
+    environment:
+      - REACT_APP_API_URL=http://api-gateway-service:8080
 
 volumes:
-  app-data:
+  postgres-data:
   gradle-cache:
+  zookeeper-data:
+    driver: local
+  kafka-data:
+    driver: local
