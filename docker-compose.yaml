@@ -82,7 +82,7 @@ services:
 
   constraint-service:
     build:
-      context: ./backend/budget-service
+      context: ./backend/constraint-service
       dockerfile: ../docker/Dockerfile
     networks:
       - internal_network
