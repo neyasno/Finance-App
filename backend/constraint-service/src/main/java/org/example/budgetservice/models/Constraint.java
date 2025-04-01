@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
@@ -25,11 +26,14 @@ public class Constraint {
     private Double value;
 
     @Column(nullable = false)
-    private LocalDateTime time;
+    private LocalDateTime timeToExpire;
 
-    @Column(nullable = false)
-    private Boolean available;
+    @CreatedDate
+    private LocalDateTime timeCreated;
 
     @JsonIgnore
     private Long userId;
+
+    @Transient
+    Double available;
 }
