@@ -73,12 +73,8 @@ public class TransactionService {
         return transactionRepository.findById(transactionId).orElseThrow(() -> new IllegalArgumentException("Transaction not found"));
     }
 
-    public List<Transaction> getAllTransactions() {
-        return transactionRepository.findAll();
-    }
-
-    public Page<Transaction> getAllTransactions(Integer pageNumber, Integer pageSize) {
-        return transactionRepository.findAll(Pageable.ofSize(pageSize).withPage(pageNumber));
+    public Page<Transaction> getAllTransactionsForUser(Integer pageNumber, Integer pageSize, Long userId) {
+        return transactionRepository.findAllByUserId(Pageable.ofSize(pageSize).withPage(pageNumber), userId);
     }
 
     public List<Transaction> getAllTransactionsBefore(LocalDateTime time, Long userId) {

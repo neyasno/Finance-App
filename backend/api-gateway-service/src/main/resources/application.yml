@@ -18,6 +18,13 @@ spring:
           filters:
             - JwtAuthenticationFilter
             - StripPrefix=2
+        - id: transaction-service
+          uri: lb://transaction-service
+          predicates:
+            - Path=/api/transaction/**
+          filters:
+            - JwtAuthenticationFilter
+            - StripPrefix=2
       discovery:
         locator:
           enabled: false
