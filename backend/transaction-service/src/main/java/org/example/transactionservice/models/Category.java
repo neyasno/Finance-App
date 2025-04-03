@@ -20,7 +20,24 @@ public class Category{
 
     private String title;
 
-    @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "category")
     private Set<Transaction> transactions;
+
+    @Transient
+    private Double dayIncome;
+
+    @Transient
+    private Double dayOutcome;
+
+    @Transient
+    private Double monthIncome;
+
+    @Transient
+    private Double monthOutcome;
+
+//    @Transient
+//    private Double yearIncome;
+//
+//    @Transient
+//    private Double yearOutcome;
 }

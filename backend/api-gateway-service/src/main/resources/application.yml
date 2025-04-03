@@ -25,6 +25,13 @@ spring:
           filters:
             - JwtAuthenticationFilter
             - StripPrefix=2
+        - id: constraint-service
+          uri: lb://constraint-service
+          predicates:
+            - Path=/api/constraints/**
+          filters:
+            - JwtAuthenticationFilter
+            - StripPrefix=2
       discovery:
         locator:
           enabled: false
