@@ -20,6 +20,7 @@ public class Category{
 
     private String title;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "category")
     private Set<Transaction> transactions;
 
