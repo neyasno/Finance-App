@@ -1,7 +1,7 @@
 package org.example.budgetservice.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import org.antlr.v4.runtime.misc.NotNull;
 
 import java.time.LocalDateTime;
 

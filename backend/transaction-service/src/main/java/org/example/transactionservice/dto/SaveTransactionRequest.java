@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.transactionservice.models.TransactionType;
 
 @Data
 @Builder
@@ -24,5 +23,5 @@ public class SaveTransactionRequest {
     private Double value;
 
     @NotNull
-    private TransactionType type;
+    private String type;
 }
