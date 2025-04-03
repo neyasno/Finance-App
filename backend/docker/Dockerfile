@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21-jdk AS builder
+FROM eclipse-temurin:21-jdk-alpine AS builder
 
 WORKDIR /app
 
@@ -7,13 +7,13 @@ COPY gradle/ ./gradle/
 COPY build.gradle settings.gradle ./
 
 RUN chmod +x gradlew
-RUN ./gradlew dependencies --no-daemon
+RUN ./gradlew dependencies --no-daemon --parallel
 
 COPY src ./src
 
-RUN ./gradlew bootJar --no-daemon
+RUN ./gradlew bootJar --no-daemon -x test --parallel
 
-FROM eclipse-temurin:21-jre
+FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
 
