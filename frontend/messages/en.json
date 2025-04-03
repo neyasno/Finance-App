@@ -82,16 +82,24 @@
   },
   "analitics": {
     "content": {
+      "general": "General",
+      "budget": "Budget",
       "export_csv": "Export CSV ",
       "export_pdf": "Export PDF ",
       "all_income": "All income",
       "all_outcome": "All outcome",
       "categories": "Categories",
       "timeline": "Timeline",
+      "income": "income",
+      "outcome": "outcome",
       "day": "Day",
       "month": "Month",
       "year": "Year",
-      "all": "All time"
+      "all": "All time",
+      "most_income_category": "Most income",
+      "most_outcome_category": "Most outcome",
+      "less_income_category": "Less income",
+      "less_outcome_category": "Less outcome"
     }
   }
 }

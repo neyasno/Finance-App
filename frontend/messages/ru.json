@@ -82,16 +82,24 @@
   },
   "analitics": {
     "content": {
+      "general": "Главное",
+      "budget": "Бюджет",
       "export_csv": "Экспорт в CSV ",
       "export_pdf": "Экспорт в PDF ",
       "all_income": "Доходы",
       "all_outcome": "Расходы",
       "categories": "Категории",
       "timeline": "Временной промежуток",
+      "income": "income",
+      "outcome": "outcome",
       "day": "День",
       "month": "Месяц",
       "year": "Год",
-      "all": "Все время"
+      "all": "Все время",
+      "most_income_category": "Most income",
+      "most_outcome_category": "Most outcome",
+      "less_income_category": "Less income",
+      "less_outcome_category": "Less outcome"
     }
   }
 }
