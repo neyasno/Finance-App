@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.example.transactionservice.dto.SaveCategoryRequest;
 import org.example.transactionservice.models.Category;
 import org.example.transactionservice.services.CategoryService;
+import org.example.transactionservice.services.TransactionService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,10 +18,19 @@ import java.util.List;
 public class CategoryController {
 
     private final CategoryService categoryService;
+    private final TransactionService transactionService;
 
     @GetMapping
     public ResponseEntity<List<Category>> getAllCategories() {
-        return ResponseEntity.ok(categoryService.getAllCategories());
+        List<Category> categories;
+
+        try {
+            categories = categoryService.getAllCategories();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+
+        return ResponseEntity.ok(categories);
     }
 
     @GetMapping("/{id}")

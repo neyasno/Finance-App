@@ -4,8 +4,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.transactionservice.dto.SaveTransactionRequest;
-import org.example.transactionservice.dto.TransactionBetweenTimeRequest;
-import org.example.transactionservice.dto.TransactionByTimeRequest;
 import org.example.transactionservice.models.Transaction;
 import org.example.transactionservice.services.TransactionService;
 import org.springframework.data.domain.Page;
@@ -59,13 +57,34 @@ public class TransactionsController {
         }
     }
 
+    @GetMapping("/by-category/{categoryId}")
+    public ResponseEntity<List<Transaction>> getTransactionsByCategory(@PathVariable Long categoryId) {
+        if (categoryId == null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        try {
+            return ResponseEntity.ok(transactionService.getTransactionsByCategoryId(categoryId));
+        }catch (Exception e) {
+            log.error("GET_TRANSACTION_BY_CATEGORY ({}): {}", categoryId, e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Transaction>> getAllTransactions(
+            @RequestHeader(X_USER_ID) Long userId
+    ){
+        return ResponseEntity.ok(transactionService.getAllTransactionsForUser(userId));
+    }
+
     @GetMapping
     public ResponseEntity<Page<Transaction>> getAllTransactionsPaginated(
             @RequestParam(name = "page", defaultValue = "1", required = false) Integer pageNumber,
             @RequestParam(name = "size", defaultValue = "10", required = false) Integer pageSize,
             @RequestHeader(X_USER_ID) Long userId
     ) {
-        return ResponseEntity.ok(transactionService.getAllTransactionsForUser(pageNumber, pageSize, userId));
+        return ResponseEntity.ok(transactionService.getAllTransactionsPaginatedForUser(pageNumber, pageSize, userId));
     }
 
     @PostMapping

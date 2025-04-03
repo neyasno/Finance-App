@@ -2,6 +2,7 @@ package org.example.transactionservice.services;
 
 import lombok.RequiredArgsConstructor;
 import org.example.transactionservice.dto.SaveTransactionRequest;
+import org.example.transactionservice.models.Category;
 import org.example.transactionservice.models.Transaction;
 import org.example.transactionservice.models.TransactionType;
 import org.example.transactionservice.repositories.CategoryRepository;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -33,15 +35,19 @@ public class TransactionService {
             throw new IllegalArgumentException("Category id cannot be null");
         }
 
-        if (!categoryRepository.existsById(categoryId)) {
+        Optional<Category> category = categoryRepository.findById(categoryId);
+
+        if (category.isEmpty()) {
             throw new IllegalArgumentException("Category does not exist");
         }
+
         Transaction transaction = Transaction.builder()
                 .userId(userId)
                 .title(request.getTitle())
                 .value(request.getValue())
                 .type(TransactionType.valueOf(request.getType()))
                 .time(LocalDateTime.now())
+                .category(category.get())
                 .build();
 
         transaction = transactionRepository.save(transaction);
@@ -76,7 +82,7 @@ public class TransactionService {
         return transactionRepository.findById(transactionId).orElseThrow(() -> new IllegalArgumentException("Transaction not found"));
     }
 
-    public Page<Transaction> getAllTransactionsForUser(Integer pageNumber, Integer pageSize, Long userId) {
+    public Page<Transaction> getAllTransactionsPaginatedForUser(Integer pageNumber, Integer pageSize, Long userId) {
         return transactionRepository.findAllByUserId(Pageable.ofSize(pageSize).withPage(pageNumber), userId);
     }
 
@@ -109,4 +115,7 @@ public class TransactionService {
         return localDateTime.atZone(ZoneId.systemDefault()).withZoneSameInstant(ZoneOffset.UTC).toLocalDateTime();
     }
 
+    public List<Transaction> getAllTransactionsForUser(Long userId) {
+        return transactionRepository.findAllByUserId(userId);
+    }
 }

@@ -4,7 +4,7 @@ spring:
 
   mvc:
     format:
-      date: dd-MM-yyyy
+      date: dd.MM.yyyy
       date-time: HH:mm:ss dd.MM.yyyy
       time: HH:mm:ss
 
