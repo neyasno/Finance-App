@@ -4,6 +4,8 @@ package org.example.transactionservice.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -21,6 +23,7 @@ public class Transaction implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @JsonIgnore
@@ -29,6 +32,8 @@ public class Transaction implements Serializable {
     private String title;
     private TransactionType type;
     private Double value;
+
+    @CreationTimestamp
     private LocalDateTime time;
 
     @JsonIgnore

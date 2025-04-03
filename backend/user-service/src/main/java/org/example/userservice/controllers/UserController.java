@@ -2,6 +2,7 @@ package org.example.userservice.controllers;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
@@ -65,7 +66,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUserPassword(@PathVariable @NotNull Long id, @RequestBody @Valid @Size(min = 6, max = 32) String password) {
+    public ResponseEntity<User> updateUserPassword(@PathVariable @NotNull Long id, @RequestBody @Valid @NotBlank String password) {
         try {
             User data = userService.updateUserPassword(id, password);
             return ResponseEntity.ok(data);

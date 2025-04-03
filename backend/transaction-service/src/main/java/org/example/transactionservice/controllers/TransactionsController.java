@@ -4,15 +4,20 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.transactionservice.dto.SaveTransactionRequest;
+import org.example.transactionservice.dto.TransactionBetweenTimeRequest;
+import org.example.transactionservice.dto.TransactionByTimeRequest;
 import org.example.transactionservice.models.Transaction;
 import org.example.transactionservice.services.TransactionService;
 import org.springframework.data.domain.Page;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Slf4j
 @RestController
-@RequestMapping("/transactions")
 @RequiredArgsConstructor
 public class TransactionsController {
     private final static String X_USER_ID = "X-User-Id";
@@ -37,12 +42,30 @@ public class TransactionsController {
         return ResponseEntity.ok(transaction);
     }
 
+    @GetMapping("/by-time")
+    public ResponseEntity<List<Transaction>> getTransactions(
+            @RequestParam(required = false) @DateTimeFormat(pattern = "HH:mm:ss dd.MM.yyyy") LocalDateTime from,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "HH:mm:ss dd.MM.yyyy") LocalDateTime to,
+            @RequestHeader(X_USER_ID) Long userId) {
+
+        if (from == null && to == null) {
+            return ResponseEntity.badRequest().build();
+        } else if (from == null) {
+            return ResponseEntity.ok(transactionService.getAllTransactionsBefore(to, userId));
+        } else if (to == null) {
+            return ResponseEntity.ok(transactionService.getAllTransactionsAfter(from, userId));
+        } else {
+            return ResponseEntity.ok(transactionService.getAllTransactionsBetween(from, to, userId));
+        }
+    }
+
     @GetMapping
     public ResponseEntity<Page<Transaction>> getAllTransactionsPaginated(
             @RequestParam(name = "page", defaultValue = "1", required = false) Integer pageNumber,
-            @RequestParam(name = "size", defaultValue = "10", required = false) Integer pageSize
+            @RequestParam(name = "size", defaultValue = "10", required = false) Integer pageSize,
+            @RequestHeader(X_USER_ID) Long userId
     ) {
-        return ResponseEntity.ok(transactionService.getAllTransactions(pageNumber, pageSize));
+        return ResponseEntity.ok(transactionService.getAllTransactionsForUser(pageNumber, pageSize, userId));
     }
 
     @PostMapping
@@ -53,6 +76,20 @@ public class TransactionsController {
             transaction = transactionService.createTransaction(request, userId);
         } catch (Exception e) {
             log.error("CREATE_TRANSACTION: {}", e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
+
+        return ResponseEntity.ok(transaction);
+    }
+
+    @PutMapping("/{transactionId}")
+    public ResponseEntity<Transaction> updateTransaction(@PathVariable Long transactionId, @RequestBody @Valid SaveTransactionRequest request) {
+        Transaction transaction;
+
+        try {
+            transaction = transactionService.updateTransaction(request, transactionId);
+        } catch (Exception e) {
+            log.error("UPDATE_TRANSACTION({}): {}", transactionId, e.getMessage());
             return ResponseEntity.badRequest().build();
         }
 
@@ -72,19 +109,5 @@ public class TransactionsController {
         } else {
             return ResponseEntity.notFound().build();
         }
-    }
-
-    @PutMapping("/{transactionId}")
-    public ResponseEntity<Transaction> updateTransaction(@PathVariable Long transactionId, @RequestBody @Valid SaveTransactionRequest request) {
-        Transaction transaction;
-
-        try {
-            transaction = transactionService.updateTransaction(request, transactionId);
-        } catch (Exception e) {
-            log.error("UPDATE_TRANSACTION({}): {}", transactionId, e.getMessage());
-            return ResponseEntity.badRequest().build();
-        }
-
-        return ResponseEntity.ok(transaction);
     }
 }
