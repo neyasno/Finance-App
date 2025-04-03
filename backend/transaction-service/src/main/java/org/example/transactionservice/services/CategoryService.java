@@ -19,7 +19,6 @@ import java.util.Set;
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
-    private final TransactionService transactionService;
 
     public List<Category> getAllCategories() {
         List<Category> categories = categoryRepository.findAll();
@@ -48,7 +47,6 @@ public class CategoryService {
     }
 
     private void fillTransactionData(Category category) {
-//        List<Transaction> transactions = transactionService.getTransactionsByCategoryId(category.getId());
         Set<Transaction> transactions = category.getTransactions();
         log.info("Found {} transactions", transactions.size());
 

@@ -14,14 +14,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 class TransactionsControllerTest {
@@ -46,9 +44,10 @@ class TransactionsControllerTest {
     @Test
     void testGetTransaction_Success() throws Exception {
         Long transactionId = 1L;
-        Transaction transaction = new Transaction();
-        transaction.setId(transactionId);
-        transaction.setTitle("Sample Transaction");
+        Transaction transaction = Transaction.builder()
+                .id(transactionId)
+                .title("Sample Transaction")
+                .build();
 
         when(transactionService.getTransactionById(transactionId)).thenReturn(transaction);
 
@@ -77,9 +76,10 @@ class TransactionsControllerTest {
         LocalDateTime to = LocalDateTime.of(2025, 4, 3, 12, 0, 0);
         Long userId = 123L;
 
-        Transaction transaction = new Transaction();
-        transaction.setId(1L);
-        transaction.setTitle("Test To");
+        Transaction transaction = Transaction.builder()
+                .id(1L)
+                .title("Test To")
+                .build();
 
         List<Transaction> transactions = List.of(transaction);
 
@@ -99,9 +99,10 @@ class TransactionsControllerTest {
         LocalDateTime from = LocalDateTime.of(2025, 4, 3, 12, 0, 0);
         Long userId = 123L;
 
-        Transaction transaction = new Transaction();
-        transaction.setId(1L);
-        transaction.setTitle("Test After");
+        Transaction transaction = Transaction.builder()
+                .id(1L)
+                .title("Test After")
+                .build();
 
         List<Transaction> transactions = List.of(transaction);
 
@@ -122,9 +123,10 @@ class TransactionsControllerTest {
         LocalDateTime to = LocalDateTime.of(2025, 4, 3, 12, 0, 0);
         Long userId = 123L;
 
-        Transaction transaction = new Transaction();
-        transaction.setId(1L);
-        transaction.setTitle("Test Between");
+        Transaction transaction = Transaction.builder()
+                .id(1L)
+                .title("Test Between")
+                .build();
 
         List<Transaction> transactions = List.of(transaction);
 
@@ -144,9 +146,10 @@ class TransactionsControllerTest {
     void testCreateTransaction_Success() throws Exception {
         Long userId = 123L;
         SaveTransactionRequest request = new SaveTransactionRequest(1L, "New Transaction", 100.0, "income");
-        Transaction savedTransaction = new Transaction();
-        savedTransaction.setId(4L);
-        savedTransaction.setTitle("New Transaction");
+        Transaction savedTransaction = Transaction.builder()
+                .id(1L)
+                .title("New Transaction")
+                .build();
 
         when(transactionService.createTransaction(any(SaveTransactionRequest.class), eq(userId))).thenReturn(savedTransaction);
 
@@ -164,9 +167,10 @@ class TransactionsControllerTest {
     void testUpdateTransaction_Success() throws Exception {
         Long transactionId = 1L;
         SaveTransactionRequest request = new SaveTransactionRequest(1L, "Updated Transaction", 200.0, "income");
-        Transaction updatedTransaction = new Transaction();
-        updatedTransaction.setId(transactionId);
-        updatedTransaction.setTitle("Updated Transaction");
+        Transaction updatedTransaction = Transaction.builder()
+                .id(transactionId)
+                .title("Updated Transaction")
+                .build();
 
         when(transactionService.updateTransaction(any(SaveTransactionRequest.class), eq(transactionId))).thenReturn(updatedTransaction);
 

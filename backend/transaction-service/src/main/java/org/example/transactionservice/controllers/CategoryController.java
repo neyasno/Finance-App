@@ -35,26 +35,42 @@ public class CategoryController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
-        return ResponseEntity.ok(categoryService.getCategoryById(id));
+        try {
+            return ResponseEntity.ok(categoryService.getCategoryById(id));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
     @PostMapping
     public ResponseEntity<Category> createCategory(@RequestBody @Valid SaveCategoryRequest request) {
-        Category newCategory = Category.builder().title(request.getTitle()).build();
-        return ResponseEntity.ok(categoryService.saveCategory(newCategory));
+        try {
+            Category newCategory = Category.builder().title(request.getTitle()).build();
+            return ResponseEntity.ok(categoryService.saveCategory(newCategory));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Category> updateCategory(@PathVariable Long id, @Valid SaveCategoryRequest request) {
-        Category category = categoryService.getCategoryById(id);
-        category.setTitle(request.getTitle());
-        return ResponseEntity.ok(categoryService.saveCategory(category));
+    public ResponseEntity<Category> updateCategory(@PathVariable Long id, @RequestBody @Valid SaveCategoryRequest request) {
+        try {
+            Category category = categoryService.getCategoryById(id);
+            category.setTitle(request.getTitle());
+            return ResponseEntity.ok(categoryService.saveCategory(category));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCategoryById(@PathVariable Long id) {
-        categoryService.deleteCategoryById(id);
-        return ResponseEntity.noContent().build();
+        try {
+            categoryService.deleteCategoryById(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
 }
