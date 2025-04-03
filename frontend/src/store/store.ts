@@ -3,12 +3,14 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
 import userReducer from './slices/userSlice';
 import modalReducer from './slices/modalSlice';
+import dataActualityReducer from './slices/dataActualitySlice';
 import { thunk } from 'redux-thunk';
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
     modal: modalReducer,
+    dataActuality: dataActualityReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
 });

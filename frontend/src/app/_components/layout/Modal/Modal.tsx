@@ -13,6 +13,7 @@ import ExitSuggestion from './modals/ExitSuggestion';
 import TransactionOverview from './modals/TransactionOverview/TransactionOverview';
 import CreateCategoryForm from './modals/CreateCategoryForm';
 import CategoryOverview from './modals/CategoryOverview/CategoryOverview';
+import ChangeCategoryForm from './modals/ChangeCategoryForm';
 
 export default function Modal() {
   const state = useAppSelector((state) => state.modal);
@@ -97,6 +98,14 @@ export default function Modal() {
       return (
         <ModalLayout contentWidth="w-96">
           <CategoryOverview />
+        </ModalLayout>
+      );
+    }
+
+    case ModalType.ChangeCategory: {
+      return (
+        <ModalLayout contentWidth="w-96">
+          <ChangeCategoryForm />
         </ModalLayout>
       );
     }

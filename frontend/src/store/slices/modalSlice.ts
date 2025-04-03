@@ -13,6 +13,7 @@ export enum ModalType {
   TransactionOverview,
   CreateCategory,
   CategoryOverview,
+  ChangeCategory,
 }
 
 type ModalSlice = {

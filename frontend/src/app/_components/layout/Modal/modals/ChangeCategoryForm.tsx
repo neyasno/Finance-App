@@ -1,19 +1,18 @@
-'use client';
-
 import Button from '@/app/_components/common/Button';
 import Loading from '@/app/_components/common/Loading';
 import TextInput from '@/app/_components/common/TextInput';
 import { EApi } from '@/enums';
 import { setCategoriesActuality } from '@/store/slices/dataActualitySlice';
 import { ModalType } from '@/store/slices/modalSlice';
-import { useAppDispatch } from '@/store/store';
+import { useAppDispatch, useAppSelector } from '@/store/store';
 import fetchApi from '@/utils/fetchApi';
 import { useModal } from '@/utils/hooks/useModal';
 import { useTranslations } from 'next-intl';
 import React, { useState } from 'react';
 
-export default function CreateCategoryForm() {
+export default function ChangeCategoryForm() {
   const t = useTranslations('home.content.categories');
+  const id = useAppSelector((state) => state.dataActuality.currentCategory);
 
   const dispatch = useAppDispatch();
   const setModal = useModal();
@@ -29,7 +28,7 @@ export default function CreateCategoryForm() {
     try {
       setLoading(true);
 
-      await fetchApi(EApi.CATEGORIES, 'POST', { title });
+      await fetchApi(EApi.CATEGORIES + '/' + id, 'PUT', { title });
 
       dispatch(setCategoriesActuality(false));
 

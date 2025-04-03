@@ -1,11 +1,12 @@
 export enum EApi {
   DEFAULT = 'http://localhost:8080/api',
-
   USERS = DEFAULT + '/auth',
 
   LOGIN = USERS + '/login',
   VERIFICATION = USERS + '/verification',
   REGISTRATION = USERS + '/registration',
+
+  CATEGORIES = DEFAULT + '/transactions/categories',
 }
 
 export enum ERoutes {

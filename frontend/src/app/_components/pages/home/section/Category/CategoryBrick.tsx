@@ -4,14 +4,12 @@ import { useCategoryOverview } from '@/utils/hooks/useModal';
 import React from 'react';
 
 export type CategoryBrickProps = {
-  id: string | number;
+  id: number;
   title: string;
   day_income: number;
   day_outcome: number;
   month_income: number;
   month_outcome: number;
-  year_income: number;
-  year_outcome: number;
 };
 
 export default function CategoryBrick(category: CategoryBrickProps) {

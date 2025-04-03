@@ -31,7 +31,9 @@ const fetchApi = async (path: string, method: RequestMethod, body = {}) => {
     throw new Error(`${response.status}`);
   }
 
-  return response.json();
+  if (response.status == 204) return;
+
+  return await response.json();
 };
 
 export default fetchApi;
