@@ -21,7 +21,7 @@ spring:
         - id: transaction-service
           uri: lb://transaction-service
           predicates:
-            - Path=/api/transaction/**
+            - Path=/api/transactions/**
           filters:
             - JwtAuthenticationFilter
             - StripPrefix=2

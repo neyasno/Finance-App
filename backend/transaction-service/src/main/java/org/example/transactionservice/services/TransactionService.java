@@ -3,6 +3,7 @@ package org.example.transactionservice.services;
 import lombok.RequiredArgsConstructor;
 import org.example.transactionservice.dto.SaveTransactionRequest;
 import org.example.transactionservice.models.Transaction;
+import org.example.transactionservice.models.TransactionType;
 import org.example.transactionservice.repositories.CategoryRepository;
 import org.example.transactionservice.repositories.TransactionRepository;
 import org.springframework.data.domain.Page;
@@ -10,6 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.List;
 
 @Service
@@ -20,7 +23,7 @@ public class TransactionService {
     private final CategoryRepository categoryRepository;
 
     public Transaction createTransaction(SaveTransactionRequest request, Long userId) {
-        if(userId == null){
+        if (userId == null) {
             throw new IllegalArgumentException("userId cannot be null");
         }
 
@@ -30,14 +33,14 @@ public class TransactionService {
             throw new IllegalArgumentException("Category id cannot be null");
         }
 
-        if(!categoryRepository.existsById(categoryId)) {
+        if (!categoryRepository.existsById(categoryId)) {
             throw new IllegalArgumentException("Category does not exist");
         }
         Transaction transaction = Transaction.builder()
                 .userId(userId)
                 .title(request.getTitle())
                 .value(request.getValue())
-                .type(request.getType())
+                .type(TransactionType.valueOf(request.getType()))
                 .time(LocalDateTime.now())
                 .build();
 
@@ -53,7 +56,7 @@ public class TransactionService {
             throw new IllegalArgumentException("Category id cannot be null");
         }
 
-        if(!categoryRepository.existsById(categoryId)) {
+        if (!categoryRepository.existsById(categoryId)) {
             throw new IllegalArgumentException("Category does not exist");
         }
 
@@ -61,7 +64,7 @@ public class TransactionService {
 
         transaction.setTitle(request.getTitle());
         transaction.setValue(request.getValue());
-        transaction.setType(request.getType());
+        transaction.setType(TransactionType.valueOf(request.getType()));
         transaction.setTime(LocalDateTime.now());
 
         transaction = transactionRepository.save(transaction);
@@ -78,14 +81,18 @@ public class TransactionService {
     }
 
     public List<Transaction> getAllTransactionsBefore(LocalDateTime time, Long userId) {
+        time = fixTimeZone(time);
         return transactionRepository.findAllByTimeBeforeAndUserId(time, userId);
     }
 
     public List<Transaction> getAllTransactionsAfter(LocalDateTime time, Long userId) {
+        time = fixTimeZone(time);
         return transactionRepository.findAllByTimeAfterAndUserId(time, userId);
     }
 
     public List<Transaction> getAllTransactionsBetween(LocalDateTime start, LocalDateTime end, Long userId) {
+        start = fixTimeZone(start);
+        end = fixTimeZone(end);
         return transactionRepository.findAllByTimeBetweenAndUserId(start, end, userId);
     }
 
@@ -96,6 +103,10 @@ public class TransactionService {
     public boolean deleteTransactionById(Long transactionId) {
         transactionRepository.deleteById(transactionId);
         return transactionRepository.existsById(transactionId);
+    }
+
+    private LocalDateTime fixTimeZone(LocalDateTime localDateTime) {
+        return localDateTime.atZone(ZoneId.systemDefault()).withZoneSameInstant(ZoneOffset.UTC).toLocalDateTime();
     }
 
 }
