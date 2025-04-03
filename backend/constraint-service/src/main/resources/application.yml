@@ -1,16 +1,23 @@
 spring:
   application:
     name: constraint-service
-datasource:
-  url: jdbc:postgresql://${POSTGRES_DB_HOST:localhost}:${POSTGRES_DB_PORT:5432}/${POSTGRES_DB_NAME:postgres}?currentSchema=constraints_schema
-  username: ${POSTGRES_DB_USERNAME:postgres}
-  password: ${POSTGRES_DB_PASSWORD:postgres}
-  driver-class-name: org.postgresql.Driver
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_DB_HOST:localhost}:${POSTGRES_DB_PORT:5432}/${POSTGRES_DB_NAME:postgres}?currentSchema=constraints_schema
+    username: ${POSTGRES_DB_USERNAME:postgres}
+    password: ${POSTGRES_DB_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
 
+  jackson:
+    date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
+  mvc:
+    format:
+      date-time: iso
+      time: iso
+      date: iso
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     generate-ddl: true
     properties:
       hibernate:
@@ -19,6 +26,7 @@ datasource:
     init:
       schema-locations: classpath:schema.sql
       mode: always
+
 eureka:
   client:
     register-with-eureka: true
@@ -33,3 +41,4 @@ logging:
   level:
     web: debug
     sql: debug
+debug: true

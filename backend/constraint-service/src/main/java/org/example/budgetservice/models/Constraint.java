@@ -36,5 +36,5 @@ public class Constraint {
     private Long userId;
 
     @Transient
-    Double available;
+    private Double available;
 }
