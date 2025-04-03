@@ -42,8 +42,8 @@ public class TransactionsController {
 
     @GetMapping("/by-time")
     public ResponseEntity<List<Transaction>> getTransactions(
-            @RequestParam(required = false) @DateTimeFormat(pattern = "HH:mm:ss dd.MM.yyyy") LocalDateTime from,
-            @RequestParam(required = false) @DateTimeFormat(pattern = "HH:mm:ss dd.MM.yyyy") LocalDateTime to,
+            @RequestParam(required = false) @DateTimeFormat LocalDateTime from,
+            @RequestParam(required = false) @DateTimeFormat LocalDateTime to,
             @RequestHeader(X_USER_ID) Long userId) {
 
         if (from == null && to == null) {

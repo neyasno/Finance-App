@@ -2,17 +2,19 @@ spring:
   application:
     name: transaction-service
 
-  mvc:
-    format:
-      date: dd.MM.yyyy
-      date-time: HH:mm:ss dd.MM.yyyy
-      time: HH:mm:ss
-
   datasource:
     url: jdbc:postgresql://${POSTGRES_DB_HOST:localhost}:${POSTGRES_DB_PORT:5432}/${POSTGRES_DB_NAME:postgres}?currentSchema=transactions_schema
     username: ${POSTGRES_DB_USERNAME:postgres}
     password: ${POSTGRES_DB_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
+
+  jackson:
+    date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
+  mvc:
+    format:
+      date-time: iso
+      time: iso
+      date: iso
 
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
