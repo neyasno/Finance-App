@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.transactionservice.dto.SaveTransactionRequest;
+import org.example.transactionservice.dto.TransactionDTO;
 import org.example.transactionservice.models.Transaction;
 import org.example.transactionservice.services.TransactionService;
 import org.springframework.data.domain.Page;
@@ -41,54 +42,70 @@ public class TransactionsController {
     }
 
     @GetMapping("/by-time")
-    public ResponseEntity<List<Transaction>> getTransactions(
-            @RequestParam(required = false) @DateTimeFormat LocalDateTime from,
-            @RequestParam(required = false) @DateTimeFormat LocalDateTime to,
-            @RequestHeader(X_USER_ID) Long userId) {
-
-        if (from == null && to == null) {
+    public ResponseEntity<List<TransactionDTO>> getTransactions(@RequestParam(required = false) @DateTimeFormat LocalDateTime from, @RequestParam(required = false) @DateTimeFormat LocalDateTime to, @RequestHeader(X_USER_ID) Long userId) {
+        try {
+            if (from == null && to == null) {
+                return ResponseEntity.badRequest().build();
+            } else if (from == null) {
+                return ResponseEntity.ok(TransactionDTO.fromTransactions(transactionService.getAllTransactionsBefore(to, userId)));
+            } else if (to == null) {
+                return ResponseEntity.ok(TransactionDTO.fromTransactions(transactionService.getAllTransactionsAfter(from, userId)));
+            } else {
+                return ResponseEntity.ok(TransactionDTO.fromTransactions(transactionService.getAllTransactionsBetween(from, to, userId)));
+            }
+        } catch (Exception e) {
+            log.error("GET_TRANSACTIONS ({}): {}", userId, e.getMessage());
             return ResponseEntity.badRequest().build();
-        } else if (from == null) {
-            return ResponseEntity.ok(transactionService.getAllTransactionsBefore(to, userId));
-        } else if (to == null) {
-            return ResponseEntity.ok(transactionService.getAllTransactionsAfter(from, userId));
-        } else {
-            return ResponseEntity.ok(transactionService.getAllTransactionsBetween(from, to, userId));
         }
     }
 
     @GetMapping("/by-category/{categoryId}")
-    public ResponseEntity<List<Transaction>> getTransactionsByCategory(@PathVariable Long categoryId) {
+    public ResponseEntity<List<TransactionDTO>> getTransactionsByCategory(@PathVariable Long categoryId) {
         if (categoryId == null) {
             return ResponseEntity.badRequest().build();
         }
 
         try {
-            return ResponseEntity.ok(transactionService.getTransactionsByCategoryId(categoryId));
-        }catch (Exception e) {
+            List<Transaction> transactions = transactionService.getTransactionsByCategoryId(categoryId);
+            List<TransactionDTO> dto = transactions.stream().map(TransactionDTO::fromTransaction).toList();
+
+            return ResponseEntity.ok(dto);
+        } catch (Exception e) {
             log.error("GET_TRANSACTION_BY_CATEGORY ({}): {}", categoryId, e.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Transaction>> getAllTransactions(
-            @RequestHeader(X_USER_ID) Long userId
-    ){
-        return ResponseEntity.ok(transactionService.getAllTransactionsForUser(userId));
+    public ResponseEntity<List<TransactionDTO>> getAllTransactions(@RequestHeader(X_USER_ID) Long userId) {
+        try {
+
+            List<Transaction> transactions = transactionService.getAllTransactionsForUser(userId);
+            List<TransactionDTO> dto = transactions.stream().map(TransactionDTO::fromTransaction).toList();
+
+            return ResponseEntity.ok(dto);
+        } catch (Exception e) {
+            log.error("GET_ALL_TRANSACTIONS ({}): {}", userId, e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
+
     }
 
     @GetMapping
-    public ResponseEntity<Page<Transaction>> getAllTransactionsPaginated(
-            @RequestParam(name = "page", defaultValue = "0", required = false) Integer pageNumber,
-            @RequestParam(name = "size", defaultValue = "10", required = false) Integer pageSize,
-            @RequestHeader(X_USER_ID) Long userId
-    ) {
-        return ResponseEntity.ok(transactionService.getAllTransactionsPaginatedForUser(pageNumber, pageSize, userId));
+    public ResponseEntity<Page<TransactionDTO>> getAllTransactionsPaginated(@RequestParam(name = "page", defaultValue = "0", required = false) Integer pageNumber, @RequestParam(name = "size", defaultValue = "10", required = false) Integer pageSize, @RequestHeader(X_USER_ID) Long userId) {
+        try {
+            Page<Transaction> paginated = transactionService.getAllTransactionsPaginatedForUser(pageNumber, pageSize, userId);
+            Page<TransactionDTO> dto = paginated.map(TransactionDTO::fromTransaction);
+            return ResponseEntity.ok(dto);
+        } catch (Exception e) {
+            log.error("GET_ALL_TRANSACTIONS ({}): {}", userId, e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
+
     }
 
     @PostMapping
-    public ResponseEntity<Transaction> createTransaction(@RequestBody @Valid SaveTransactionRequest request, @RequestHeader(name = X_USER_ID) Long userId) {
+    public ResponseEntity<TransactionDTO> createTransaction(@RequestBody @Valid SaveTransactionRequest request, @RequestHeader(name = X_USER_ID) Long userId) {
         Transaction transaction;
 
         try {
@@ -98,11 +115,11 @@ public class TransactionsController {
             return ResponseEntity.badRequest().build();
         }
 
-        return ResponseEntity.ok(transaction);
+        return ResponseEntity.ok(TransactionDTO.fromTransaction(transaction));
     }
 
     @PutMapping("/{transactionId}")
-    public ResponseEntity<Transaction> updateTransaction(@PathVariable Long transactionId, @RequestBody @Valid SaveTransactionRequest request) {
+    public ResponseEntity<TransactionDTO> updateTransaction(@PathVariable Long transactionId, @RequestBody @Valid SaveTransactionRequest request) {
         Transaction transaction;
 
         try {
@@ -112,7 +129,7 @@ public class TransactionsController {
             return ResponseEntity.badRequest().build();
         }
 
-        return ResponseEntity.ok(transaction);
+        return ResponseEntity.ok(TransactionDTO.fromTransaction(transaction));
     }
 
     @DeleteMapping("/{transactionId}")
@@ -121,12 +138,13 @@ public class TransactionsController {
             return ResponseEntity.badRequest().build();
         }
 
-        boolean deleted = transactionService.deleteTransactionById(transactionId);
-
-        if (deleted) {
+        try {
+            transactionService.deleteTransactionById(transactionId);
             return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
+
+        } catch (Exception e) {
+            log.error("DELETE_TRANSACTION({}): {}", transactionId, e.getMessage());
+            return ResponseEntity.badRequest().build();
         }
     }
 }
