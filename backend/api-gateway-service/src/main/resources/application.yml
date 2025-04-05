@@ -32,6 +32,14 @@ spring:
           filters:
             - JwtAuthenticationFilter
             - StripPrefix=2
+        - id: analytics-service
+          uri: lb://analytics-service
+          predicates:
+            - Path=/api/analytics/**
+          filters:
+            - JwtAuthenticationFilter
+            - StripPrefix=2
+
       discovery:
         locator:
           enabled: false
