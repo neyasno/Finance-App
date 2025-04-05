@@ -45,7 +45,7 @@ public class TransactionService {
                 .userId(userId)
                 .title(request.getTitle())
                 .value(request.getValue())
-                .type(TransactionType.valueOf(request.getType()))
+                .type(TransactionType.valueOf(request.getType().toUpperCase()))
                 .time(LocalDateTime.now())
                 .category(category.get())
                 .build();
@@ -70,7 +70,7 @@ public class TransactionService {
 
         transaction.setTitle(request.getTitle());
         transaction.setValue(request.getValue());
-        transaction.setType(TransactionType.valueOf(request.getType()));
+        transaction.setType(TransactionType.valueOf(request.getType().toUpperCase()));
         transaction.setTime(LocalDateTime.now());
 
         transaction = transactionRepository.save(transaction);

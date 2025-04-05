@@ -86,7 +86,7 @@ class TransactionsControllerTest {
         when(transactionService.getAllTransactionsBefore(to, userId)).thenReturn(transactions);
 
         mockMvc.perform(get("/by-time")
-                        .param("to", "12:00:00 03.04.2025")
+                        .param("to", "2025-04-03T12:00:00")
                         .header(X_USER_ID, userId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()").value(1));
@@ -109,7 +109,7 @@ class TransactionsControllerTest {
         when(transactionService.getAllTransactionsAfter(from, userId)).thenReturn(transactions);
 
         mockMvc.perform(get("/by-time")
-                        .param("from", "12:00:00 03.04.2025")
+                        .param("from", "2025-04-03T12:00:00")
                         .header(X_USER_ID, userId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()").value(1));
@@ -133,8 +133,8 @@ class TransactionsControllerTest {
         when(transactionService.getAllTransactionsBetween(from, to, userId)).thenReturn(transactions);
 
         mockMvc.perform(get("/by-time")
-                        .param("from", "10:00:00 03.04.2025")
-                        .param("to", "12:00:00 03.04.2025")
+                        .param("from", "2025-04-03T10:00:00")
+                        .param("to", "2025-04-03T12:00:00")
                         .header(X_USER_ID, userId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()").value(1));
