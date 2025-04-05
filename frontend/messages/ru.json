@@ -56,9 +56,13 @@
         "history": "История",
         "transaction": {
           "date": "Дата",
+          "title": "Название",
+          "value": "Сумма",
+          "type": "Тип",
           "category": "Категория",
           "change": "Изменить",
-          "delete": "Удалить"
+          "delete": "Удалить",
+          "create": "Создать"
         }
       },
       "statistic": {

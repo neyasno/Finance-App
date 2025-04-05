@@ -55,10 +55,14 @@
         "create": "Create",
         "history": "History",
         "transaction": {
+          "title": "Title",
+          "value": "Value",
+          "type": "Type",
           "date": "Date",
           "category": "Category",
           "change": "Change",
-          "delete": "Delete"
+          "delete": "Delete",
+          "create": "Create"
         }
       },
       "statistic": {
