@@ -62,7 +62,9 @@ public class TransactionService {
             throw new IllegalArgumentException("Category id cannot be null");
         }
 
-        if (!categoryRepository.existsById(categoryId)) {
+        Optional<Category> category = categoryRepository.findById(categoryId);
+
+        if (category.isEmpty()) {
             throw new IllegalArgumentException("Category does not exist");
         }
 
@@ -71,6 +73,7 @@ public class TransactionService {
         transaction.setTitle(request.getTitle());
         transaction.setValue(request.getValue());
         transaction.setType(TransactionType.valueOf(request.getType().toUpperCase()));
+        transaction.setCategory(category.get());
         transaction.setTime(LocalDateTime.now());
 
         transaction = transactionRepository.save(transaction);
