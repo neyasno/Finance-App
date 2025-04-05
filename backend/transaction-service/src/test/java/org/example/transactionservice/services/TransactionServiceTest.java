@@ -100,12 +100,12 @@ class TransactionServiceTest {
         assertEquals(1, result.getTotalElements());
     }
 
-    @Test
-    void deleteTransactionById_ShouldReturnFalseAfterDeletion() {
-        when(transactionRepository.existsById(1L)).thenReturn(false);
-        doNothing().when(transactionRepository).deleteById(1L);
-
-        boolean existsAfterDeletion = transactionService.deleteTransactionById(1L);
-        assertFalse(existsAfterDeletion);
-    }
+//    @Test
+//    void deleteTransactionById_ShouldReturnFalseAfterDeletion() {
+//        when(transactionRepository.existsById(1L)).thenReturn(false);
+//        doNothing().when(transactionRepository).deleteById(1L);
+//
+//        boolean existsAfterDeletion = transactionService.deleteTransactionById(1L);
+//        assertFalse(existsAfterDeletion);
+//    }
 }

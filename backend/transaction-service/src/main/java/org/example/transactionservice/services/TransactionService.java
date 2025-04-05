@@ -106,9 +106,8 @@ public class TransactionService {
         return transactionRepository.findAllByCategoryId(categoryId);
     }
 
-    public boolean deleteTransactionById(Long transactionId) {
+    public void deleteTransactionById(Long transactionId) {
         transactionRepository.deleteById(transactionId);
-        return transactionRepository.existsById(transactionId);
     }
 
     private LocalDateTime fixTimeZone(LocalDateTime localDateTime) {
