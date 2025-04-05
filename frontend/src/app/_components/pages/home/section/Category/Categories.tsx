@@ -6,9 +6,12 @@ import fetchApi from '@/utils/fetchApi';
 import { EApi } from '@/enums';
 import Loading from '@/app/_components/common/Loading';
 import { useAppDispatch, useAppSelector } from '@/store/store';
-import { setCategoriesActuality } from '@/store/slices/dataActualitySlice';
+import {
+  setCategoriesActuality,
+  setUserCategories,
+} from '@/store/slices/dataActualitySlice';
 
-type RCategory = {
+export type RCategory = {
   id: number;
   title: string;
   dayIncome: number;
@@ -40,6 +43,8 @@ export default function Categories() {
       } catch (err) {
         console.log(err);
       } finally {
+        dispatch(setUserCategories(categories));
+
         dispatch(setCategoriesActuality(true));
 
         setLoading(false);

@@ -1,3 +1,4 @@
+import { RCategory } from '@/app/_components/pages/home/section/Category/Categories';
 import { createSlice } from '@reduxjs/toolkit';
 
 type DataActuality = {
@@ -8,6 +9,7 @@ type DataActuality = {
   currentTransaction: number;
   currentConstraint: number;
   currentCategory: number;
+  userCategories: RCategory[];
 };
 
 const initialState: DataActuality = {
@@ -18,6 +20,7 @@ const initialState: DataActuality = {
   currentTransaction: NaN,
   currentConstraint: NaN,
   currentCategory: NaN,
+  userCategories: [],
 };
 
 const dataActualitySlice = createSlice({
@@ -39,6 +42,9 @@ const dataActualitySlice = createSlice({
     setCurrentCategory: (state, action) => {
       state.currentCategory = action.payload;
     },
+    setUserCategories: (state, action) => {
+      state.userCategories = action.payload;
+    },
   },
 });
 
@@ -48,5 +54,6 @@ export const {
   setConstrainstActuality,
   setTransactionActuality,
   setCurrentCategory,
+  setUserCategories,
 } = dataActualitySlice.actions;
 export default dataActualitySlice.reducer;
