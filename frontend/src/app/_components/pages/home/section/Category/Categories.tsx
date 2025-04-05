@@ -25,9 +25,10 @@ export default function Categories() {
   const t = useTranslations('home.content.categories');
   const [categories, setCategories] = useState<RCategory[]>([]);
   const [isLoading, setLoading] = useState(false);
+  const [sorting, setSorting] = useState<'income' | 'outcome'>('income');
 
-  const isCategoriesActual = useAppSelector(
-    (state) => state.dataActuality.isCategoriesActual
+  const { isCategoriesActual, isTransactionsActual } = useAppSelector(
+    (state) => state.dataActuality
   );
   const dispatch = useAppDispatch();
 
@@ -38,6 +39,8 @@ export default function Categories() {
 
         const res: RCategory[] = await fetchApi(EApi.CATEGORIES, 'GET');
         console.log(res);
+
+        res.sort((a, b) => b.monthIncome - a.monthIncome);
 
         setCategories(res);
       } catch (err) {
@@ -52,17 +55,33 @@ export default function Categories() {
     };
 
     getCategoriesReq();
-  }, [isCategoriesActual, dispatch]);
+  }, [isCategoriesActual, isTransactionsActual, dispatch]);
+
+  useEffect(() => {
+    const sortedCategories = [...categories].sort((a, b) =>
+      sorting === 'income'
+        ? b.monthIncome - a.monthIncome
+        : b.monthOutcome - a.monthOutcome
+    );
+
+    setCategories(sortedCategories);
+  }, [sorting]);
 
   return (
     <div className="flex flex-col gap-4">
       <div className="flex gap-4 text-sm">
         <p className="text-gray_d dark:text-gray_l">{t('sort_by') + ':'}</p>
-        <button className="flex gap-1 border-b-1 border-black dark:border-white">
+        <button
+          className={`flex gap-1 border-black dark:border-white  ${sorting === 'income' && 'border-b-1'}`}
+          onClick={() => setSorting('income')}
+        >
           <p>{t('income')}</p>
           <div className={'size-2 border-t-1 border-r-1 border-green'}></div>
         </button>
-        <button className="flex gap-1">
+        <button
+          className={`flex gap-1 border-black dark:border-white  ${sorting === 'outcome' && 'border-b-1'}`}
+          onClick={() => setSorting('outcome')}
+        >
           <p>{t('outcome')}</p>
           <div className={'size-2 border-t-1 border-r-1 border-red'}></div>
         </button>

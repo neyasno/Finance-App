@@ -1,56 +1,65 @@
-import React from 'react';
-import Transaction, { TransactionProps } from './Transaction';
+'use client';
 
-const transactions: TransactionProps[] = [
-  {
-    id: 1,
-    category: 'food',
-    time: '20.03.2025',
-    title: 'Lunch Burger',
-    type: 'income',
-    value: 12000,
-  },
-  {
-    id: 1,
-    category: 'food',
-    time: '20.03.2025',
-    title: 'Lunch Burger',
-    type: 'outcome',
-    value: 2000,
-  },
-  {
-    id: 1,
-    category: 'food',
-    time: '20.03.2025',
-    title: 'Lunch Burger',
-    type: 'outcome',
-    value: 2000,
-  },
-  {
-    id: 1,
-    category: 'food',
-    time: '20.03.2025',
-    title: 'Lunch Burger',
-    type: 'outcome',
-    value: 2000,
-  },
-];
+import React, { useEffect, useState } from 'react';
+import Transaction, { TransactionProps } from './Transaction';
+import fetchApi from '@/utils/fetchApi';
+import { EApi } from '@/enums';
+import Loading from '@/app/_components/common/Loading';
+import { useAppDispatch, useAppSelector } from '@/store/store';
+import { setTransactionActuality } from '@/store/slices/dataActualitySlice';
 
 export default function TransactionContainer() {
+  const dispatch = useAppDispatch();
+  const { isTransactionsActual } = useAppSelector(
+    (state) => state.dataActuality
+  );
+  const [transactions, setTransactions] = React.useState<TransactionProps[]>(
+    []
+  );
+  const [isLoading, setLoading] = useState(false);
+
+  const fetchTransactions = async () => {
+    try {
+      setLoading(true);
+
+      const res = await fetchApi(EApi.TRANSACTIONS + '?page=0', 'GET');
+
+      console.log(res.content);
+
+      setTransactions(res.content);
+
+      dispatch(setTransactionActuality(true));
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchTransactions();
+  }, [isTransactionsActual]);
+
   return (
     <ul className="flex flex-col gap-2">
-      {transactions.map((t, index) => (
-        <li key={index}>
-          <Transaction
-            id={t.id}
-            category={t.category}
-            time={t.time}
-            title={t.title}
-            type={t.type}
-            value={t.value}
-          />
-        </li>
-      ))}
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <>
+          {transactions.map((t, index) => (
+            <li key={index}>
+              <Transaction
+                categoryId={t.categoryId}
+                id={t.id}
+                time={t.time}
+                title={t.title}
+                type={t.type}
+                value={t.value}
+              />
+            </li>
+          ))}
+        </>
+      )}
     </ul>
   );
 }

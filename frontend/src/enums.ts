@@ -6,6 +6,7 @@ export enum EApi {
   VERIFICATION = USERS + '/verification',
   REGISTRATION = USERS + '/registration',
 
+  TRANSACTIONS = DEFAULT + '/transactions',
   CATEGORIES = DEFAULT + '/transactions/categories',
 }
 

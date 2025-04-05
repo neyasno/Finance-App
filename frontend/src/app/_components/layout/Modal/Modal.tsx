@@ -6,7 +6,7 @@ import React from 'react';
 import ModalLayout from './ModalLayout';
 import ChangeConstraintForm from './modals/constraints/ChangeConstraintForm';
 import CreateConstraintForm from './modals/constraints/CreateConstraintForm';
-import CreateTransantionForm from './modals/transactions/CreateTransantionForm';
+import CreateTransantionForm from './modals/transactions/CreateTransactionForm';
 import DeleteSuggestion from './modals/suggestions/DeleteSuggestion';
 import ChangeTransactionForm from './modals/transactions/ChangeTransactionForm';
 import ExitSuggestion from './modals/suggestions/ExitSuggestion';
