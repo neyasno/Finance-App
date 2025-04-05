@@ -80,7 +80,7 @@ public class TransactionsController {
 
     @GetMapping
     public ResponseEntity<Page<Transaction>> getAllTransactionsPaginated(
-            @RequestParam(name = "page", defaultValue = "1", required = false) Integer pageNumber,
+            @RequestParam(name = "page", defaultValue = "0", required = false) Integer pageNumber,
             @RequestParam(name = "size", defaultValue = "10", required = false) Integer pageSize,
             @RequestHeader(X_USER_ID) Long userId
     ) {
