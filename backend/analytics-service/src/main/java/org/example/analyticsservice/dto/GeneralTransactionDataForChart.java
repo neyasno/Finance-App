@@ -7,9 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TransactionDataForChart {
+public class GeneralTransactionDataForChart {
 
-    private String title;
-    private Double value;
-
+    private String name;
+    private Double income;
+    private Double outcome;
 }
+

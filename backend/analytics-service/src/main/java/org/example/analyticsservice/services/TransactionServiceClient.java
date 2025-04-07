@@ -15,10 +15,13 @@ import java.util.List;
 @FeignClient(name = "transaction-service")
 public interface TransactionServiceClient {
 
+    @GetMapping("/all")
+    @Headers("X-User-Id: {userId}")
+    ResponseEntity<List<TransactionDTO>> getAllTransactions(@Param("userId") Long userId);
+
     @GetMapping("/by-time")
     @Headers("X-User-Id: {userId}")
-    ResponseEntity<List<TransactionDTO>> getTransactionsByTime(
-            @RequestParam(required = false) @DateTimeFormat LocalDateTime from,
-            @RequestParam(required = false) @DateTimeFormat LocalDateTime to,
-            @Param("userId") Long userId);
+    ResponseEntity<List<TransactionDTO>> getAllTransactionsBetween(@Param("userId") Long userId,
+                                                                   @RequestParam(name = "from") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime from,
+                                                                   @RequestParam(name = "to") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime to);
 }
