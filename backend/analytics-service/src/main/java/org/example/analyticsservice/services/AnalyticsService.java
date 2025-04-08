@@ -3,6 +3,8 @@ package org.example.analyticsservice.services;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.analyticsservice.dto.IncomeTransactionDataForChart;
+import org.example.analyticsservice.dto.OutcomeTransactionDataForChart;
 import org.example.analyticsservice.dto.TransactionDTO;
 import org.example.analyticsservice.dto.GeneralTransactionDataForChart;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +32,8 @@ public class AnalyticsService {
                 throw new RuntimeException(response.getStatusCode().toString());
             }
 
-            if (!response.hasBody() || response.getBody() == null || response.getBody().isEmpty()) {
+            if (!response.hasBody() || response.getBody() == null) {
+                log.error("NO TRANSACTIONS FOUND IN RESPONSE FROM TRANSACTION SERVICE: {}", response.getStatusCode());
                 throw new RuntimeException("No transactions found");
             }
 
@@ -55,6 +58,78 @@ public class AnalyticsService {
             throw new RuntimeException(exception);
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public IncomeTransactionDataForChart getIncomeTransactionDataForLast24Hours(Long userId){
+        try{
+            LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+            LocalDateTime yesterday = now.minusDays(1);
+
+            ResponseEntity<List<TransactionDTO>> response = transactionService.getAllTransactionsBetween(userId, yesterday, now);
+
+            if(!response.hasBody() || response.getBody() == null){
+                log.error("NO TRANSACTIONS FOUND IN RESPONSE FROM TRANSACTION SERVICE: {}", response.getStatusCode());
+                throw new RuntimeException("No transactions found");
+            }
+
+            List<TransactionDTO> transactionDTOS = response.getBody();
+
+            String title = now.toLocalDate().toString();
+            Double income = 0.0;
+
+            for(var transaction : transactionDTOS){
+                if(!transaction.getType().equalsIgnoreCase("income")){
+                    continue;
+                }
+
+                income += transaction.getValue();
+            }
+
+            return new IncomeTransactionDataForChart(title, income);
+
+
+
+
+        }catch(FeignException e){
+            log.error("TRANSACTION_SERVICE_ERROR: {}", e.getMessage());
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public OutcomeTransactionDataForChart getOutcomeTransactionDataForLast24Hours(Long userId){
+        try{
+            LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+            LocalDateTime yesterday = now.minusDays(1);
+
+            ResponseEntity<List<TransactionDTO>> response = transactionService.getAllTransactionsBetween(userId, yesterday, now);
+
+            if(!response.hasBody() || response.getBody() == null){
+                log.error("NO TRANSACTIONS FOUND IN RESPONSE FROM TRANSACTION SERVICE: {}", response.getStatusCode());
+                throw new RuntimeException("No transactions found");
+            }
+
+            List<TransactionDTO> transactionDTOS = response.getBody();
+
+            String title = now.toLocalDate().toString();
+            Double outcome = 0.0;
+
+            for(var transaction : transactionDTOS){
+                if(!transaction.getType().equalsIgnoreCase("outcome")){
+                    continue;
+                }
+
+                outcome -= transaction.getValue();
+            }
+
+            return new OutcomeTransactionDataForChart(title, outcome);
+
+
+
+
+        }catch(FeignException e){
+            log.error("TRANSACTION_SERVICE_ERROR: {}", e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
     }
 }
