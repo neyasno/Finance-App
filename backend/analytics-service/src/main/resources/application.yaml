@@ -42,3 +42,4 @@ logging:
   level:
     web: debug
     sql: debug
+debug: true
