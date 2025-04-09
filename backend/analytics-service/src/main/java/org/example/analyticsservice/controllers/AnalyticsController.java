@@ -27,7 +27,7 @@ public class AnalyticsController {
             @RequestHeader("X-User-Id") Long userId
     ) {
         try{
-            Period period = Period.valueOf(periodValue);
+            Period period = Period.valueOf(periodValue.toUpperCase());
 
             if(period == Period.DAY){
                 return ResponseEntity.ok(List.of(analyticsService.getGeneralTransactionDataForLast24Hours(userId)));
