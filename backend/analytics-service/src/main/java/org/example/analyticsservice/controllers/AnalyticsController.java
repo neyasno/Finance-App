@@ -32,6 +32,9 @@ public class AnalyticsController {
             if(period == Period.DAY){
                 return ResponseEntity.ok(List.of(analyticsService.getGeneralTransactionDataForLast24Hours(userId)));
             }
+            else if(period == Period.MONTH){
+                return ResponseEntity.ok(analyticsService.getGeneralTransactionDataForLastMonth(userId));
+            }
 
         } catch (IllegalArgumentException e) {
             log.error("STRING CAST TO PERIOD FAILED: {}", e.getMessage());

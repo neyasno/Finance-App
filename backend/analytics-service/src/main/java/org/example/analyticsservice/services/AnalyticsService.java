@@ -1,6 +1,8 @@
 package org.example.analyticsservice.services;
 
 import feign.FeignException;
+import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.analyticsservice.dto.IncomeTransactionDataForChart;
@@ -9,10 +11,16 @@ import org.example.analyticsservice.dto.TransactionDTO;
 import org.example.analyticsservice.dto.GeneralTransactionDataForChart;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import reactor.util.function.Tuple3;
+import reactor.util.function.Tuples;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -61,75 +69,84 @@ public class AnalyticsService {
         }
     }
 
-    public IncomeTransactionDataForChart getIncomeTransactionDataForLast24Hours(Long userId){
-        try{
-            LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
-            LocalDateTime yesterday = now.minusDays(1);
+    public IncomeTransactionDataForChart getIncomeTransactionDataForLast24Hours(Long userId) {
+        GeneralTransactionDataForChart generalData = getGeneralTransactionDataForLast24Hours(userId);
 
-            ResponseEntity<List<TransactionDTO>> response = transactionService.getAllTransactionsBetween(userId, yesterday, now);
+        return new IncomeTransactionDataForChart(generalData.getName(), generalData.getIncome());
+    }
 
-            if(!response.hasBody() || response.getBody() == null){
+    public OutcomeTransactionDataForChart getOutcomeTransactionDataForLast24Hours(Long userId) {
+        GeneralTransactionDataForChart generalData = getGeneralTransactionDataForLast24Hours(userId);
+
+        return new OutcomeTransactionDataForChart(generalData.getName(), generalData.getOutcome());
+    }
+
+    public List<GeneralTransactionDataForChart> getGeneralTransactionDataForLastMonth(Long userId) {
+        try {
+            LocalDateTime today = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+            LocalDateTime yesterday = today.minusMonths(1);
+
+            ResponseEntity<List<TransactionDTO>> response = transactionService.getAllTransactionsBetween(userId, yesterday, today);
+
+            if (!response.getStatusCode().is2xxSuccessful()) {
+                throw new RuntimeException(response.getStatusCode().toString());
+            }
+
+            if (!response.hasBody() || response.getBody() == null) {
                 log.error("NO TRANSACTIONS FOUND IN RESPONSE FROM TRANSACTION SERVICE: {}", response.getStatusCode());
                 throw new RuntimeException("No transactions found");
             }
 
-            List<TransactionDTO> transactionDTOS = response.getBody();
+            List<TransactionDTO> transactions = response.getBody();
 
-            String title = now.toLocalDate().toString();
-            Double income = 0.0;
+            Map<LocalDate, double[]> dailySums = transactions.stream()
+                    .collect(Collectors.groupingBy(
+                            tx -> tx.getTime().toLocalDate(),
+                            Collectors.reducing(
+                                    new double[2], // [0] — income, [1] — outcome
+                                    tx -> {
+                                        double[] result = new double[2];
+                                        if ("income".equalsIgnoreCase(tx.getType())) {
+                                            result[0] = tx.getValue();
+                                        } else if ("outcome".equalsIgnoreCase(tx.getType())) {
+                                            result[1] = -tx.getValue();
+                                        }
+                                        return result;
+                                    },
+                                    (a, b) -> new double[]{a[0] + b[0], a[1] + b[1]}
+                            )
+                    ));
 
-            for(var transaction : transactionDTOS){
-                if(!transaction.getType().equalsIgnoreCase("income")){
-                    continue;
-                }
+            List<GeneralTransactionDataForChart> result = dailySums.entrySet().stream()
+                    .map(entry -> new GeneralTransactionDataForChart(
+                            String.valueOf(entry.getKey().getDayOfMonth()),
+                            entry.getValue()[0],
+                            entry.getValue()[1]
+                    ))
+                    .toList();
 
-                income += transaction.getValue();
-            }
-
-            return new IncomeTransactionDataForChart(title, income);
-
-
-
-
-        }catch(FeignException e){
-            log.error("TRANSACTION_SERVICE_ERROR: {}", e.getMessage());
-            throw new RuntimeException(e.getMessage());
+            return result;
+        } catch (FeignException exception) {
+            log.error("TRANSACTION_SERVICE_ERROR: {}", exception.getMessage());
+            throw new RuntimeException(exception);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public OutcomeTransactionDataForChart getOutcomeTransactionDataForLast24Hours(Long userId){
-        try{
-            LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
-            LocalDateTime yesterday = now.minusDays(1);
+    public List<IncomeTransactionDataForChart> getIncomeTransactionDataForLastMonth(Long userId) {
+        List<GeneralTransactionDataForChart> data = getGeneralTransactionDataForLastMonth(userId);
 
-            ResponseEntity<List<TransactionDTO>> response = transactionService.getAllTransactionsBetween(userId, yesterday, now);
+        return data.stream()
+                .map(t -> new IncomeTransactionDataForChart(t.getName(), t.getIncome()))
+                .toList();
+    }
 
-            if(!response.hasBody() || response.getBody() == null){
-                log.error("NO TRANSACTIONS FOUND IN RESPONSE FROM TRANSACTION SERVICE: {}", response.getStatusCode());
-                throw new RuntimeException("No transactions found");
-            }
+    public List<OutcomeTransactionDataForChart> getOutcomeTransactionDataForLastMonth(Long userId) {
+        List<GeneralTransactionDataForChart> data = getGeneralTransactionDataForLastMonth(userId);
 
-            List<TransactionDTO> transactionDTOS = response.getBody();
-
-            String title = now.toLocalDate().toString();
-            Double outcome = 0.0;
-
-            for(var transaction : transactionDTOS){
-                if(!transaction.getType().equalsIgnoreCase("outcome")){
-                    continue;
-                }
-
-                outcome -= transaction.getValue();
-            }
-
-            return new OutcomeTransactionDataForChart(title, outcome);
-
-
-
-
-        }catch(FeignException e){
-            log.error("TRANSACTION_SERVICE_ERROR: {}", e.getMessage());
-            throw new RuntimeException(e.getMessage());
-        }
+        return data.stream()
+                .map(t -> new OutcomeTransactionDataForChart(t.getName(), t.getOutcome()))
+                .toList();
     }
 }
