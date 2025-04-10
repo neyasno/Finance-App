@@ -13,11 +13,21 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 @Component
 @Slf4j
 public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAuthenticationFilter.Config> {
     private static final String USER_ID_HEADER = "X-User-Id";
+
+    private static final List<String> EXCLUDED_PATHS = List.of(
+            "/v3/api-docs",
+            "/swagger-ui.html",
+            "/swagger-ui/"
+    );
 
     private final AuthServiceClient authServiceClient;
 
@@ -30,6 +40,16 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
     public GatewayFilter apply(Config config) {
         return (exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
+
+            String path = request.getPath().value();
+
+            log.info("Request path: {}", path);
+
+            if(EXCLUDED_PATHS.stream().anyMatch(path::startsWith)){
+                log.info("Excluding path: {}", path);
+                return chain.filter(exchange);
+            }
+
             if (!request.getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
                return failedAuthorizationResponse(exchange, new RuntimeException("Authorization header missing"));
             }
