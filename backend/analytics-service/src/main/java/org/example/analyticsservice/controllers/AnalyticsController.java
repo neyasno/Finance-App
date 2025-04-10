@@ -1,5 +1,9 @@
 package org.example.analyticsservice.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.analyticsservice.dto.GeneralTransactionDataForChart;
@@ -21,38 +25,119 @@ public class AnalyticsController {
 
     private final AnalyticsService analyticsService;
 
+    @Operation(summary = "Get All Transactions Data of user for period of time",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Found transactions", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = GeneralTransactionDataForChart.class))}),
+                    @ApiResponse(responseCode = "400", description = "Invalid period", content = @Content),
+                    @ApiResponse(responseCode = "500", description = "Internal Error", content = @Content),
+
+            }
+    )
     @GetMapping("/general")
     public ResponseEntity<List<GeneralTransactionDataForChart>> getAllTransactions(
             @RequestParam(required = false, defaultValue = "day", name = "period") String periodValue,
             @RequestHeader("X-User-Id") Long userId
     ) {
-        try{
+        try {
             Period period = Period.valueOf(periodValue.toUpperCase());
 
-            if(period == Period.DAY){
+            if (period == Period.DAY) {
                 return ResponseEntity.ok(List.of(analyticsService.getGeneralTransactionDataForLast24Hours(userId)));
-            }
-            else if(period == Period.MONTH){
+            } else if (period == Period.MONTH) {
                 return ResponseEntity.ok(analyticsService.getGeneralTransactionDataForLastMonth(userId));
+            } else if (period == Period.YEAR) {
+                return ResponseEntity.ok(analyticsService.getGeneralTransactionDataForLastYear(userId));
             }
+//            else if(period == Period.ALL){
+//                return ResponseEntity.ok(analyticsService.getGeneralTransactionDataForAllTime(userId));
+//            }
 
         } catch (IllegalArgumentException e) {
             log.error("STRING CAST TO PERIOD FAILED: {}", e.getMessage());
             return ResponseEntity.badRequest().build();
         } catch (Exception e) {
-            log.error( e.getMessage());
+            log.error(e.getMessage());
             return ResponseEntity.badRequest().build();
         }
 
         return ResponseEntity.badRequest().build(); // TODO: complete
     }
 
-//    @GetMapping("/income")
-//    public ResponseEntity<List<IncomeTransactionDataForChart>> getIncomeTransactions(@RequestHeader("X-User-Id") Long userId) {
-//    }
-//
-//    @GetMapping("/outcome")
-//    public ResponseEntity<List<OutcomeTransactionDataForChart>> getOutcomeTransactions(@RequestHeader("X-User-Id") Long userId) {
-//    }
+    @Operation(summary = "Get Income Transactions Data of user for period of time",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Found transactions", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = GeneralTransactionDataForChart.class))}),
+                    @ApiResponse(responseCode = "400", description = "Invalid period", content = @Content),
+                    @ApiResponse(responseCode = "500", description = "Internal Error", content = @Content),
+
+            }
+    )
+    @GetMapping("/income")
+    public ResponseEntity<List<IncomeTransactionDataForChart>> getIncomeTransactions(
+            @RequestParam(required = false, defaultValue = "day", name = "period") String periodValue,
+            @RequestHeader("X-User-Id") Long userId
+    ) {
+        try {
+            Period period = Period.valueOf(periodValue.toUpperCase());
+
+            if (period == Period.DAY) {
+                return ResponseEntity.ok(List.of(analyticsService.getIncomeTransactionDataForLast24Hours(userId)));
+            } else if (period == Period.MONTH) {
+                return ResponseEntity.ok(analyticsService.getIncomeTransactionDataForLastMonth(userId));
+            } else if (period == Period.YEAR) {
+                return ResponseEntity.ok(analyticsService.getIncomeTransactionDataForLastYear(userId));
+            }
+//            else if(period == Period.ALL){
+//                return ResponseEntity.ok(analyticsService.getGeneralTransactionDataForAllTime(userId));
+//            }
+
+        } catch (IllegalArgumentException e) {
+            log.error("STRING CAST TO PERIOD FAILED: {}", e.getMessage());
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
+
+        return ResponseEntity.badRequest().build(); // TODO: complete
+    }
+
+    @Operation(summary = "Get Outcome Transactions Data of user for period of time",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Found transactions", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = GeneralTransactionDataForChart.class))}),
+                    @ApiResponse(responseCode = "400", description = "Invalid period", content = @Content),
+                    @ApiResponse(responseCode = "500", description = "Internal Error", content = @Content),
+
+            }
+    )
+    @GetMapping("/outcome")
+    public ResponseEntity<List<OutcomeTransactionDataForChart>> getOutcomeTransactions(
+            @RequestParam(required = false, defaultValue = "day", name = "period") String periodValue,
+            @RequestHeader("X-User-Id") Long userId
+    ) {
+        try {
+            Period period = Period.valueOf(periodValue.toUpperCase());
+
+            if (period == Period.DAY) {
+                return ResponseEntity.ok(List.of(analyticsService.getOutcomeTransactionDataForLast24Hours(userId)));
+            } else if (period == Period.MONTH) {
+                return ResponseEntity.ok(analyticsService.getOutcomeTransactionDataForLastMonth(userId));
+            } else if (period == Period.YEAR) {
+                return ResponseEntity.ok(analyticsService.getOutcomeTransactionDataForLastYear(userId));
+            }
+//            else if(period == Period.ALL){
+//                return ResponseEntity.ok(analyticsService.getGeneralTransactionDataForAllTime(userId));
+//            }
+
+        } catch (IllegalArgumentException e) {
+            log.error("STRING CAST TO PERIOD FAILED: {}", e.getMessage());
+            return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.badRequest().build();
+        }
+
+        return ResponseEntity.badRequest().build(); // TODO: complete
+    }
+
 }
 

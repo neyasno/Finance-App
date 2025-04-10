@@ -16,30 +16,29 @@ spring:
           predicates:
             - Path=/api/users/**
           filters:
-            - JwtAuthenticationFilter
             - StripPrefix=2
+            - JwtAuthenticationFilter
         - id: transaction-service
           uri: lb://transaction-service
           predicates:
             - Path=/api/transactions/**
           filters:
-            - JwtAuthenticationFilter
             - StripPrefix=2
+            - JwtAuthenticationFilter
         - id: constraint-service
           uri: lb://constraint-service
           predicates:
             - Path=/api/constraints/**
           filters:
-            - JwtAuthenticationFilter
             - StripPrefix=2
+            - JwtAuthenticationFilter
         - id: analytics-service
           uri: lb://analytics-service
           predicates:
             - Path=/api/analytics/**
           filters:
-            - JwtAuthenticationFilter
             - StripPrefix=2
-
+            - JwtAuthenticationFilter
       discovery:
         locator:
           enabled: false
@@ -62,3 +61,33 @@ eureka:
     #    fetch-registry: true
     service-url:
       defaultZone: http://${SPRING_EUREKA_DEFAULT_ZONE:localhost}:8761/eureka/
+
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    config-url: /v3/api-docs/swagger-config
+    urls:
+      - name: gateway-service
+        url: /v3/api-docs
+
+      - name: user-service
+        url: /api/users/v3/api-docs
+
+      - name: transaction-service
+        url: /api/transactions/v3/api-docs
+
+      - name: constraint-service
+        url: /api/constraints/v3/api-docs
+
+      - name: analytics-service
+        url: /api/analytics/v3/api-docs
+
+      - name: notification-service
+        url: /api/notifications/v3/api-docs
+
+      - name: auth-service
+        url: /api/auth/v3/api-docs
