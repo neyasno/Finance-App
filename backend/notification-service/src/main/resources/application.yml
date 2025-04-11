@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: notification-service
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://${SPRING_EUREKA_DEFAULT_ZONE:localhost}:8761/eureka/
+
+server:
+  port: 8007
+
+logging:
+  level:
+    web: debug
+debug: true
