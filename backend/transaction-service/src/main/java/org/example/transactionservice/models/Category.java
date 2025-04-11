@@ -39,9 +39,9 @@ public class Category{
     @Transient
     private Double monthOutcome;
 
-//    @Transient
-//    private Double yearIncome;
-//
-//    @Transient
-//    private Double yearOutcome;
+    @Transient
+    private Double yearIncome;
+
+    @Transient
+    private Double yearOutcome;
 }

@@ -40,7 +40,7 @@ class TransactionServiceTest {
 
     @BeforeEach
     void setUp() {
-        category = new Category(1L, "Test Category", null, 0.0, 0.0, 0.0, 0.0);
+        category = new Category(1L, 1L, "Test Category", null, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
         transaction = Transaction.builder()
                 .id(1L)
                 .userId(1L)

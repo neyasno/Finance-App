@@ -58,7 +58,7 @@ class CategoryControllerTest {
     @Test
     void getAllCategories_ShouldReturnCategories() throws Exception {
         when(categoryService.getAllCategories(1L)).thenReturn(List.of(category));
-        mockMvc.perform(get("/categories"))
+        mockMvc.perform(get("/categories").header("X-User-Id", "1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].title").value("Test Category"));
     }
@@ -66,7 +66,7 @@ class CategoryControllerTest {
     @Test
     void getCategoryById_ShouldReturnCategory_WhenExists() throws Exception {
         when(categoryService.getCategoryById(1L, 1L)).thenReturn(category);
-        mockMvc.perform(get("/categories/1"))
+        mockMvc.perform(get("/categories/1").header("X-User-Id", "1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.title").value("Test Category"));
@@ -76,6 +76,7 @@ class CategoryControllerTest {
     void createCategory_ShouldReturnCreatedCategory() throws Exception {
         when(categoryService.saveCategory(any(Category.class))).thenReturn(category);
         mockMvc.perform(post("/categories")
+                        .header("X-User-Id", "1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(category)))
                 .andExpect(status().isOk())
@@ -91,6 +92,7 @@ class CategoryControllerTest {
         when(categoryService.getCategoryById(1L, 1L)).thenReturn(category);
         when(categoryService.saveCategory(any(Category.class))).thenReturn(category);
         mockMvc.perform(put("/categories/1")
+                        .header("X-User-Id", "1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(categoryJson))
                 .andExpect(status().isOk())
@@ -100,7 +102,7 @@ class CategoryControllerTest {
     @Test
     void deleteCategoryById_ShouldReturnNoContent() throws Exception {
         doNothing().when(categoryService).deleteCategoryById(1L, 1L);
-        mockMvc.perform(delete("/categories/1"))
+        mockMvc.perform(delete("/categories/1").header("X-User-Id", "1"))
                 .andExpect(status().isNoContent());
     }
 }

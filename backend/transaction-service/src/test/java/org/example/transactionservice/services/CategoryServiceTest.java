@@ -47,7 +47,7 @@ class CategoryServiceTest {
 
     @Test
     void getAllCategories_ShouldReturnCategories() {
-        when(categoryRepository.findAll()).thenReturn(List.of(category));
+        when(categoryRepository.findAllByUserId(1L)).thenReturn(List.of(category));
         List<Category> categories = categoryService.getAllCategories(1L);
         assertFalse(categories.isEmpty());
         assertEquals(1, categories.size());
@@ -56,7 +56,7 @@ class CategoryServiceTest {
 
     @Test
     void getCategoryById_ShouldReturnCategory_WhenExists() {
-        when(categoryRepository.findById(1L)).thenReturn(Optional.of(category));
+        when(categoryRepository.findByIdAndUserId(1L, 1L)).thenReturn(Optional.of(category));
         Category foundCategory = categoryService.getCategoryById(1L, 1L);
         assertNotNull(foundCategory);
         assertEquals(1L, foundCategory.getId());
@@ -64,16 +64,16 @@ class CategoryServiceTest {
 
     @Test
     void getCategoryById_ShouldThrowException_WhenNotFound() {
-        when(categoryRepository.findById(1L)).thenReturn(Optional.empty());
+        when(categoryRepository.findByIdAndUserId(1L, 1L)).thenReturn(Optional.empty());
         Exception exception = assertThrows(RuntimeException.class, () -> categoryService.getCategoryById(1L, 1L));
         assertEquals("Category not found", exception.getMessage());
     }
 
     @Test
     void deleteCategoryById_ShouldCallRepository() {
-        doNothing().when(categoryRepository).deleteById(1L);
+        doNothing().when(categoryRepository).deleteByIdAndUserId(1L, 1L);
         categoryService.deleteCategoryById(1L, 1L);
-        verify(categoryRepository, times(1)).deleteById(1L);
+        verify(categoryRepository, times(1)).deleteByIdAndUserId(1L, 1L);
     }
 
     @Test

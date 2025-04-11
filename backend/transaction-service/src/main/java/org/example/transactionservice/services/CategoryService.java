@@ -57,11 +57,14 @@ public class CategoryService {
 
         LocalDate today = LocalDate.now();
         YearMonth currentMonth = YearMonth.from(today);
+        Year currentYear = Year.from(today);
 
         log.info("Current day: {}", today);
         log.info("Current month: {}", currentMonth);
 
-        double dayIncome = 0.0, dayOutcome = 0.0, monthIncome = 0.0, monthOutcome = 0.0;
+        double dayIncome = 0.0, dayOutcome = 0.0,
+                monthIncome = 0.0, monthOutcome = 0.0,
+                yearIncome = 0.0, yearOutcome = 0.0;
 
         for (Transaction transaction : transactions) {
             LocalDate transactionDate = transaction.getTime().toLocalDate();
@@ -83,6 +86,14 @@ public class CategoryService {
                     monthOutcome += transaction.getValue();
                 }
             }
+
+            if (Year.from(transactionDate).equals(currentYear)) {
+                if (transaction.getType() == TransactionType.INCOME) {
+                    yearIncome += transaction.getValue();
+                } else if (transaction.getType() == TransactionType.OUTCOME) {
+                    yearOutcome += transaction.getValue();
+                }
+            }
         }
 
         log.info("Data:\n\tday income: {}\n\tday outcome: {}\n\tmonth income{}\n\tmonth outcome{}\n", dayIncome, dayOutcome, monthIncome, monthOutcome);
@@ -91,5 +102,7 @@ public class CategoryService {
         category.setDayOutcome(dayOutcome);
         category.setMonthIncome(monthIncome);
         category.setMonthOutcome(monthOutcome);
+        category.setYearIncome(yearIncome);
+        category.setYearOutcome(yearOutcome);
     }
 }
