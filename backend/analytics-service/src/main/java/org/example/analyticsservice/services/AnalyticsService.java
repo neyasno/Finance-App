@@ -11,15 +11,12 @@ import org.example.analyticsservice.dto.TransactionDTO;
 import org.example.analyticsservice.dto.GeneralTransactionDataForChart;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import reactor.util.function.Tuple3;
-import reactor.util.function.Tuples;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.format.TextStyle;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -86,10 +83,10 @@ public class AnalyticsService {
 
     public List<GeneralTransactionDataForChart> getGeneralTransactionDataForLastMonth(Long userId) {
         try {
-            LocalDateTime today = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
-            LocalDateTime yesterday = today.minusMonths(1);
+            LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+            LocalDateTime thirtyDaysAgo = now.minusDays(30);
 
-            ResponseEntity<List<TransactionDTO>> response = transactionService.getAllTransactionsBetween(userId, yesterday, today);
+            ResponseEntity<List<TransactionDTO>> response = transactionService.getAllTransactionsBetween(userId, thirtyDaysAgo, now);
 
             if (!response.getStatusCode().is2xxSuccessful()) {
                 throw new RuntimeException(response.getStatusCode().toString());
@@ -106,7 +103,7 @@ public class AnalyticsService {
                     .collect(Collectors.groupingBy(
                             tx -> tx.getTime().toLocalDate(),
                             Collectors.reducing(
-                                    new double[2], // [0] — income, [1] — outcome
+                                    new double[2],
                                     tx -> {
                                         double[] result = new double[2];
                                         if ("income".equalsIgnoreCase(tx.getType())) {
@@ -120,7 +117,15 @@ public class AnalyticsService {
                             )
                     ));
 
+            LocalDate startDate = thirtyDaysAgo.toLocalDate();
+            LocalDate endDate = now.toLocalDate();
+
+            for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
+                dailySums.putIfAbsent(date, new double[]{0.0, 0.0});
+            }
+
             List<GeneralTransactionDataForChart> result = dailySums.entrySet().stream()
+                    .sorted(Map.Entry.comparingByKey())
                     .map(entry -> new GeneralTransactionDataForChart(
                             String.valueOf(entry.getKey().getDayOfMonth()),
                             entry.getValue()[0],
@@ -136,7 +141,6 @@ public class AnalyticsService {
             throw new RuntimeException(e);
         }
     }
-
     public List<IncomeTransactionDataForChart> getIncomeTransactionDataForLastMonth(Long userId) {
         List<GeneralTransactionDataForChart> data = getGeneralTransactionDataForLastMonth(userId);
 
