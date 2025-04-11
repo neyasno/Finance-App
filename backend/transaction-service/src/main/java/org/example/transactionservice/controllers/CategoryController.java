@@ -18,14 +18,15 @@ import java.util.List;
 public class CategoryController {
 
     private final CategoryService categoryService;
-    private final TransactionService transactionService;
 
     @GetMapping
-    public ResponseEntity<List<Category>> getAllCategories() {
+    public ResponseEntity<List<Category>> getAllCategories(
+            @RequestHeader("X-User-Id") Long userId
+    ) {
         List<Category> categories;
 
         try {
-            categories = categoryService.getAllCategories();
+            categories = categoryService.getAllCategories(userId);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
@@ -34,18 +35,24 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
+    public ResponseEntity<Category> getCategoryById(
+            @PathVariable Long id,
+            @RequestHeader("X-User-Id") Long userId
+    ) {
         try {
-            return ResponseEntity.ok(categoryService.getCategoryById(id));
+            return ResponseEntity.ok(categoryService.getCategoryById(id, userId));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
     @PostMapping
-    public ResponseEntity<Category> createCategory(@RequestBody @Valid SaveCategoryRequest request) {
+    public ResponseEntity<Category> createCategory(
+            @RequestBody @Valid SaveCategoryRequest request,
+            @RequestHeader("X-User-Id") Long userId
+    ) {
         try {
-            Category newCategory = Category.builder().title(request.getTitle()).build();
+            Category newCategory = Category.builder().title(request.getTitle()).userId(userId).build();
             return ResponseEntity.ok(categoryService.saveCategory(newCategory));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
@@ -53,9 +60,13 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Category> updateCategory(@PathVariable Long id, @RequestBody @Valid SaveCategoryRequest request) {
+    public ResponseEntity<Category> updateCategory(
+            @PathVariable Long id,
+            @RequestBody @Valid SaveCategoryRequest request,
+            @RequestHeader("X-User-Id") Long userId
+    ) {
         try {
-            Category category = categoryService.getCategoryById(id);
+            Category category = categoryService.getCategoryById(id, userId);
             category.setTitle(request.getTitle());
             return ResponseEntity.ok(categoryService.saveCategory(category));
         } catch (Exception e) {
@@ -64,9 +75,12 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCategoryById(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteCategoryById(
+            @PathVariable Long id,
+            @RequestHeader("X-User-Id") Long userId
+    ) {
         try {
-            categoryService.deleteCategoryById(id);
+            categoryService.deleteCategoryById(id, userId);
             return ResponseEntity.noContent().build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);

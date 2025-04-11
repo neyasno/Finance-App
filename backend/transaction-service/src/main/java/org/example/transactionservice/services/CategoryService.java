@@ -9,6 +9,7 @@ import org.example.transactionservice.repositories.CategoryRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.Year;
 import java.time.YearMonth;
 import java.util.List;
 import java.util.Set;
@@ -20,22 +21,22 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
 
-    public List<Category> getAllCategories() {
-        List<Category> categories = categoryRepository.findAll();
+    public List<Category> getAllCategories(Long userId) {
+        List<Category> categories = categoryRepository.findAllByUserId(userId);
         fillTransactionsData(categories);
 
         return categories;
     }
 
-    public Category getCategoryById(Long id) {
-        Category category = categoryRepository.findById(id).orElseThrow(() -> new RuntimeException("Category not found"));
+    public Category getCategoryById(Long id, Long userId) {
+        Category category = categoryRepository.findByIdAndUserId(id, userId).orElseThrow(() -> new RuntimeException("Category not found"));
         fillTransactionData(category);
 
         return category;
     }
 
-    public void deleteCategoryById(Long id) {
-        categoryRepository.deleteById(id);
+    public void deleteCategoryById(Long id, Long userId) {
+        categoryRepository.deleteByIdAndUserId(id, userId);
     }
 
     public Category saveCategory(Category category) {
