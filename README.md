@@ -214,11 +214,11 @@
 
 - Notification Service 
     1. Send Email Notification for password change 
-        > POST /api/notifications/email/password-change
+        > POST /api/notifications/password-change
     2. Send Email Notification about budget limit 
-        > POST /api/notifications/email/budget-limit  
+        > POST /api/notifications/budget-limit  
     3. Send Push Notification for budget limit 
-        > POST /api/notifications/email/budget-limit  
+        > POST /api/notifications/budget-limit  
      4. Send WebSocket Notification  
         > WS /api/notifications/ws
 
