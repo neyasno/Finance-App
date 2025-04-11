@@ -10,6 +10,7 @@ import org.example.analyticsservice.dto.GeneralTransactionDataForChart;
 import org.example.analyticsservice.dto.IncomeTransactionDataForChart;
 import org.example.analyticsservice.dto.OutcomeTransactionDataForChart;
 import org.example.analyticsservice.services.AnalyticsService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -27,9 +28,10 @@ public class AnalyticsController {
 
     @Operation(summary = "Get All Transactions Data of user for period of time",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Found transactions", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = GeneralTransactionDataForChart.class))}),
-                    @ApiResponse(responseCode = "400", description = "Invalid period", content = @Content),
+                    @ApiResponse(responseCode = "200", description = "Data found", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = GeneralTransactionDataForChart.class))}),
+                    @ApiResponse(responseCode = "400", description = "Invalid Period name", content = @Content),
                     @ApiResponse(responseCode = "500", description = "Internal Error", content = @Content),
+                    @ApiResponse(responseCode = "501", description = "Not Implemented", content = @Content),
 
             }
     )
@@ -47,10 +49,9 @@ public class AnalyticsController {
                 return ResponseEntity.ok(analyticsService.getGeneralTransactionDataForLastMonth(userId));
             } else if (period == Period.YEAR) {
                 return ResponseEntity.ok(analyticsService.getGeneralTransactionDataForLastYear(userId));
+            }else{
+                return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
             }
-//            else if(period == Period.ALL){
-//                return ResponseEntity.ok(analyticsService.getGeneralTransactionDataForAllTime(userId));
-//            }
 
         } catch (IllegalArgumentException e) {
             log.error("STRING CAST TO PERIOD FAILED: {}", e.getMessage());
@@ -59,15 +60,14 @@ public class AnalyticsController {
             log.error(e.getMessage());
             return ResponseEntity.badRequest().build();
         }
-
-        return ResponseEntity.badRequest().build(); // TODO: complete
     }
 
-    @Operation(summary = "Get Income Transactions Data of user for period of time",
+    @Operation(summary = "Get All Transactions Data of user for period of time",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Found transactions", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = GeneralTransactionDataForChart.class))}),
-                    @ApiResponse(responseCode = "400", description = "Invalid period", content = @Content),
+                    @ApiResponse(responseCode = "200", description = "Data found", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = GeneralTransactionDataForChart.class))}),
+                    @ApiResponse(responseCode = "400", description = "Invalid Period name", content = @Content),
                     @ApiResponse(responseCode = "500", description = "Internal Error", content = @Content),
+                    @ApiResponse(responseCode = "501", description = "Not Implemented", content = @Content),
 
             }
     )
@@ -85,10 +85,9 @@ public class AnalyticsController {
                 return ResponseEntity.ok(analyticsService.getIncomeTransactionDataForLastMonth(userId));
             } else if (period == Period.YEAR) {
                 return ResponseEntity.ok(analyticsService.getIncomeTransactionDataForLastYear(userId));
+            }else{
+                return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
             }
-//            else if(period == Period.ALL){
-//                return ResponseEntity.ok(analyticsService.getGeneralTransactionDataForAllTime(userId));
-//            }
 
         } catch (IllegalArgumentException e) {
             log.error("STRING CAST TO PERIOD FAILED: {}", e.getMessage());
@@ -97,15 +96,14 @@ public class AnalyticsController {
             log.error(e.getMessage());
             return ResponseEntity.badRequest().build();
         }
-
-        return ResponseEntity.badRequest().build(); // TODO: complete
     }
 
-    @Operation(summary = "Get Outcome Transactions Data of user for period of time",
+    @Operation(summary = "Get All Transactions Data of user for period of time",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Found transactions", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = GeneralTransactionDataForChart.class))}),
-                    @ApiResponse(responseCode = "400", description = "Invalid period", content = @Content),
+                    @ApiResponse(responseCode = "200", description = "Data found", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = GeneralTransactionDataForChart.class))}),
+                    @ApiResponse(responseCode = "400", description = "Invalid Period name", content = @Content),
                     @ApiResponse(responseCode = "500", description = "Internal Error", content = @Content),
+                    @ApiResponse(responseCode = "501", description = "Not Implemented", content = @Content),
 
             }
     )
@@ -123,10 +121,9 @@ public class AnalyticsController {
                 return ResponseEntity.ok(analyticsService.getOutcomeTransactionDataForLastMonth(userId));
             } else if (period == Period.YEAR) {
                 return ResponseEntity.ok(analyticsService.getOutcomeTransactionDataForLastYear(userId));
+            } else{
+                return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
             }
-//            else if(period == Period.ALL){
-//                return ResponseEntity.ok(analyticsService.getGeneralTransactionDataForAllTime(userId));
-//            }
 
         } catch (IllegalArgumentException e) {
             log.error("STRING CAST TO PERIOD FAILED: {}", e.getMessage());
@@ -135,9 +132,6 @@ public class AnalyticsController {
             log.error(e.getMessage());
             return ResponseEntity.badRequest().build();
         }
-
-        return ResponseEntity.badRequest().build(); // TODO: complete
     }
-
 }
 
