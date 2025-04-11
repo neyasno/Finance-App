@@ -81,7 +81,7 @@ public class ConstraintController {
         }
     }
 
-    @GetMapping("/all")
+    @GetMapping("")
     public ResponseEntity<List<Constraint>> getAllConstraints(@RequestHeader(name = X_USER_ID) Long userId) {
         try {
             List<Constraint> data = constraintService.getAllConstraints(userId);
