@@ -6,18 +6,22 @@ networks:
 
 services:
   discovery-service:
-    build:
-      context: ./backend/discovery-service
-      dockerfile: ../docker/Dockerfile
+    image: discovery-service:latest
+#    build:
+#      context: ./backend/discovery-service
+#      dockerfile: ../docker/Dockerfile
+#    volumes:
+#      - gradle-cache:/root/.gradle
     networks:
       - internal_network
-    volumes:
-      - gradle-cache:/root/.gradle
 
   api-gateway-service:
-    build:
-      context: ./backend/api-gateway-service
-      dockerfile: ../docker/Dockerfile
+    image: api-gateway-service:latest
+#    build:
+#      context: ./backend/api-gateway-service
+#      dockerfile: ../docker/Dockerfile
+#    volumes:
+#      - gradle-cache:/root/.gradle
     networks:
       - internal_network
       - gateway_network
@@ -25,13 +29,14 @@ services:
       - "8080:8080"
     environment:
       - SPRING_EUREKA_DEFAULT_ZONE=discovery-service
-    volumes:
-      - gradle-cache:/root/.gradle
 
   auth-service:
-    build:
-      context: ./backend/auth-service
-      dockerfile: ../docker/Dockerfile
+    image: auth-service:latest
+#    build:
+#      context: ./backend/auth-service
+#      dockerfile: ../docker/Dockerfile
+#    volumes:
+#      - gradle-cache:/root/.gradle
     networks:
       - internal_network
     depends_on:
@@ -39,13 +44,15 @@ services:
       - user-service
     environment:
       - SPRING_EUREKA_DEFAULT_ZONE=discovery-service
-    volumes:
-      - gradle-cache:/root/.gradle
+
 
   user-service:
-    build:
-      context: ./backend/user-service
-      dockerfile: ../docker/Dockerfile
+    image: user-service:latest
+#    build:
+#      context: ./backend/user-service
+#      dockerfile: ../docker/Dockerfile
+#    volumes:
+#      - gradle-cache:/root/.gradle
     networks:
       - internal_network
     depends_on:
@@ -57,13 +64,15 @@ services:
       - POSTGRES_DB_PASSWORD=aboba
       - POSTGRES_DB_HOST=postgres_db
       - POSTGRES_DB_PORT=5432
-    volumes:
-      - gradle-cache:/root/.gradle
+
 
   transaction-service:
-    build:
-      context: ./backend/transaction-service
-      dockerfile: ../docker/Dockerfile
+    image: transaction-service:latest
+#    build:
+#      context: ./backend/transaction-service
+#      dockerfile: ../docker/Dockerfile
+#    volumes:
+#      - gradle-cache:/root/.gradle
     networks:
       - internal_network
     depends_on:
@@ -77,13 +86,15 @@ services:
       - POSTGRES_DB_PASSWORD=aboba
       - POSTGRES_DB_HOST=postgres_db
       - POSTGRES_DB_PORT=5432
-    volumes:
-      - gradle-cache:/root/.gradle
+
 
   constraint-service:
-    build:
-      context: ./backend/constraint-service
-      dockerfile: ../docker/Dockerfile
+    image: constraint-service:latest
+#    build:
+#      context: ./backend/constraint-service
+#      dockerfile: ../docker/Dockerfile
+#    volumes:
+#      - gradle-cache:/root/.gradle
     networks:
       - internal_network
     depends_on:
@@ -96,13 +107,15 @@ services:
       - POSTGRES_DB_PASSWORD=aboba
       - POSTGRES_DB_HOST=postgres_db
       - POSTGRES_DB_PORT=5432
-    volumes:
-      - gradle-cache:/root/.gradle
+
 
   analytics-service:
-    build:
-      context: ./backend/analytics-service
-      dockerfile: ../docker/Dockerfile
+    image: analytics-service:latest
+#    build:
+#      context: ./backend/analytics-service
+#      dockerfile: ../docker/Dockerfile
+#    volumes:
+#      - gradle-cache:/root/.gradle
     networks:
       - internal_network
     depends_on:
@@ -110,8 +123,21 @@ services:
       - kafka
     environment:
       - SPRING_EUREKA_DEFAULT_ZONE=discovery-service
-    volumes:
-      - gradle-cache:/root/.gradle
+
+  notification-service:
+    image: notification-service:latest
+    #    build:
+    #      context: ./backend/analytics-service
+    #      dockerfile: ../docker/Dockerfile
+    #    volumes:
+    #      - gradle-cache:/root/.gradle
+    networks:
+      - internal_network
+    depends_on:
+      - discovery-service
+      - kafka
+    environment:
+      - SPRING_EUREKA_DEFAULT_ZONE=discovery-service
 
   postgres_db:
     image: postgres:13.15-alpine
