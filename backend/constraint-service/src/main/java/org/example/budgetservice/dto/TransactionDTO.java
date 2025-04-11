@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 public class TransactionDTO {
     private Long id;
     private Long userId;
+    private Long categoryId;
 
     private String title;
     private String type;

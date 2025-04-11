@@ -5,6 +5,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -21,4 +22,10 @@ public interface TransactionServiceClient {
     ResponseEntity<List<TransactionDTO>> getAllTransactionsBetween(@RequestHeader("X-User-Id") Long userId,
                                                                    @RequestParam(name = "from") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime from,
                                                                    @RequestParam(name = "to") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime to);
+
+    @GetMapping("/by-category/{categoryId}")
+    ResponseEntity<List<TransactionDTO>> getTransactionsByCategory(
+            @RequestHeader("X-User-Id") Long userId,
+            @PathVariable Long categoryId
+    );
 }

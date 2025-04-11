@@ -43,6 +43,7 @@ class ConstraintServiceTest {
                 .value(500.0)
                 .timeToExpire(LocalDateTime.now().plusDays(30))
                 .userId(1L)
+                .categoryId(1L)
                 .available(0.0)
                 .build();
     }
@@ -83,10 +84,10 @@ class ConstraintServiceTest {
 
     @Test
     void getConstraint_ShouldReturnConstraint() {
-        when(constraintRepository.findById(1L)).thenReturn(Optional.of(constraint));
+        when(constraintRepository.findByIdAndUserId(1L, 1L)).thenReturn(Optional.of(constraint));
         when(transactionServiceClient.getAllTransactionsBetween(eq(1L), any(), any())).thenReturn(ResponseEntity.ok(Collections.emptyList()));
 
-        Constraint foundConstraint = constraintService.getConstraint(1L);
+        Constraint foundConstraint = constraintService.getConstraint(1L, 1L);
 
         assertNotNull(foundConstraint);
         assertEquals(1L, foundConstraint.getId());
@@ -95,8 +96,8 @@ class ConstraintServiceTest {
 
     @Test
     void getConstraint_ShouldThrowException_WhenNotFound() {
-        when(constraintRepository.findById(1L)).thenReturn(Optional.empty());
-        assertThrows(ConstraintNotFoundException.class, () -> constraintService.getConstraint(1L));
+        when(constraintRepository.findByIdAndUserId(1L, 1L)).thenReturn(Optional.empty());
+        assertThrows(ConstraintNotFoundException.class, () -> constraintService.getConstraint(1L, 1L));
     }
 
     @Test
@@ -106,10 +107,10 @@ class ConstraintServiceTest {
                 new TransactionDTO(2L, 1L, "Rent", "outcome", 50.0, LocalDateTime.now())
         );
 
-        when(constraintRepository.findById(1L)).thenReturn(Optional.of(constraint));
+        when(constraintRepository.findByIdAndUserId(1L, 1L)).thenReturn(Optional.of(constraint));
         when(transactionServiceClient.getAllTransactionsBetween(eq(1L), any(), any())).thenReturn(ResponseEntity.ok(transactions));
 
-        Constraint foundConstraint = constraintService.getConstraint(1L);
+        Constraint foundConstraint = constraintService.getConstraint(1L, 1L);
 
         assertNotNull(foundConstraint);
         assertEquals(1L, foundConstraint.getId());
@@ -117,21 +118,13 @@ class ConstraintServiceTest {
     }
 
     @Test
-    void deleteConstraint_ShouldReturnTrue_WhenDeleted() {
-        when(constraintRepository.findById(1L)).thenReturn(Optional.of(constraint));
-        doNothing().when(constraintRepository).delete(constraint);
-
-        boolean deleted = constraintService.deleteConstraint(1L);
-        assertTrue(deleted);
+    void deleteConstraint_ShouldCallRepositoryMethod() {
+        doNothing().when(constraintRepository).deleteByIdAndUserId(1L, 1L);
+        constraintService.deleteConstraint(1L, 1L);
+        verify(constraintRepository, times(1)).deleteByIdAndUserId(1L, 1L);
     }
 
-    @Test
-    void deleteConstraint_ShouldReturnFalse_WhenNotFound() {
-        when(constraintRepository.findById(1L)).thenReturn(Optional.empty());
 
-        boolean deleted = constraintService.deleteConstraint(1L);
-        assertFalse(deleted);
-    }
 
     @Test
     void getAllConstraints_ShouldReturnConstraintsWithAvailableValues() {
@@ -148,7 +141,7 @@ class ConstraintServiceTest {
 
         assertNotNull(result);
         assertEquals(1, result.size());
-        assertEquals(500.0 + 200.0 - 50.0, result.get(0).getAvailable()); // Value + income - outcome
+        assertEquals(500.0 + 200.0 - 50.0, result.getFirst().getAvailable()); // Value + income - outcome
     }
 
     @Test

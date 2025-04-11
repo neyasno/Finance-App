@@ -14,4 +14,6 @@ public class CreateConstraintRequest {
     @NotNull
     @DateTimeFormat
     private LocalDateTime expirationTime;
+
+    private Long categoryId;
 }

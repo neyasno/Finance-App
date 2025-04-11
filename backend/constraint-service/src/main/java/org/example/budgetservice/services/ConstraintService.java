@@ -36,23 +36,16 @@ public class ConstraintService {
     public Constraint createConstraint(Constraint constraint) {
         Constraint createdConstraint = constraintRepository.save(constraint);
         fillConstraintData(createdConstraint);
+
         return createdConstraint;
     }
 
-    public Boolean deleteConstraint(Long id) {
-        Constraint constraint = constraintRepository.findById(id).orElse(null);
-
-        if (constraint == null) {
-            return false;
-        }
-
-        constraintRepository.delete(constraint);
-
-        return true;
+    public void deleteConstraint(Long id, Long userId) {
+        constraintRepository.deleteByIdAndUserId(id, userId);
     }
 
-    public Constraint getConstraint(Long id) {
-        Constraint constraint = constraintRepository.findById(id).orElseThrow(() -> new ConstraintNotFoundException("Constraint not found"));
+    public Constraint getConstraint(Long id, Long userId) {
+        Constraint constraint = constraintRepository.findByIdAndUserId(id, userId).orElseThrow(() -> new ConstraintNotFoundException("Constraint not found"));
         fillConstraintData(constraint);
 
         return constraint;
@@ -65,23 +58,47 @@ public class ConstraintService {
         return result;
     }
 
+    public List<Constraint> getConstraintsByCategory(Long categoryId, Long userId) {
+        List<Constraint> constraints = constraintRepository.findAllByUserIdAndCategoryId(userId, categoryId);
+        constraints.forEach(this::fillConstraintData);
+
+        return constraints;
+    }
+
     private void fillConstraintData(Constraint constraint) {
         try {
             ResponseEntity<List<TransactionDTO>> response = transactionServiceClient.getAllTransactionsBetween(constraint.getUserId(), constraint.getTimeCreated(), constraint.getTimeToExpire());
 
-            if (!response.hasBody()) {
+            if (!response.hasBody() || response.getBody().isEmpty()) {
                 constraint.setAvailable(constraint.getValue());
                 return;
             }
 
             List<TransactionDTO> transactions = response.getBody();
 
-            Double sum = transactions != null ? transactions.stream().map(transaction -> (transaction.getType().equalsIgnoreCase("income") ? 1 : -1) * transaction.getValue()).reduce(Double::sum).orElse(0.0) : 0.0;
+            if(constraint.getCategoryId() != null) {
 
-            constraint.setAvailable(constraint.getValue() + sum);
+                log.debug("Category Id: {} for constraint : {}", constraint.getCategoryId(), constraint);
+
+                transactions = transactions.stream().filter(transaction -> transaction.getCategoryId().equals(constraint.getCategoryId())).toList();
+            }
+
+            fillConstraintData(constraint, transactions);
+
         } catch (Exception e) {
             log.error("ERROR DURING: <fillConstraintData>: {}", e.getMessage());
             throw new RuntimeException("Error while filling constraint", e);
         }
+    }
+
+    private void fillConstraintData(Constraint constraint, List<TransactionDTO> transactions) {
+        Double sum = transactions != null ?
+                transactions.stream()
+                        .map(transaction -> (transaction.getType().equalsIgnoreCase("income") ? 1 : -1) * transaction.getValue())
+                        .reduce(Double::sum)
+                        .orElse(0.0)
+                : 0.0;
+
+        constraint.setAvailable(constraint.getValue() + sum);
     }
 }

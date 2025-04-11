@@ -15,4 +15,6 @@ public class UpdateConstraintRequest {
 
     @DateTimeFormat(pattern = "HH:mm:ss dd.MM.yyyy")
     private LocalDateTime time;
+
+    private Long categoryId;
 }

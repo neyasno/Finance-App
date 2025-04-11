@@ -50,18 +50,18 @@ class ConstraintControllerTest {
 
     @Test
     void getConstraint_ShouldReturnConstraint() throws Exception {
-        when(constraintService.getConstraint(1L)).thenReturn(constraint);
+        when(constraintService.getConstraint(1L, 1L)).thenReturn(constraint);
 
-        mockMvc.perform(get("/1"))
+        mockMvc.perform(get("/1").header("X-User-Id", "1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1L));
     }
 
     @Test
     void getConstraint_ShouldReturnNotFound_WhenConstraintNotFound() throws Exception {
-        when(constraintService.getConstraint(1L)).thenThrow(new ConstraintNotFoundException("Constraint not found"));
+        when(constraintService.getConstraint(1L, 1L)).thenThrow(new ConstraintNotFoundException("Constraint not found"));
 
-        mockMvc.perform(get("/1"))
+        mockMvc.perform(get("/1").header("X-User-Id", "1"))
                 .andExpect(status().isNotFound());
     }
 
@@ -79,10 +79,11 @@ class ConstraintControllerTest {
 
     @Test
     void updateConstraint_ShouldReturnUpdatedConstraint() throws Exception {
-        when(constraintService.getConstraint(1L)).thenReturn(constraint);
+        when(constraintService.getConstraint(1L, 1L)).thenReturn(constraint);
         when(constraintService.updateConstraint(any(Constraint.class))).thenReturn(constraint);
 
         mockMvc.perform(put("/1")
+                        .header("X-User-Id", "1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"value\": 600.0, \"time\": \"2025-12-31T23:59:59\"}"))
                 .andExpect(status().isOk())
@@ -91,11 +92,10 @@ class ConstraintControllerTest {
 
     @Test
     void deleteConstraint_ShouldReturnOk_WhenDeleted() throws Exception {
-        when(constraintService.getConstraint(1L)).thenReturn(constraint);
-        when(constraintService.deleteConstraint(1L)).thenReturn(true);
+        doNothing().when(constraintService).deleteConstraint(1L, 1L);
 
-        mockMvc.perform(delete("/1"))
-                .andExpect(status().isOk());
+        mockMvc.perform(delete("/1").header("X-User-Id", "1"))
+                .andExpect(status().isNoContent());
     }
 
     @Test
@@ -103,7 +103,7 @@ class ConstraintControllerTest {
         List<Constraint> constraints = List.of(constraint);
         when(constraintService.getAllConstraints(1L)).thenReturn(constraints);
 
-        mockMvc.perform(get("/all").header("X-User-Id", 1L))
+        mockMvc.perform(get("/").header("X-User-Id", 1L))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(1L));
     }

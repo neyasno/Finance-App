@@ -23,6 +23,9 @@ public class Constraint {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column
+    private Long categoryId;
+
     @Column(nullable = false)
     private Double value;
 
