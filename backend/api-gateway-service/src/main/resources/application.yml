@@ -39,6 +39,13 @@ spring:
           filters:
             - StripPrefix=2
             - JwtAuthenticationFilter
+        - id: notification-service
+          uri: lb://notification-service
+          predicates:
+            - Path=/api/notifications/**
+          filters:
+            - StripPrefix=2
+            - JwtAuthenticationFilter
       discovery:
         locator:
           enabled: false
