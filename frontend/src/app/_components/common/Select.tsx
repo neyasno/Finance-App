@@ -13,7 +13,7 @@ type SelectProps = {
   className?: string;
 };
 
-export default function Select({
+function Select({
   value,
   onChange,
   options,
@@ -40,3 +40,5 @@ export default function Select({
     </select>
   );
 }
+
+export default React.memo(Select);

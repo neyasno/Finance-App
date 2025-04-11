@@ -2,16 +2,16 @@
 
 import Select from '@/app/_components/common/Select';
 import { useAppSelector } from '@/store/store';
-import React, { useCallback } from 'react';
+import { useTranslations } from 'next-intl';
 
-function CategorySelector({
+export default function ConstraintCategorySelector({
   value,
   setValue,
 }: {
   value: string;
   setValue: (value: string) => void;
 }) {
-  const memoizedSetValue = useCallback(setValue, [setValue]);
+  const t = useTranslations('home.content.transactions');
 
   const categories = useAppSelector(
     (state) => state.dataActuality.userCategories
@@ -21,7 +21,14 @@ function CategorySelector({
     label: category.title,
   }));
 
-  return <Select value={value} onChange={memoizedSetValue} options={options} />;
-}
+  options.push({
+    value: '0',
+    label: t('all'),
+  });
 
-export default React.memo(CategorySelector);
+  console.log('options:::');
+
+  console.log(options);
+
+  return <Select value={value} onChange={setValue} options={options} />;
+}

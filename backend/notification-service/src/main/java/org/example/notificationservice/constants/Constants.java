@@ -1,6 +1,15 @@
 package org.example.notificationservice.constants;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Constants {
+    //TODO: ЗДЕСЬ НУЖНО ОПРЕДЕЛИТЬ НАШ ЭМЕЙЛ
+    public static final String APP_EMAIL = "EMAIL";
+    public static final String PASSWORD_NOTIFICATION_HEADER = "Password change";
+    public static final List<LinkAttachment> ESTABLISHED_URLS = Arrays.asList(
+            new LinkAttachment("Visit out site: ", "SITE-URL"),
+            new LinkAttachment("Technical support: ", "SUPPORT-URL"));
     private Constants(){
 
     }
@@ -15,7 +24,7 @@ public class Constants {
         return template.getNotificationString();
     }
 
-    public static String getPasswordNotificationString(String username, String url, LinkAttachment... attachments) {
+    public static String getPasswordNotificationString(String username, String url, List<LinkAttachment> attachments) {
         PasswordNotificationTemplate template = new PasswordNotificationTemplate(username, url);
 
         for(LinkAttachment attachment: attachments) {
@@ -35,7 +44,7 @@ public class Constants {
         return template.getNotificationString();
     }
 
-    public static String getLimitNotificationString(String username, String constraintInfo, LinkAttachment... attachments) {
+    public static String getLimitNotificationString(String username, String constraintInfo, List<LinkAttachment> attachments) {
         LimitNotificationTemplate template = new LimitNotificationTemplate(username, constraintInfo);
 
         for(LinkAttachment attachment: attachments) {

@@ -14,6 +14,7 @@ export enum ModalType {
   CreateCategory,
   CategoryOverview,
   ChangeCategory,
+  ConstraintsOverview,
 }
 
 type ModalSlice = {
