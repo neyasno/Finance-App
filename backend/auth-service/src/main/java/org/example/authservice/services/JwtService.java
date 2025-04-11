@@ -17,8 +17,11 @@ public class JwtService {
 
     @Value("${security.secret-key}")
     private String SECRET_KEY = "";
+
+    @Value("${security.token-expiration-seconds}")
+    private Integer EXPIRATION;
+
     private static final String ISSUER = "auth-service";
-    private static final Integer EXPIRATION = 900; // 15 minutes
 
     public String generateToken(String userId) {
         try {
