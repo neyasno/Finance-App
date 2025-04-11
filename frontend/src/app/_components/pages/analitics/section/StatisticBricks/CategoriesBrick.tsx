@@ -1,7 +1,9 @@
 'use client';
 
+import { EApi } from '@/enums';
+import fetchApi from '@/utils/fetchApi';
 import { useTranslations } from 'next-intl';
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   BarChart,
   CartesianGrid,
@@ -11,54 +13,28 @@ import {
   Legend,
   Bar,
 } from 'recharts';
-
-const data = [
-  {
-    name: '1',
-    food: -4000,
-    transport: 2400,
-    work: 2400,
-  },
-  {
-    name: '2',
-    food: 3000,
-    transport: 1398,
-    work: 2210,
-  },
-  {
-    name: '3',
-    food: 2000,
-    transport: 9800,
-    work: 2290,
-  },
-  {
-    name: '4',
-    food: 2780,
-    transport: 3908,
-    work: 2000,
-  },
-  {
-    name: '5',
-    food: 1890,
-    transport: 4800,
-    work: 2181,
-  },
-  {
-    name: '6',
-    food: 2390,
-    transport: 3800,
-    work: 2500,
-  },
-  {
-    name: '7',
-    food: 3490,
-    transport: 4300,
-    work: 2100,
-  },
-];
+import { TPeriod } from './AllIncomeBrick';
+import Button from '@/app/_components/common/Button';
 
 export default function CategoriesBrick() {
+  const [period, setPeriod] = React.useState<TPeriod>('month');
+
+  const [categoriesData, setCategoriesData] = React.useState<[]>([]);
   const t = useTranslations('analitics.content');
+
+  const getCategoriesDataReq = async () => {
+    try {
+      const res = await fetchApi(EApi.ANALYTICS_CATEGORIES, 'GET');
+      console.log(res);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getCategoriesDataReq();
+  });
+
   return (
     <div className="flex flex-col gap-2">
       <h2 className="border-b-1 border-black dark:border-white py-5">
@@ -66,23 +42,45 @@ export default function CategoriesBrick() {
       </h2>
       <div className="flex gap-2">
         <div className="flex flex-col gap-2">
-          <p>
-            {t('most_income_category')} : {32131}
-          </p>
-          <p>
-            {t('most_outcome_category')} : {23131}
-          </p>
-          <p>
-            {t('less_income_category')} : {231}
-          </p>
-          <p>
-            {t('less_outcome_category')} : {3213}
-          </p>
+          <div className="flex flex-col gap-1 px-2">
+            <p>
+              {t('most_income_category')} : {32131}
+            </p>
+            <p>
+              {t('most_outcome_category')} : {23131}
+            </p>
+            <p>
+              {t('less_income_category')} : {231}
+            </p>
+            <p>
+              {t('less_outcome_category')} : {3213}
+            </p>
+          </div>
+          <div className="flex flex-col">
+            <Button
+              text={t('day')}
+              handleClick={() => {
+                setPeriod('day');
+              }}
+            />
+            <Button
+              text={t('month')}
+              handleClick={() => {
+                setPeriod('month');
+              }}
+            />
+            <Button
+              text={t('year')}
+              handleClick={() => {
+                setPeriod('year');
+              }}
+            />
+          </div>
         </div>
         <BarChart
           width={650}
           height={300}
-          data={data}
+          data={categoriesData}
           margin={{
             top: 20,
             right: 30,

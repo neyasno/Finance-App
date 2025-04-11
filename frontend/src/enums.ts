@@ -7,7 +7,13 @@ export enum EApi {
   REGISTRATION = USERS + '/registration',
 
   TRANSACTIONS = DEFAULT + '/transactions',
-  CATEGORIES = DEFAULT + '/transactions/categories',
+  CATEGORIES = TRANSACTIONS + '/categories',
+  CONSTRAINTS = DEFAULT + '/constraints',
+  ANALYTICS = DEFAULT + '/analytics',
+  ANALYTICS_GENERAL = ANALYTICS + '/general',
+  ANALYTICS_INCOME = ANALYTICS + '/income',
+  ANALYTICS_OUTCOME = ANALYTICS + '/outcome',
+  ANALYTICS_CATEGORIES = ANALYTICS + '/categories',
 }
 
 export enum ERoutes {

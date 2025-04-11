@@ -25,7 +25,7 @@ export default function Constraint() {
         <Button
           text={t('change')}
           handleClick={() => {
-            setModal(ModalType.CreateConstraint);
+            setModal(ModalType.ConstraintsOverview);
           }}
         />
       </div>

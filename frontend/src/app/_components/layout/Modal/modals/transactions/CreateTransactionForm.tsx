@@ -33,7 +33,7 @@ export default function CreateTransactionForm() {
       const res = await fetchApi(EApi.TRANSACTIONS, 'POST', newTransaction);
       console.log(res);
 
-      dispatch(setTransactionActuality(true));
+      dispatch(setTransactionActuality(false));
 
       setModal(ModalType.None);
     } catch (err) {

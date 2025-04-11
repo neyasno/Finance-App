@@ -54,6 +54,7 @@
       "transactions": {
         "create": "Create",
         "history": "History",
+        "all": "All",
         "transaction": {
           "title": "Title",
           "value": "Value",

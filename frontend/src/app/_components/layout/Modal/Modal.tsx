@@ -14,6 +14,7 @@ import TransactionOverview from './modals/TransactionOverview/TransactionOvervie
 import CreateCategoryForm from './modals/categories/CreateCategoryForm';
 import CategoryOverview from './modals/CategoryOverview/CategoryOverview';
 import ChangeCategoryForm from './modals/categories/ChangeCategoryForm';
+import ConstraintsOverwiev from './modals/ConstraintsOverview/ConstraintsOverwiev';
 
 export default function Modal() {
   const state = useAppSelector((state) => state.modal);
@@ -106,6 +107,14 @@ export default function Modal() {
       return (
         <ModalLayout contentWidth="w-96">
           <ChangeCategoryForm />
+        </ModalLayout>
+      );
+    }
+
+    case ModalType.ConstraintsOverview: {
+      return (
+        <ModalLayout contentWidth="w-96">
+          <ConstraintsOverwiev />
         </ModalLayout>
       );
     }

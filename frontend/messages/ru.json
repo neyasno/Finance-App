@@ -54,6 +54,7 @@
       "transactions": {
         "create": "Создать",
         "history": "История",
+        "all": "Все",
         "transaction": {
           "date": "Дата",
           "title": "Название",
