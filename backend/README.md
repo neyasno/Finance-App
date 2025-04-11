@@ -24,7 +24,7 @@ docker-compose up --build -d
 
 ## Documentation in Swagger
 
-#### In progress...
+Swagger documentation on: [http://localhost:8080/swagger-ui.html]()
 
 # Services
 
@@ -48,12 +48,12 @@ The port of gateway is 8080.
 Request pattern:
 
 
-> POST http://localhost:8080/api/<service-enpoint>
+> POST http://localhost:8080/api/<service-endpoint>
 
 
 Example request:
 
-> POST http://localhost:8080/api/auth/sign-up/
+> POST http://localhost:8080/api/auth/registration
 
 
 ## Eureka Discovery Service
