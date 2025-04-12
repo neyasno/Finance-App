@@ -1,5 +1,6 @@
 'use client';
 
+import Button from '@/app/_components/common/Button';
 import { EApi } from '@/enums';
 import fetchApi from '@/utils/fetchApi';
 import { useTranslations } from 'next-intl';
@@ -25,24 +26,16 @@ export type TAnaliticUnit = {
   outcome: number;
 };
 
-type TAnaliticCircleUnit = {
-  name: string;
-  value: number;
-};
-
 export default function GeneralBrick() {
   const t = useTranslations('analitics.content');
 
   const [generalData, setGeneralData] = React.useState<TAnaliticUnit[]>([]);
-  const [circleData, setCircleData] = React.useState<TAnaliticCircleUnit[]>([]);
-  const [budget, setBudget] = React.useState<number>(0);
-  const [income, setIncome] = React.useState<number>(0);
-  const [outcome, setOutcome] = React.useState<number>(0);
+  const [period, setPeriod] = React.useState<'day' | 'month' | 'year'>('month');
 
   const getGeneralDataReq = async () => {
     try {
       const res: TAnaliticUnit[] = await fetchApi(
-        EApi.ANALYTICS_GENERAL + '?period=month',
+        EApi.ANALYTICS_GENERAL + '?period=' + period,
         'GET'
       );
       console.log(res);
@@ -63,29 +56,25 @@ export default function GeneralBrick() {
         {t('general')}
       </h2>
       <div className="flex flex-row gap-2 pt-2">
-        <div className="flex flex-col gap-2">
-          <p>
-            {t('budget')} : {budget}
-          </p>
-          <p>
-            {t('income')} : {income}
-          </p>
-          <p>
-            {t('outcome')} : {outcome}
-          </p>
-          <PieChart width={200} height={200}>
-            <Pie
-              data={circleData}
-              cx="50%"
-              cy="50%"
-              outerRadius={80}
-              fill="#8884d8"
-              dataKey="value"
-            >
-              <Cell fill="rgba(40,170,40)" />
-              <Cell fill="rgba(170,50,50)" />
-            </Pie>
-          </PieChart>
+        <div className="flex flex-col gap-2 w-1/4">
+          <Button
+            text={t('day')}
+            handleClick={() => {
+              setPeriod('day');
+            }}
+          />
+          <Button
+            text={t('month')}
+            handleClick={() => {
+              setPeriod('month');
+            }}
+          />
+          <Button
+            text={t('year')}
+            handleClick={() => {
+              setPeriod('year');
+            }}
+          />
         </div>
         <BarChart
           width={600}
@@ -102,7 +91,12 @@ export default function GeneralBrick() {
           <XAxis dataKey="name" />
           <YAxis />
           <Tooltip />
-          <Legend verticalAlign="top" wrapperStyle={{ lineHeight: '40px' }} />
+          <Legend
+            verticalAlign="top"
+            align="left"
+            width={260}
+            wrapperStyle={{ lineHeight: '40px' }}
+          />
           <ReferenceLine y={0} stroke="#000" />
           <Brush dataKey="name" height={30} stroke="#8884d8" />
           <Bar dataKey="income" fill="rgba(40,170,40)" />

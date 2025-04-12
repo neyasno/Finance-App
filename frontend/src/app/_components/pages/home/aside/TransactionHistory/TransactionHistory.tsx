@@ -57,7 +57,7 @@ export default function TransactionHistory() {
   }, [isTransactionsActual, page]);
 
   return (
-    <div className="flex flex-col gap-2 w-64">
+    <div className="flex flex-col gap-2 w-full">
       <div className="flex justify-between">
         <p>{t('history')}</p>
         <div className={`flex gap-2 ${totalPages <= 1 && 'hidden'}`}>

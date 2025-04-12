@@ -19,16 +19,24 @@ import Button from '@/app/_components/common/Button';
 export default function CategoriesBrick() {
   const [period, setPeriod] = React.useState<TPeriod>('month');
 
-  const [categoriesData, setCategoriesData] = React.useState<[]>([]);
+  const [categoriesData] = React.useState<[]>([]);
   const t = useTranslations('analitics.content');
 
   const getCategoriesDataReq = async () => {
     try {
-      const res = await fetchApi(EApi.ANALYTICS_CATEGORIES, 'GET');
+      const res = await fetchApi(
+        EApi.ANALYTICS_CATEGORIES + `?period=${period}`,
+        'GET'
+      );
       console.log(res);
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const getRandomColor = () => {
+    const color = Math.floor(0x1000000 * Math.random()).toString(16);
+    return '#' + ('000000' + color).slice(-6);
   };
 
   useEffect(() => {
@@ -41,41 +49,25 @@ export default function CategoriesBrick() {
         {t('categories')}
       </h2>
       <div className="flex gap-2">
-        <div className="flex flex-col gap-2">
-          <div className="flex flex-col gap-1 px-2">
-            <p>
-              {t('most_income_category')} : {32131}
-            </p>
-            <p>
-              {t('most_outcome_category')} : {23131}
-            </p>
-            <p>
-              {t('less_income_category')} : {231}
-            </p>
-            <p>
-              {t('less_outcome_category')} : {3213}
-            </p>
-          </div>
-          <div className="flex flex-col">
-            <Button
-              text={t('day')}
-              handleClick={() => {
-                setPeriod('day');
-              }}
-            />
-            <Button
-              text={t('month')}
-              handleClick={() => {
-                setPeriod('month');
-              }}
-            />
-            <Button
-              text={t('year')}
-              handleClick={() => {
-                setPeriod('year');
-              }}
-            />
-          </div>
+        <div className="flex flex-col gap-2 w-1/4">
+          <Button
+            text={t('day')}
+            handleClick={() => {
+              setPeriod('day');
+            }}
+          />
+          <Button
+            text={t('month')}
+            handleClick={() => {
+              setPeriod('month');
+            }}
+          />
+          <Button
+            text={t('year')}
+            handleClick={() => {
+              setPeriod('year');
+            }}
+          />
         </div>
         <BarChart
           width={650}
@@ -92,10 +84,10 @@ export default function CategoriesBrick() {
           <XAxis dataKey="name" />
           <YAxis />
           <Tooltip />
-          <Legend />
-          <Bar dataKey="transport" stackId="a" fill="#8884d8" />
-          <Bar dataKey="work" stackId="a" fill="#82ca9d" />
-          <Bar dataKey="food" fill="#ffc658" />
+          <Legend align="left" verticalAlign="top" width={230} />
+          {categoriesData.map((item, index) => (
+            <Bar key={index} dataKey={item} fill={getRandomColor()} />
+          ))}
         </BarChart>
       </div>
     </div>

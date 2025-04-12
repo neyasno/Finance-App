@@ -6,7 +6,7 @@ import CategoriesBrick from './StatisticBricks/CategoriesBrick';
 
 export default function AnaliticsContent() {
   return (
-    <section className="flex flex-col gap-4">
+    <section className="flex flex-col gap-4 max-w-96 sm:max-w-full">
       <GeneralBrick />
       <AllIncomeBrick />
       <AllOutcomeBrick />
