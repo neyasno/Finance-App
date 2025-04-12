@@ -22,19 +22,19 @@ export default function AllOutcomeBrick() {
     { name: string; outcome: number }[]
   >([]);
 
-  const getOutcomeDataReq = async () => {
-    try {
-      const res: { name: string; outcome: number }[] = await fetchApi(
-        EApi.ANALYTICS_OUTCOME + '?period=' + period,
-        'GET'
-      );
-      setOutcomeData(res);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   useEffect(() => {
+    const getOutcomeDataReq = async () => {
+      try {
+        const res: { name: string; outcome: number }[] = await fetchApi(
+          EApi.ANALYTICS_OUTCOME + '?period=' + period,
+          'GET'
+        );
+        setOutcomeData(res);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
     getOutcomeDataReq();
   }, [period]);
 

@@ -74,7 +74,9 @@
       "constraint": {
         "constraint": "Ограничение",
         "available": "Доступно",
-        "change": "Изменить"
+        "change": "Изменить",
+        "value": "Значение",
+        "create": "Создать"
       },
       "categories": {
         "sort_by": "Сортировать по",

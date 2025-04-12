@@ -19,7 +19,7 @@ import {
   YAxis,
 } from 'recharts';
 
-type TAnaliticUnit = {
+export type TAnaliticUnit = {
   name: string;
   income: number;
   outcome: number;

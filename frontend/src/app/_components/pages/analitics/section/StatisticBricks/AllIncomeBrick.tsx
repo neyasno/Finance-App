@@ -24,21 +24,21 @@ export default function AllIncomeBrick() {
     { name: string; income: number }[]
   >([]);
 
-  const getIncomeDataReq = async () => {
-    try {
-      const res: { name: string; income: number }[] = await fetchApi(
-        EApi.ANALYTICS_INCOME + '?period=' + period,
-        'GET'
-      );
-      setIncomeData(res);
-
-      console.log(res);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   useEffect(() => {
+    const getIncomeDataReq = async () => {
+      try {
+        const res: { name: string; income: number }[] = await fetchApi(
+          EApi.ANALYTICS_INCOME + '?period=' + period,
+          'GET'
+        );
+        setIncomeData(res);
+
+        console.log(res);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
     getIncomeDataReq();
   }, [period]);
 

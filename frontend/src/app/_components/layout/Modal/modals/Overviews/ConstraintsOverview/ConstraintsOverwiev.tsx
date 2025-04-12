@@ -5,16 +5,25 @@ import fetchApi from '@/utils/fetchApi';
 import { useModal } from '@/utils/hooks/useModal';
 import { useTranslations } from 'next-intl';
 import React, { useEffect } from 'react';
+import Constraint from './Constraint';
+
+export type RConstraint = {
+  available: number;
+  id: number;
+  timeCreated: string;
+  timeToExpire: string;
+  value: number;
+};
 
 export default function ConstraintsOverwiev() {
   const t = useTranslations('home.content.transactions');
 
-  const [constraints, setConstraints] = React.useState([]);
+  const [constraints, setConstraints] = React.useState<RConstraint[]>([]);
   const setModal = useModal();
 
   const getConstraintsReq = async () => {
     try {
-      const res = await fetchApi(EApi.CONSTRAINTS, 'GET');
+      const res: RConstraint[] = await fetchApi(EApi.CONSTRAINTS, 'GET');
       console.log(res);
 
       setConstraints(res);
@@ -29,8 +38,14 @@ export default function ConstraintsOverwiev() {
 
   return (
     <div className="flex flex-col">
-      <div>{constraints}</div>
-      <div className="flex">
+      <ul className="flex flex-col gap-1">
+        {constraints.map((c, index) => (
+          <li key={index}>
+            <Constraint constraintData={c} />
+          </li>
+        ))}
+      </ul>
+      <div className="flex mt-2">
         <Button
           handleClick={() => {
             setModal(ModalType.CreateConstraint);

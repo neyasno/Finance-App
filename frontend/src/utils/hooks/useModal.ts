@@ -1,3 +1,4 @@
+import { RConstraint } from '@/app/_components/layout/Modal/modals/Overviews/ConstraintsOverview/ConstraintsOverwiev';
 import { TransactionProps } from '@/app/_components/pages/home/aside/TransactionHistory/TransactionContainer/Transaction';
 import { CategoryBrickProps } from '@/app/_components/pages/home/section/Category/CategoryBrick';
 import {
@@ -56,4 +57,24 @@ export const useCategoryOverview = () => {
     [dispatch]
   );
   return { category, setCategory };
+};
+
+export const useConstraintOverview = () => {
+  const dispatch = useAppDispatch();
+  const constraint = useAppSelector(
+    (state) => state.modal.content
+  ) as RConstraint;
+
+  const setConstraint = useCallback(
+    (content: RConstraint) => {
+      dispatch(
+        setModalTypeWithContent({
+          type: ModalType.ChangeConstraint,
+          content,
+        })
+      );
+    },
+    [dispatch]
+  );
+  return { constraint, setConstraint };
 };

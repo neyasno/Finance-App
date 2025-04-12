@@ -5,7 +5,7 @@ import { useModal } from '@/utils/hooks/useModal';
 import { useTranslations } from 'next-intl';
 import React from 'react';
 
-export default function Constraint() {
+export default function Constraints() {
   const t = useTranslations('home.content.constraint');
   const setModal = useModal();
   return (
