@@ -139,9 +139,9 @@
         - id
         - title
 
-    Budget :
-        - id
-        - budget_value (available money)
+[//]: # (    Budget :)
+[//]: # (        - id)
+[//]: # (        - budget_value &#40;available money&#41;)
 
 
 ### API 
@@ -160,10 +160,10 @@
         > POST /api/auth/registration
     2. Login User
         > POST /api/auth/login
-    3. Password Change Req
-        > POST /api/auth/password_change_req
+    3. Password Change Request
+        > POST /api/auth/recovery/request
     4. Password Change
-        > POST /api/auth/password_change
+        > POST /api/auth/recovery/confirmation
     5. Logout User  
         > POST /api/auth/logout
     6. Refresh Token  
