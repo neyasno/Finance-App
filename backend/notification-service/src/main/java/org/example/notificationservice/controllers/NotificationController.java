@@ -23,13 +23,15 @@ public class NotificationController {
     private final static String X_USER_ID = "X-User-Id";
     private final NotificationService notificationService;
     @PostMapping("/password-change")
-    public ResponseEntity<MessageResponse> createPasswordChangeNotification(@RequestHeader(name = X_USER_ID) Long userId) {
+    public ResponseEntity<MessageResponse> createPasswordChangeNotification(@RequestHeader(name = X_USER_ID) Long userId,
+                                                                            @RequestBody @Valid String token) {
+
         try {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom("OUR EMAIL");
             message.setTo(notificationService.getUserEmail(userId));
             message.setSubject(Constants.PASSWORD_NOTIFICATION_HEADER);
-            message.setText(notificationService.constructPasswordNotification(userId, Constants.ESTABLISHED_URLS));
+            message.setText(notificationService.constructPasswordNotification(userId, token.toString(), Constants.ESTABLISHED_URLS));
 
             mailSender.send(message);
             return ResponseEntity.ok(MessageResponse.fromMessage("Email sent successfully"));

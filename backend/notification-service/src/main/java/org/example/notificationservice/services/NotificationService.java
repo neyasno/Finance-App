@@ -39,6 +39,12 @@ public class NotificationService {
         return Constants.getPasswordNotificationString(data.getName(), url, attachments);
     }
 
+    public String constructPasswordNotification(Long userId, String tokenURL, List<LinkAttachment> attachments) {
+
+        UserDTO data = userServiceClient.getUserById(userId).getBody();
+        return Constants.getPasswordNotificationString(data.getName(), tokenURL, attachments);
+    }
+
     public String constructLimitNotification() {
         return Constants.getLimitNotificationString();
     }
