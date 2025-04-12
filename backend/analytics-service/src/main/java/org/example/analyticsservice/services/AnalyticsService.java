@@ -15,11 +15,10 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
+import java.time.Year;
 import java.time.format.TextStyle;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -29,37 +28,51 @@ public class AnalyticsService {
 
     private final TransactionServiceClient transactionService;
 
-    public GeneralTransactionDataForChart getGeneralTransactionDataForLast24Hours(Long userId) {
+    public List<GeneralTransactionDataForChart> getGeneralTransactionDataForLast24Hours(Long userId) {
         try {
-            LocalDateTime today = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
-            LocalDateTime yesterday = today.minusHours(24);
+            LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.HOURS);
+            LocalDateTime start = now.minusHours(23); // включительно: 24 часа, включая текущий
 
-            ResponseEntity<List<TransactionDTO>> response = transactionService.getAllTransactionsBetween(userId, yesterday, today);
+            ResponseEntity<List<TransactionDTO>> response = transactionService.getAllTransactionsBetween(userId, start, now.plusHours(1));
 
-            if (!response.getStatusCode().is2xxSuccessful()) {
-                throw new RuntimeException(response.getStatusCode().toString());
-            }
-
-            if (!response.hasBody() || response.getBody() == null) {
-                log.error("NO TRANSACTIONS FOUND IN RESPONSE FROM TRANSACTION SERVICE: {}", response.getStatusCode());
-                throw new RuntimeException("No transactions found");
-            }
+            validateBody(response);
 
             List<TransactionDTO> transactions = response.getBody();
-
-            String title = today.toLocalDate().toString();
-            Double income = 0.0;
-            Double outcome = 0.0;
-
-            for (TransactionDTO transaction : transactions) {
-                if (transaction.getType().equalsIgnoreCase("income")) {
-                    income += transaction.getValue();
-                } else {
-                    outcome -= transaction.getValue();
-                }
+            if (transactions == null) {
+                transactions = Collections.emptyList();
             }
 
-            return new GeneralTransactionDataForChart(title, income, outcome);
+            Map<LocalDateTime, double[]> hourlySums = transactions.stream()
+                    .collect(Collectors.groupingBy(
+                            tx -> tx.getTime().truncatedTo(ChronoUnit.HOURS),
+                            Collectors.reducing(
+                                    new double[2],
+                                    tx -> {
+                                        double[] result = new double[2];
+                                        if ("income".equalsIgnoreCase(tx.getType())) {
+                                            result[0] = tx.getValue();
+                                        } else if ("outcome".equalsIgnoreCase(tx.getType())) {
+                                            result[1] = -tx.getValue();
+                                        }
+                                        return result;
+                                    },
+                                    (a, b) -> new double[]{a[0] + b[0], a[1] + b[1]}
+                            )
+                    ));
+
+            List<GeneralTransactionDataForChart> result = new ArrayList<>();
+            for (int i = 0; i < 24; i++) {
+                LocalDateTime hour = start.plusHours(i);
+                double[] values = hourlySums.getOrDefault(hour, new double[]{0.0, 0.0});
+
+                result.add(new GeneralTransactionDataForChart(
+                        String.format("%02d:00", hour.getHour()),
+                        values[0],
+                        values[1]
+                ));
+            }
+
+            return result;
 
         } catch (FeignException exception) {
             log.error("TRANSACTION_SERVICE_ERROR: {}", exception.getMessage());
@@ -69,33 +82,30 @@ public class AnalyticsService {
         }
     }
 
-    public IncomeTransactionDataForChart getIncomeTransactionDataForLast24Hours(Long userId) {
-        GeneralTransactionDataForChart generalData = getGeneralTransactionDataForLast24Hours(userId);
+    public List<IncomeTransactionDataForChart> getIncomeTransactionDataForLast24Hours(Long userId) {
+        List<GeneralTransactionDataForChart> data = getGeneralTransactionDataForLast24Hours(userId);
 
-        return new IncomeTransactionDataForChart(generalData.getName(), generalData.getIncome());
+        return data.stream()
+                .map(t -> new IncomeTransactionDataForChart(t.getName(), t.getIncome()))
+                .toList();
     }
 
-    public OutcomeTransactionDataForChart getOutcomeTransactionDataForLast24Hours(Long userId) {
-        GeneralTransactionDataForChart generalData = getGeneralTransactionDataForLast24Hours(userId);
+    public List<OutcomeTransactionDataForChart> getOutcomeTransactionDataForLast24Hours(Long userId) {
+        List<GeneralTransactionDataForChart> data = getGeneralTransactionDataForLast24Hours(userId);
 
-        return new OutcomeTransactionDataForChart(generalData.getName(), generalData.getOutcome());
+        return data.stream()
+                .map(t -> new OutcomeTransactionDataForChart(t.getName(), t.getIncome()))
+                .toList();
     }
 
     public List<GeneralTransactionDataForChart> getGeneralTransactionDataForLastMonth(Long userId) {
         try {
-            LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+            LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS).plusSeconds(5);
             LocalDateTime thirtyDaysAgo = now.minusDays(30);
 
             ResponseEntity<List<TransactionDTO>> response = transactionService.getAllTransactionsBetween(userId, thirtyDaysAgo, now);
 
-            if (!response.getStatusCode().is2xxSuccessful()) {
-                throw new RuntimeException(response.getStatusCode().toString());
-            }
-
-            if (!response.hasBody() || response.getBody() == null) {
-                log.error("NO TRANSACTIONS FOUND IN RESPONSE FROM TRANSACTION SERVICE: {}", response.getStatusCode());
-                throw new RuntimeException("No transactions found");
-            }
+            validateBody(response);
 
             List<TransactionDTO> transactions = response.getBody();
 
@@ -141,6 +151,7 @@ public class AnalyticsService {
             throw new RuntimeException(e);
         }
     }
+
     public List<IncomeTransactionDataForChart> getIncomeTransactionDataForLastMonth(Long userId) {
         List<GeneralTransactionDataForChart> data = getGeneralTransactionDataForLastMonth(userId);
 
@@ -159,25 +170,18 @@ public class AnalyticsService {
 
     public List<GeneralTransactionDataForChart> getGeneralTransactionDataForLastYear(Long userId) {
         try {
-            LocalDateTime today = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+            LocalDateTime today = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS).plusSeconds(5);
             LocalDateTime yesterday = today.minusMonths(1);
 
             ResponseEntity<List<TransactionDTO>> response = transactionService.getAllTransactionsBetween(userId, yesterday, today);
 
-            if (!response.getStatusCode().is2xxSuccessful()) {
-                throw new RuntimeException(response.getStatusCode().toString());
-            }
-
-            if (!response.hasBody() || response.getBody() == null) {
-                log.error("NO TRANSACTIONS FOUND IN RESPONSE FROM TRANSACTION SERVICE: {}", response.getStatusCode());
-                throw new RuntimeException("No transactions found");
-            }
+            validateBody(response);
 
             List<TransactionDTO> transactions = response.getBody();
 
-            Map<Month, double[]> monthlySum = transactions.stream()
+            Map<Month, double[]> yearlySum = transactions.stream()
                     .collect(Collectors.groupingBy(
-                            tx -> tx.getTime().toLocalDate().getMonth(),
+                            tx -> Month.from(tx.getTime()),
                             Collectors.reducing(
                                     new double[2], // [0] — income, [1] — outcome
                                     tx -> {
@@ -193,9 +197,9 @@ public class AnalyticsService {
                             )
                     ));
 
-            List<GeneralTransactionDataForChart> result = monthlySum.entrySet().stream()
+            List<GeneralTransactionDataForChart> result = yearlySum.entrySet().stream()
                     .map(entry -> new GeneralTransactionDataForChart(
-                            entry.getKey().getDisplayName(TextStyle.SHORT, Locale.of("ru", "KZ")),
+                            entry.getKey().getDisplayName(TextStyle.SHORT, Locale.of("en", "UK")),
                             entry.getValue()[0],
                             entry.getValue()[1]
                     ))
@@ -226,4 +230,78 @@ public class AnalyticsService {
                 .map(t -> new OutcomeTransactionDataForChart(t.getName(), t.getOutcome()))
                 .toList();
     }
+
+    public List<GeneralTransactionDataForChart> getGeneralTransactionDataForAllTime(Long userId) {
+        try {
+            ResponseEntity<List<TransactionDTO>> response = transactionService.getAllTransactions(userId);
+
+            validateBody(response);
+
+            List<TransactionDTO> transactions = response.getBody();
+
+            Map<Year, double[]> yearlySum = transactions.stream()
+                    .collect(Collectors.groupingBy(
+                            tx -> Year.from(tx.getTime()),
+                            Collectors.reducing(
+                                    new double[2], // [0] — income, [1] — outcome
+                                    tx -> {
+                                        double[] result = new double[2];
+                                        if ("income".equalsIgnoreCase(tx.getType())) {
+                                            result[0] = tx.getValue();
+                                        } else if ("outcome".equalsIgnoreCase(tx.getType())) {
+                                            result[1] = -tx.getValue();
+                                        }
+                                        return result;
+                                    },
+                                    (a, b) -> new double[]{a[0] + b[0], a[1] + b[1]}
+                            )
+                    ));
+
+
+            List<GeneralTransactionDataForChart> result = yearlySum.entrySet().stream()
+                    .map(entry -> new GeneralTransactionDataForChart(
+                            entry.getKey().toString(),
+                            entry.getValue()[0],
+                            entry.getValue()[1]
+                    ))
+                    .toList();
+
+            return result;
+        } catch (FeignException exception) {
+            log.error("TRANSACTION_SERVICE_ERROR: {}", exception.getMessage());
+            throw new RuntimeException(exception);
+        } catch (Exception e) {
+            log.error("TRANSACTION_SERVICE_ERROR DURING COMPUTING: {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public List<IncomeTransactionDataForChart> getIncomeTransactionDataForAllTime(Long userId) {
+        List<GeneralTransactionDataForChart> data = getGeneralTransactionDataForAllTime(userId);
+
+        return data.stream()
+                .map(t -> new IncomeTransactionDataForChart(t.getName(), t.getIncome()))
+                .toList();
+    }
+
+    public List<OutcomeTransactionDataForChart> getOutcomeTransactionDataForAllTime(Long userId) {
+        List<GeneralTransactionDataForChart> data = getGeneralTransactionDataForAllTime(userId);
+
+        return data.stream()
+                .map(t -> new OutcomeTransactionDataForChart(t.getName(), t.getOutcome()))
+                .toList();
+    }
+
+    private static void validateBody(ResponseEntity<List<TransactionDTO>> response) throws RuntimeException {
+        if (!response.getStatusCode().is2xxSuccessful()) {
+            throw new RuntimeException(response.getStatusCode().toString());
+        }
+
+        if (!response.hasBody() || response.getBody() == null) {
+            log.error("NO TRANSACTIONS FOUND IN RESPONSE FROM TRANSACTION SERVICE: {}", response.getStatusCode());
+            throw new RuntimeException("No transactions found");
+        }
+    }
+
 }

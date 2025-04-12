@@ -44,13 +44,13 @@ public class AnalyticsController {
             Period period = Period.valueOf(periodValue.toUpperCase());
 
             if (period == Period.DAY) {
-                return ResponseEntity.ok(List.of(analyticsService.getGeneralTransactionDataForLast24Hours(userId)));
+                return ResponseEntity.ok(analyticsService.getGeneralTransactionDataForLast24Hours(userId));
             } else if (period == Period.MONTH) {
                 return ResponseEntity.ok(analyticsService.getGeneralTransactionDataForLastMonth(userId));
             } else if (period == Period.YEAR) {
                 return ResponseEntity.ok(analyticsService.getGeneralTransactionDataForLastYear(userId));
             }else{
-                return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
+                return ResponseEntity.ok(analyticsService.getGeneralTransactionDataForAllTime(userId));
             }
 
         } catch (IllegalArgumentException e) {
@@ -80,13 +80,13 @@ public class AnalyticsController {
             Period period = Period.valueOf(periodValue.toUpperCase());
 
             if (period == Period.DAY) {
-                return ResponseEntity.ok(List.of(analyticsService.getIncomeTransactionDataForLast24Hours(userId)));
+                return ResponseEntity.ok(analyticsService.getIncomeTransactionDataForLast24Hours(userId));
             } else if (period == Period.MONTH) {
                 return ResponseEntity.ok(analyticsService.getIncomeTransactionDataForLastMonth(userId));
             } else if (period == Period.YEAR) {
                 return ResponseEntity.ok(analyticsService.getIncomeTransactionDataForLastYear(userId));
             }else{
-                return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
+                return ResponseEntity.ok(analyticsService.getIncomeTransactionDataForAllTime(userId));
             }
 
         } catch (IllegalArgumentException e) {
@@ -116,13 +116,13 @@ public class AnalyticsController {
             Period period = Period.valueOf(periodValue.toUpperCase());
 
             if (period == Period.DAY) {
-                return ResponseEntity.ok(List.of(analyticsService.getOutcomeTransactionDataForLast24Hours(userId)));
+                return ResponseEntity.ok(analyticsService.getOutcomeTransactionDataForLast24Hours(userId));
             } else if (period == Period.MONTH) {
                 return ResponseEntity.ok(analyticsService.getOutcomeTransactionDataForLastMonth(userId));
             } else if (period == Period.YEAR) {
                 return ResponseEntity.ok(analyticsService.getOutcomeTransactionDataForLastYear(userId));
             } else{
-                return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
+                return ResponseEntity.ok(analyticsService.getOutcomeTransactionDataForAllTime(userId));
             }
 
         } catch (IllegalArgumentException e) {
