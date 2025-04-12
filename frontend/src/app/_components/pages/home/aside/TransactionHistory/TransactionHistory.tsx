@@ -24,37 +24,37 @@ export default function TransactionHistory() {
   );
   const [isLoading, setLoading] = useState(false);
 
-  const fetchTransactions = async () => {
-    try {
-      setLoading(true);
-
-      const res = await fetchApi(
-        EApi.TRANSACTIONS + `?page=${page}&size=5`,
-        'GET'
-      );
-      console.log(res);
-
-      setTotalPages(res.totalPages);
-
-      console.log(res.content);
-
-      setTransactions(res.content);
-
-      dispatch(setTransactionActuality(true));
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const handlePageChange = (page: number) => {
     if (page <= totalPages - 1 && page >= 0) setPage(page);
   };
 
   useEffect(() => {
+    const fetchTransactions = async () => {
+      try {
+        setLoading(true);
+
+        const res = await fetchApi(
+          EApi.TRANSACTIONS + `?page=${page}&size=5`,
+          'GET'
+        );
+        console.log(res);
+
+        setTotalPages(res.totalPages);
+
+        console.log(res.content);
+
+        setTransactions(res.content);
+
+        dispatch(setTransactionActuality(true));
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchTransactions();
-  }, [isTransactionsActual, page]);
+  }, [isTransactionsActual, page, dispatch]);
 
   return (
     <div className="flex flex-col gap-2 w-full">

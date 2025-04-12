@@ -5,12 +5,11 @@ import NumberInput from '@/app/_components/common/NumberInput';
 import { EApi } from '@/enums';
 import fetchApi from '@/utils/fetchApi';
 import { useTranslations } from 'next-intl';
-import React, { useEffect } from 'react';
+import React from 'react';
 import ConstraintCategorySelector from './ConstraintCategorySelector';
 import { useConstraintOverview, useModal } from '@/utils/hooks/useModal';
 import { ModalType } from '@/store/slices/modalSlice';
 import DeleteButton from '@/app/_components/common/DeleteButton';
-import Loading from '@/app/_components/common/Loading';
 
 export default function ChangeConstraintForm() {
   const t = useTranslations('home.content.transactions.transaction');
@@ -24,7 +23,6 @@ export default function ChangeConstraintForm() {
     new Date(constraint.timeToExpire).toISOString()
   );
   const [category, setCategory] = React.useState('0');
-  const [isLoading, setIsLoading] = React.useState(false);
 
   const updateConstraintReq = async (
     e: React.MouseEvent<HTMLElement, MouseEvent>
@@ -50,11 +48,6 @@ export default function ChangeConstraintForm() {
       console.error('Error updating constraint:', err);
     }
   };
-
-  if (isLoading) {
-    return <Loading />;
-  }
-
   return (
     <form action="" className="flex flex-col gap-2">
       <label htmlFor="value">{t('value')} : </label>

@@ -10,10 +10,7 @@ import {
   BarChart,
   Brush,
   CartesianGrid,
-  Cell,
   Legend,
-  Pie,
-  PieChart,
   ReferenceLine,
   Tooltip,
   XAxis,
@@ -48,7 +45,7 @@ export default function GeneralBrick() {
 
   useEffect(() => {
     getGeneralDataReq();
-  }, []);
+  });
 
   return (
     <div className="flex flex-col">
