@@ -5,19 +5,13 @@ import NumberInput from '@/app/_components/common/NumberInput';
 import { EApi } from '@/enums';
 import fetchApi from '@/utils/fetchApi';
 import { useTranslations } from 'next-intl';
-import React, { useEffect } from 'react';
+import React from 'react';
 import ConstraintCategorySelector from './ConstraintCategorySelector';
 import { useConstraintOverview, useModal } from '@/utils/hooks/useModal';
 import { ModalType } from '@/store/slices/modalSlice';
 import DeleteButton from '@/app/_components/common/DeleteButton';
 
-type ChangeConstraintFormProps = {
-  constraintId: string;
-};
-
-export default function ChangeConstraintForm({
-  constraintId,
-}: ChangeConstraintFormProps) {
+export default function ChangeConstraintForm() {
   const t = useTranslations('home.content.transactions.transaction');
 
   const setModal = useModal();
@@ -29,38 +23,6 @@ export default function ChangeConstraintForm({
     new Date(constraint.timeToExpire).toISOString()
   );
   const [category, setCategory] = React.useState('0');
-  const [isLoading, setIsLoading] = React.useState(true);
-
-  useEffect(() => {
-    const changeConstraintReq = async () => {
-      try {
-        setIsLoading(true);
-
-        const res = await fetchApi(
-          EApi.CONSTRAINTS + '/' + constraintId,
-          'GET'
-        );
-
-        setValue(res.value || 0);
-
-        setDate(
-          res.expirationTime
-            ? res.expirationTime.split('T')[0]
-            : new Date().toISOString()
-        );
-
-        setCategory(res.categoryId?.toString() || '0');
-
-        setIsLoading(false);
-      } catch (err) {
-        console.error('Error fetching constraint:', err);
-
-        setIsLoading(false);
-      }
-    };
-
-    changeConstraintReq();
-  }, [constraintId]);
 
   const updateConstraintReq = async (
     e: React.MouseEvent<HTMLElement, MouseEvent>
@@ -69,12 +31,13 @@ export default function ChangeConstraintForm({
 
     const updatedConstraint = {
       value,
+      categoryId: parseInt(category),
       expirationTime: date + 'T00:00:00',
     };
 
     try {
       const res = await fetchApi(
-        `${EApi.CONSTRAINTS}/${constraintId}`,
+        `${EApi.CONSTRAINTS}/${constraint.id}`,
         'PUT',
         updatedConstraint
       );
@@ -85,11 +48,6 @@ export default function ChangeConstraintForm({
       console.error('Error updating constraint:', err);
     }
   };
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <form action="" className="flex flex-col gap-2">
       <label htmlFor="value">{t('value')} : </label>
@@ -114,8 +72,10 @@ export default function ChangeConstraintForm({
       <div className="flex gap-2">
         <Button text={t('change')} handleClick={updateConstraintReq} />
         <DeleteButton
-          handleClick={(e) => {
+          handleClick={async (e) => {
             e.preventDefault();
+
+            await fetchApi(EApi.CONSTRAINTS + '/' + constraint.id, 'DELETE');
 
             setModal(ModalType.None);
           }}

@@ -72,7 +72,7 @@
         "year": "Year"
       },
       "constraint": {
-        "constraint": "Constraint",
+        "constraints": "Constraints",
         "available": "Available",
         "change": "Change",
         "value": "Value",

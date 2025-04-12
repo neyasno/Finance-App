@@ -17,8 +17,8 @@ export default function TransactionContainer({
         <Loading />
       ) : (
         <>
-          {transactions.map((t, index) => (
-            <li key={index}>
+          {transactions.map((t) => (
+            <li key={t.id}>
               <Transaction
                 categoryId={t.categoryId}
                 id={t.id}
