@@ -2,6 +2,7 @@ package org.example.transactionservice.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.example.transactionservice.dto.SaveCategoryRequest;
 import org.example.transactionservice.models.Category;
 import org.example.transactionservice.services.CategoryService;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/categories")
 @RequiredArgsConstructor
@@ -83,6 +85,7 @@ public class CategoryController {
             categoryService.deleteCategoryById(id, userId);
             return ResponseEntity.noContent().build();
         } catch (Exception e) {
+            log.error("ERROR DURING DELETE CATEGORY BY ID: {}" ,e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }

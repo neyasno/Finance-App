@@ -24,7 +24,7 @@ public class Category{
     private String title;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "category")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Transaction> transactions;
 
     @Transient

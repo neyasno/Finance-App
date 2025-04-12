@@ -29,6 +29,9 @@ ext {
 }
 
 jib {
+	from{
+		image = 'eclipse-temurin:21-jre-alpine'
+	}
 	to {
 		image = 'transaction-service:latest'
 	}

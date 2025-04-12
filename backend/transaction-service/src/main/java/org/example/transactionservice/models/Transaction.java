@@ -4,6 +4,7 @@ package org.example.transactionservice.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -38,6 +39,7 @@ public class Transaction implements Serializable {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     @JoinColumn(name = "category_id")
     private Category category;
 }

@@ -7,6 +7,7 @@ import org.example.transactionservice.models.Transaction;
 import org.example.transactionservice.models.TransactionType;
 import org.example.transactionservice.repositories.CategoryRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.Year;
