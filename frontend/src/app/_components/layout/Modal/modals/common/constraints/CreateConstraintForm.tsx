@@ -7,9 +7,14 @@ import fetchApi from '@/utils/fetchApi';
 import { useTranslations } from 'next-intl';
 import React from 'react';
 import ConstraintCategorySelector from './ConstraintCategorySelector';
+import { useModal } from '@/utils/hooks/useModal';
+import { ModalType } from '@/store/slices/modalSlice';
 
 export default function CreateConstraintForm() {
   const t = useTranslations('home.content.transactions.transaction');
+
+  const setModal = useModal();
+
   const [value, setValue] = React.useState(0);
   const [date, setDate] = React.useState(new Date().toISOString());
   const [category, setCategory] = React.useState('0');
@@ -21,10 +26,15 @@ export default function CreateConstraintForm() {
 
     const newConstraint = {
       value,
-      date,
+      categoryId: parseInt(category),
+      expirationTime: date + 'T00:00:00',
     };
+    console.log(newConstraint);
+
     const res = await fetchApi(EApi.CONSTRAINTS, 'POST', newConstraint);
     console.log(res);
+
+    setModal(ModalType.None);
   };
 
   return (
@@ -41,6 +51,7 @@ export default function CreateConstraintForm() {
       <label htmlFor="date">{t('date')} : </label>
       <input
         type="date"
+        lang="en"
         className="bg-transparent p-2 border-black border-1 dark:border-white"
         value={date}
         onChange={(e) => setDate(e.target.value)}

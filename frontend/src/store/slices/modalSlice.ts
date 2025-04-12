@@ -1,3 +1,4 @@
+import { RConstraint } from '@/app/_components/layout/Modal/modals/Overviews/ConstraintsOverview/ConstraintsOverwiev';
 import { TransactionProps } from '@/app/_components/pages/home/aside/TransactionHistory/TransactionContainer/Transaction';
 import { CategoryBrickProps } from '@/app/_components/pages/home/section/Category/CategoryBrick';
 import { createSlice } from '@reduxjs/toolkit';
@@ -19,7 +20,7 @@ export enum ModalType {
 
 type ModalSlice = {
   type: ModalType;
-  content?: TransactionProps | CategoryBrickProps;
+  content?: TransactionProps | CategoryBrickProps | RConstraint;
 };
 
 const initialState: ModalSlice = {

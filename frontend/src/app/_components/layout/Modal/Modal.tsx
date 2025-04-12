@@ -4,17 +4,17 @@ import { ModalType } from '@/store/slices/modalSlice';
 import { useAppSelector } from '@/store/store';
 import React from 'react';
 import ModalLayout from './ModalLayout';
-import ChangeConstraintForm from './modals/constraints/ChangeConstraintForm';
-import CreateConstraintForm from './modals/constraints/CreateConstraintForm';
-import CreateTransantionForm from './modals/transactions/CreateTransactionForm';
-import DeleteSuggestion from './modals/suggestions/DeleteSuggestion';
-import ChangeTransactionForm from './modals/transactions/ChangeTransactionForm';
-import ExitSuggestion from './modals/suggestions/ExitSuggestion';
-import TransactionOverview from './modals/TransactionOverview/TransactionOverview';
-import CreateCategoryForm from './modals/categories/CreateCategoryForm';
-import CategoryOverview from './modals/CategoryOverview/CategoryOverview';
-import ChangeCategoryForm from './modals/categories/ChangeCategoryForm';
-import ConstraintsOverwiev from './modals/ConstraintsOverview/ConstraintsOverwiev';
+import ChangeConstraintForm from './modals/common/constraints/ChangeConstraintForm';
+import CreateConstraintForm from './modals/common/constraints/CreateConstraintForm';
+import CreateTransantionForm from './modals/common/transactions/CreateTransactionForm';
+import DeleteSuggestion from './modals/common/suggestions/DeleteSuggestion';
+import ChangeTransactionForm from './modals/common/transactions/ChangeTransactionForm';
+import ExitSuggestion from './modals/common/suggestions/ExitSuggestion';
+import TransactionOverview from './modals/Overviews/TransactionOverview/TransactionOverview';
+import CreateCategoryForm from './modals/common/categories/CreateCategoryForm';
+import CategoryOverview from './modals/Overviews/CategoryOverview/CategoryOverview';
+import ChangeCategoryForm from './modals/common/categories/ChangeCategoryForm';
+import ConstraintsOverwiev from './modals/Overviews/ConstraintsOverview/ConstraintsOverwiev';
 
 export default function Modal() {
   const state = useAppSelector((state) => state.modal);

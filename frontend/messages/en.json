@@ -74,7 +74,9 @@
       "constraint": {
         "constraint": "Constraint",
         "available": "Available",
-        "change": "Change"
+        "change": "Change",
+        "value": "Value",
+        "create": "Create"
       },
       "categories": {
         "sort_by": "Sort by",
