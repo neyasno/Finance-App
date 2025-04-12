@@ -1,3 +1,6 @@
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.4.3'
@@ -28,9 +31,15 @@ ext {
     set('springCloudVersion', "2024.0.0")
 }
 
-jib {
-    to {
-        image = 'api-gateway-service:latest'
+jib{
+    from{
+        image = 'eclipse-temurin:21-jre-alpine'
+    }
+    to{
+        image = "$name:latest"
+    }
+    container{
+        creationTime = ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
     }
 }
 

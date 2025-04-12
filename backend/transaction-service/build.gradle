@@ -1,9 +1,16 @@
+import java.text.SimpleDateFormat
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.4.3'
 	id 'io.spring.dependency-management' version '1.1.7'
 	id 'com.google.cloud.tools.jib' version '3.4.5'
 }
+
+
 
 group = 'org.example'
 version = '0.0.1-SNAPSHOT'
@@ -28,12 +35,15 @@ ext {
 	set('springCloudVersion', "2024.0.0")
 }
 
-jib {
+jib{
 	from{
 		image = 'eclipse-temurin:21-jre-alpine'
 	}
-	to {
-		image = 'transaction-service:latest'
+	to{
+		image = "$name:latest"
+	}
+	container{
+		creationTime = ZonedDateTime.now().format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
 	}
 }
 
