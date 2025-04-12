@@ -9,10 +9,8 @@ import java.util.Map;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GeneralTransactionDataForChart {
-
+public class CategoryTransactionDataForChart{
     private String name;
-    private Double income;
-    private Double outcome;
-}
 
+    private Map<String, Double> data;
+}
