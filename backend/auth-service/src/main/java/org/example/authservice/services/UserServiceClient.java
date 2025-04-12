@@ -1,6 +1,7 @@
 package org.example.authservice.services;
 
 import org.example.authservice.dto.CreateUserRequest;
+import org.example.authservice.dto.UpdateUserPasswordRequest;
 import org.example.authservice.dto.UserCredentialsDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -18,5 +19,5 @@ public interface UserServiceClient {
     ResponseEntity<UserCredentialsDTO> createUser(@RequestBody CreateUserRequest request);
 
     @PutMapping("/{id}")
-    ResponseEntity<UserCredentialsDTO> updateUserPassword(@PathVariable Long id, @RequestBody String password);
+    ResponseEntity<UserCredentialsDTO> updateUserPassword(@PathVariable Long id, @RequestBody UpdateUserPasswordRequest request);
 }
