@@ -4,8 +4,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.notificationservice.constants.Constants;
+import org.example.notificationservice.constants.TemplateHelper;
 import org.example.notificationservice.dto.ConstraintDTO;
 import org.example.notificationservice.dto.MessageResponse;
+import org.example.notificationservice.dto.PasswordTokenDTO;
 import org.example.notificationservice.services.NotificationService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -27,14 +29,17 @@ public class NotificationController {
     private final NotificationService notificationService;
     @PostMapping("/password-change")
     public ResponseEntity<MessageResponse> createPasswordChangeNotification(@RequestHeader(name = X_USER_ID) Long userId,
-                                                                            @RequestBody @Valid String token) {
+                                                                            @RequestBody @Valid PasswordTokenDTO token) {
 
         try {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom(this.APP_EMAIL);
             message.setTo(notificationService.getUserEmail(userId));
             message.setSubject(Constants.PASSWORD_NOTIFICATION_HEADER);
-            message.setText(notificationService.constructPasswordNotification(userId, token.toString(), Constants.ESTABLISHED_URLS));
+            message.setText(notificationService.constructPasswordNotification(
+                    userId,
+                    TemplateHelper.getLinkFromToken(token.getToken()),
+                    Constants.ESTABLISHED_URLS));
 
             mailSender.send(message);
             return ResponseEntity.ok(MessageResponse.fromMessage("Email sent successfully"));

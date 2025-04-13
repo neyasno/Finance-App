@@ -5,6 +5,10 @@ import java.util.List;
 public class TemplateHelper {
     private TemplateHelper(){}
 
+    public static String getLinkFromToken(String token) {
+        return String.format(Constants.TOKEN_URL_TEMPLATE, token);
+    }
+
     public static String getPasswordNotificationString() {
         PasswordNotificationTemplate template = new PasswordNotificationTemplate();
         return template.getNotificationString();

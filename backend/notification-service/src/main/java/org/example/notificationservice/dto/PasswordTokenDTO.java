@@ -10,9 +10,4 @@ import org.example.notificationservice.constants.Constants;
 @AllArgsConstructor
 public class PasswordTokenDTO {
     String token;
-
-    @Override
-    public String toString(){
-        return String.format(Constants.TOKEN_URL_TEMPLATE, this.token);
-    }
 }
