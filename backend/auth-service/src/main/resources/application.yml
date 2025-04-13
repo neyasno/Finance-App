@@ -6,11 +6,12 @@ spring:
     url: jdbc:postgresql://${POSTGRES_DB_HOST:localhost}:${POSTGRES_DB_PORT:5432}/${POSTGRES_DB_NAME:postgres}?currentSchema=auth_schema
     username: ${POSTGRES_DB_USERNAME:postgres}
     password: ${POSTGRES_DB_PASSWORD:postgres}
+    driver-class-name: org.postgresql.Driver
 
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     generate-ddl: true
     properties:
       hibernate:
