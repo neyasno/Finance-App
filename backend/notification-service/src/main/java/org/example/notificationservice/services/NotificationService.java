@@ -7,6 +7,7 @@ import org.example.notificationservice.constants.Constants;
 import org.example.notificationservice.constants.LinkAttachment;
 import org.example.notificationservice.constants.TemplateHelper;
 import org.example.notificationservice.dto.UserDTO;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,9 +17,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class NotificationService {
     UserServiceClient userServiceClient;
-
-    //TODO: НА СОЗДАНИЕ ССЫЛКИ НУЖНО ОПРЕДЕЛИТЬ ЕЁ ФОРМАТ И ЗАПРОС ТОКЕНА
-    String url = "url";
+    @Value("${spring.mail.username}")
+    String url;
 
     public String getUserEmail(Long userId) {
         return userServiceClient.getUserById(userId).getBody().getEmail();
