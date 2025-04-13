@@ -198,18 +198,18 @@ services:
     volumes:
       - kafka-data:/bitnami
 
-  # frontend:
-  #   build:
-  #     context: ./frontend
-  #     dockerfile: ./dockerfile
-  #   networks:
-  #     - gateway_network
-  #   ports:
-  #     - "3000:3000"
-  #   depends_on:
-  #     - api-gateway-service
-  #   environment:
-  #     - REACT_APP_API_URL=http://api-gateway-service:8080
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ./dockerfile
+    networks:
+      - gateway_network
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api-gateway-service
+    environment:
+      - REACT_APP_API_URL=http://api-gateway-service:8080
 
 volumes:
   postgres-data:
