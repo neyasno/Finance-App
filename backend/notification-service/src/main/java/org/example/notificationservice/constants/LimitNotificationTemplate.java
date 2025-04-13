@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 public class LimitNotificationTemplate extends NotificationTemplate {
-    private ArrayList<LinkAttachment> attachedLinks;
+    private List<LinkAttachment> attachedLinks;
     private final String defaultTemplate = """
     Hello dear %s!
     Your constraint has been changed:
@@ -25,6 +25,12 @@ public class LimitNotificationTemplate extends NotificationTemplate {
     public LimitNotificationTemplate(String userName, String constraintInfo) {
         this.userNameString = userName;
         this.constraintString = constraintInfo;
+    }
+
+    public LimitNotificationTemplate(String userName, String constraintInfo, List<LinkAttachment> attachments) {
+        this.userNameString = userName;
+        this.constraintString = constraintInfo;
+        this.attachedLinks = attachments;
     }
 
     public String getNotificationString() {

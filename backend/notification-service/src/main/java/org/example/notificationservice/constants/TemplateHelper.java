@@ -16,11 +16,7 @@ public class TemplateHelper {
     }
 
     public static String getPasswordNotificationString(String username, String url, List<LinkAttachment> attachments) {
-        PasswordNotificationTemplate template = new PasswordNotificationTemplate(username, url);
-
-        for(LinkAttachment attachment: attachments) {
-            template.addAttachedLink( attachment);
-        }
+        PasswordNotificationTemplate template = new PasswordNotificationTemplate(username, url, attachments);
 
         return template.getNotificationString();
     }
@@ -36,11 +32,7 @@ public class TemplateHelper {
     }
 
     public static String getLimitNotificationString(String username, String constraintInfo, List<LinkAttachment> attachments) {
-        LimitNotificationTemplate template = new LimitNotificationTemplate(username, constraintInfo);
-
-        for(LinkAttachment attachment: attachments) {
-            template.addAttachedLink( attachment);
-        }
+        LimitNotificationTemplate template = new LimitNotificationTemplate(username, constraintInfo, attachments);
 
         return template.getNotificationString();
     }

@@ -27,6 +27,12 @@ public class PasswordNotificationTemplate extends NotificationTemplate{
         this.urlString = url;
     }
 
+    public PasswordNotificationTemplate(String userName, String url, List<LinkAttachment> attachments) {
+        this.userNameString = userName;
+        this.urlString = url;
+        this.attachedLinks = attachments;
+    }
+
     public String getNotificationString() {
         String result = String.format(defaultTemplate, this.userNameString, this.urlString);
 

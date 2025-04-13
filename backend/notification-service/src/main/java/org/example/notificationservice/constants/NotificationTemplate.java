@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class NotificationTemplate implements LinkAttachable {
-    protected ArrayList<LinkAttachment> attachedLinks;
+    protected List<LinkAttachment> attachedLinks;
     protected final String defaultTemplate = null;
     public abstract String getNotificationString();
 
     @Override
-    public ArrayList<LinkAttachment> getAttachedLinks() {
+    public List<LinkAttachment> getAttachedLinks() {
         return this.attachedLinks;
     }
 
