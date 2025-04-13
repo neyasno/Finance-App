@@ -3,11 +3,13 @@ package org.example.authservice.services;
 import jakarta.ws.rs.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.authservice.dto.ChangePasswordNotificationDTO;
 import org.example.authservice.dto.UserCredentialsDTO;
 import org.example.authservice.models.RecoverPasswordToken;
 import org.example.authservice.repositories.RecoverPasswordTokenRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -26,6 +28,7 @@ public class AccountRecoveryService {
 
     private final NotificationServiceClient notificationService;
     private final UserServiceClient userService;
+//    private final MessageSenderService messageSenderService;
 
     public void sendRecoverPasswordEmailRequest(String email) {
         ResponseEntity<UserCredentialsDTO> userResponse = userService.getUserByEmail(email);
@@ -40,16 +43,17 @@ public class AccountRecoveryService {
 
         newToken = recoverPasswordTokenRepository.save(newToken);
 
-        notificationService.createPasswordChangeNotification(user.getId(), newToken.getToken());
+        notificationService.createPasswordChangeNotification(user.getId(), new ChangePasswordNotificationDTO(newToken.getToken()));
+//        messageSenderService.sendMessage(user.getId(), newToken.getToken());
     }
 
     private static UserCredentialsDTO validateUserResponse(ResponseEntity<UserCredentialsDTO> userResponse) {
-        if(!userResponse.getStatusCode().is2xxSuccessful()) {
+        if (!userResponse.getStatusCode().is2xxSuccessful()) {
             log.error("ERROR DURING RESPONSE TO USER SERVICE");
             throw new NotFoundException("User not found");
         }
 
-        if(!userResponse.hasBody() || userResponse.getBody() == null) {
+        if (!userResponse.hasBody() || userResponse.getBody() == null) {
             log.error("ERROR DURING FETCHING USER DATA");
             throw new RuntimeException("User response body is empty");
         }
@@ -58,7 +62,7 @@ public class AccountRecoveryService {
     }
 
     public void updatePasswordWithToken(String token, String newPassword) {
-        RecoverPasswordToken recoverToken = recoverPasswordTokenRepository.findByToken(token).orElseThrow(()-> new RuntimeException("Token not found"));
+        RecoverPasswordToken recoverToken = recoverPasswordTokenRepository.findByToken(token).orElseThrow(() -> new RuntimeException("Token not found"));
 
         ResponseEntity<UserCredentialsDTO> userResponse = userService.getUserByEmail(recoverToken.getEmail());
 

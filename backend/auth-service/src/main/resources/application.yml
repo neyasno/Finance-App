@@ -44,3 +44,6 @@ security:
   recovery:
     token-expiration-seconds: 1800 # 30 minutes
 
+kafka:
+  topics:
+    password-recovery-topic: password-recovery-topic

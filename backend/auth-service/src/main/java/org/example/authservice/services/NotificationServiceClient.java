@@ -1,5 +1,6 @@
 package org.example.authservice.services;
 
+import org.example.authservice.dto.ChangePasswordNotificationDTO;
 import org.example.authservice.dto.MessageResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -14,5 +15,5 @@ public interface NotificationServiceClient {
 
     @PostMapping("/password-change")
     ResponseEntity<MessageResponse> createPasswordChangeNotification(@RequestHeader(name = X_USER_ID) Long userId,
-                                                                     @RequestBody String token);
+                                                                     @RequestBody ChangePasswordNotificationDTO token);
 }
