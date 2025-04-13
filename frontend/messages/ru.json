@@ -72,7 +72,7 @@
         "year": "Год"
       },
       "constraint": {
-        "constraint": "Ограничение",
+        "constraints": "Ограничения",
         "available": "Доступно",
         "change": "Изменить",
         "value": "Значение",

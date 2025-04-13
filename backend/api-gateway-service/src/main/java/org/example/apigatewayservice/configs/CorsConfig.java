@@ -14,7 +14,8 @@ public class CorsConfig {
     private final List<String> allowedOrigins = List.of(
             "http://localhost:3000",
             "https://localhost:3000",
-            "http://192.168.100.29:3000"
+            "http://192.168.100.29:3000",
+            "http://192.168.100.29:8080",
     );
 
     private final List<String> allowedMethods = List.of("GET", "POST", "PUT", "DELETE", "OPTIONS");
