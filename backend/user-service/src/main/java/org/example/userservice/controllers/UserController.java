@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.userservice.dto.CreateUserRequest;
+import org.example.userservice.dto.UpdateUserPasswordRequest;
 import org.example.userservice.services.UserService;
 import org.example.userservice.models.User;
 import org.springframework.http.HttpStatus;
@@ -66,9 +67,9 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUserPassword(@PathVariable @NotNull Long id, @RequestBody @Valid @NotBlank String password) {
+    public ResponseEntity<User> updateUserPassword(@PathVariable @NotNull Long id, @RequestBody @Valid UpdateUserPasswordRequest request) {
         try {
-            User data = userService.updateUserPassword(id, password);
+            User data = userService.updateUserPassword(id, request.getNewPassword());
             return ResponseEntity.ok(data);
         } catch (Exception e) {
             return ResponseEntity.notFound().build();
