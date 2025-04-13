@@ -213,7 +213,7 @@ services:
     depends_on:
       - api-gateway-service
     environment:
-      - REACT_APP_API_URL=http://api-gateway-service:8080
+      - NEXT_PUBLIC_API_URL=http://api-gateway-service:8080
 
 volumes:
   postgres-data:

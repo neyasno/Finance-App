@@ -1,20 +1,22 @@
-export enum EApi {
-  DEFAULT = 'http://localhost:8080/api',
-  USERS = DEFAULT + '/auth',
+const apiUrl = 'http://192.168.100.29:8080';
 
-  LOGIN = USERS + '/login',
-  VERIFICATION = USERS + '/verification',
-  REGISTRATION = USERS + '/registration',
+export const EApi = {
+  DEFAULT: apiUrl + '/api',
+  USERS: apiUrl + '/api/auth',
 
-  TRANSACTIONS = DEFAULT + '/transactions',
-  CATEGORIES = TRANSACTIONS + '/categories',
-  CONSTRAINTS = DEFAULT + '/constraints',
-  ANALYTICS = DEFAULT + '/analytics',
-  ANALYTICS_GENERAL = ANALYTICS + '/general',
-  ANALYTICS_INCOME = ANALYTICS + '/income',
-  ANALYTICS_OUTCOME = ANALYTICS + '/outcome',
-  ANALYTICS_CATEGORIES = ANALYTICS + '/categories',
-}
+  LOGIN: apiUrl + '/api/auth/login',
+  VERIFICATION: apiUrl + '/api/auth/verification',
+  REGISTRATION: apiUrl + '/api/auth/registration',
+
+  TRANSACTIONS: apiUrl + '/api/transactions',
+  CATEGORIES: apiUrl + '/api/transactions/categories',
+  CONSTRAINTS: apiUrl + '/api/constraints',
+  ANALYTICS: apiUrl + '/api/analytics',
+  ANALYTICS_GENERAL: apiUrl + '/api/analytics/general',
+  ANALYTICS_INCOME: apiUrl + '/api/analytics/income',
+  ANALYTICS_OUTCOME: apiUrl + '/api/analytics/outcome',
+  ANALYTICS_CATEGORIES: apiUrl + '/api/analytics/categories',
+} as const;
 
 export enum ERoutes {
   DEFAULT = '/',
