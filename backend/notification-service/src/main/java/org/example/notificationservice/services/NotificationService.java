@@ -14,7 +14,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class NotificationService {
-    UserServiceClient userServiceClient;
+
+    private final UserServiceClient userServiceClient;
 
     String url = "url";
 

@@ -27,6 +27,8 @@ public class NotificationController {
     private final JavaMailSender mailSender;
     private final static String X_USER_ID = "X-User-Id";
     private final NotificationService notificationService;
+
+
     @PostMapping("/password-change")
     public ResponseEntity<MessageResponse> createPasswordChangeNotification(@RequestHeader(name = X_USER_ID) Long userId,
                                                                             @RequestBody @Valid PasswordTokenDTO token) {
@@ -44,6 +46,7 @@ public class NotificationController {
             mailSender.send(message);
             return ResponseEntity.ok(MessageResponse.fromMessage("Email sent successfully"));
         } catch (Exception e) {
+            log.error(e.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }
