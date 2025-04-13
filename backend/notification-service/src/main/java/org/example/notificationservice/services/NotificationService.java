@@ -3,11 +3,9 @@ package org.example.notificationservice.services;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.example.notificationservice.clients.UserServiceClient;
-import org.example.notificationservice.constants.Constants;
 import org.example.notificationservice.constants.LinkAttachment;
 import org.example.notificationservice.constants.TemplateHelper;
 import org.example.notificationservice.dto.UserDTO;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,8 +15,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class NotificationService {
     UserServiceClient userServiceClient;
-    @Value("${spring.mail.username}")
-    String url;
+
+    String url = "url";
 
     public String getUserEmail(Long userId) {
         return userServiceClient.getUserById(userId).getBody().getEmail();

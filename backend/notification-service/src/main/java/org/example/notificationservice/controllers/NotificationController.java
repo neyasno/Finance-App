@@ -7,6 +7,7 @@ import org.example.notificationservice.constants.Constants;
 import org.example.notificationservice.dto.ConstraintDTO;
 import org.example.notificationservice.dto.MessageResponse;
 import org.example.notificationservice.services.NotificationService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 public class NotificationController {
+    @Value("${spring.mail.username}")
+    private String APP_EMAIL;
     private final JavaMailSender mailSender;
     private final static String X_USER_ID = "X-User-Id";
     private final NotificationService notificationService;
@@ -28,7 +31,7 @@ public class NotificationController {
 
         try {
             SimpleMailMessage message = new SimpleMailMessage();
-            message.setFrom("OUR EMAIL");
+            message.setFrom(this.APP_EMAIL);
             message.setTo(notificationService.getUserEmail(userId));
             message.setSubject(Constants.PASSWORD_NOTIFICATION_HEADER);
             message.setText(notificationService.constructPasswordNotification(userId, token.toString(), Constants.ESTABLISHED_URLS));
@@ -45,7 +48,7 @@ public class NotificationController {
                                                                    @RequestBody @Valid ConstraintDTO constraint) {
             try {
                 SimpleMailMessage message = new SimpleMailMessage();
-                message.setFrom("OUR EMAIL");
+                message.setFrom(this.APP_EMAIL);
                 message.setTo(notificationService.getUserEmail(userId));
                 message.setSubject(Constants.PASSWORD_NOTIFICATION_HEADER);
                 message.setText(
