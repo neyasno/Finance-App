@@ -44,7 +44,11 @@ services:
       - user-service
     environment:
       - SPRING_EUREKA_DEFAULT_ZONE=discovery-service
-
+      - POSTGRES_DB_NAME=finance_app_db
+      - POSTGRES_DB_USERNAME=aboba
+      - POSTGRES_DB_PASSWORD=aboba
+      - POSTGRES_DB_HOST=postgres_db
+      - POSTGRES_DB_PORT=5432
 
   user-service:
     image: user-service:latest
