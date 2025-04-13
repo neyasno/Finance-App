@@ -16,5 +16,5 @@ import org.springframework.web.bind.annotation.*;
 @FeignClient(name = "user-service")
 public interface UserServiceClient {
     @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> getUserById(@PathVariable Long id);
+    ResponseEntity<UserDTO> getUserById(@PathVariable Long id);
 }
