@@ -2,6 +2,7 @@ package org.example.analyticsservice.services;
 
 import feign.Headers;
 import feign.Param;
+import org.example.analyticsservice.dto.CategoryDTO;
 import org.example.analyticsservice.dto.TransactionDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -24,4 +25,7 @@ public interface TransactionServiceClient {
     ResponseEntity<List<TransactionDTO>> getAllTransactionsBetween(@RequestHeader("X-User-Id") Long userId,
                                                                    @RequestParam(name = "from") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime from,
                                                                    @RequestParam(name = "to") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime to);
+
+    @GetMapping("/categories")
+    ResponseEntity<List<CategoryDTO>> getAllCategories(@RequestHeader("X-User-Id") Long userId);
 }
