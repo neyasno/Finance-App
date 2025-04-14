@@ -1,6 +1,7 @@
 package org.example.transactionservice.services;
 
 import lombok.RequiredArgsConstructor;
+import org.example.transactionservice.dto.ConstraintDTO;
 import org.example.transactionservice.dto.SaveTransactionRequest;
 import org.example.transactionservice.models.Category;
 import org.example.transactionservice.models.Transaction;
@@ -9,6 +10,7 @@ import org.example.transactionservice.repositories.CategoryRepository;
 import org.example.transactionservice.repositories.TransactionRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -23,7 +25,7 @@ public class TransactionService {
 
     private final TransactionRepository transactionRepository;
     private final CategoryRepository categoryRepository;
-
+    private final ConstraintServiceClient constraintServiceClient;
     public Transaction createTransaction(SaveTransactionRequest request, Long userId) {
         if (userId == null) {
             throw new IllegalArgumentException("userId cannot be null");
@@ -52,6 +54,8 @@ public class TransactionService {
 
         transaction = transactionRepository.save(transaction);
 
+        constraintServiceClient.checkConstraintLimitsForCategory(categoryId, userId);
+
         return transaction;
     }
 
@@ -77,6 +81,8 @@ public class TransactionService {
         transaction.setTime(LocalDateTime.now());
 
         transaction = transactionRepository.save(transaction);
+
+        constraintServiceClient.checkConstraintLimitsForCategory(categoryId, transaction.getUserId());
 
         return transaction;
     }
@@ -113,11 +119,11 @@ public class TransactionService {
         transactionRepository.deleteById(transactionId);
     }
 
-    private LocalDateTime fixTimeZone(LocalDateTime localDateTime) {
-        return localDateTime.atZone(ZoneId.systemDefault()).withZoneSameInstant(ZoneOffset.UTC).toLocalDateTime();
-    }
-
     public List<Transaction> getAllTransactionsForUser(Long userId) {
         return transactionRepository.findAllByUserId(userId);
+    }
+
+    private LocalDateTime fixTimeZone(LocalDateTime localDateTime) {
+        return localDateTime.atZone(ZoneId.systemDefault()).withZoneSameInstant(ZoneOffset.UTC).toLocalDateTime();
     }
 }
