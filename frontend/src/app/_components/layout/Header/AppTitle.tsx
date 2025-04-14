@@ -6,7 +6,7 @@ export default function AppTitle() {
   return (
     <Link href={ERoutes.DEFAULT}>
       <div className="flex gap-2">
-        <div className="w-14">
+        <div className="w-14 hidden sm:flex">
           <AppIcon />
         </div>
         <div className="text-xl my-auto hover:cursor-pointer">Koi</div>
