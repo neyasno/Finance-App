@@ -9,7 +9,7 @@ import { useLogin } from '@/utils/hooks/useLogin';
 export default function ButtonBar() {
   const { isLogined } = useLogin();
   return (
-    <div className="flex gap-2">
+    <div className="flex sm:gap-2">
       <LocaleButton />
       <ThemeButton />
       {isLogined && <LogoutButton />}

@@ -16,7 +16,7 @@ const calculateBudget = (
 
   all_outcome = Math.abs(all_outcome);
 
-  const budget = Math.abs(all_income - all_outcome);
+  const budget = all_income - all_outcome;
 
   return { all_income, all_outcome, budget };
 };

@@ -54,6 +54,8 @@
       "transactions": {
         "create": "Создать",
         "history": "История",
+        "no_transactions": "Нет транзакций",
+        "no_constraints": "Нет ограничений",
         "all": "Все",
         "transaction": {
           "date": "Дата",
@@ -76,14 +78,16 @@
         "available": "Доступно",
         "change": "Изменить",
         "value": "Значение",
-        "create": "Создать"
+        "create": "Создать",
+        "no_category": "Нет категории"
       },
       "categories": {
         "sort_by": "Сортировать по",
         "income": "получено",
         "outcome": "отдано",
         "create": "Создать",
-        "category_name": "Имя категории..."
+        "category_name": "Имя категории...",
+        "no_categories": "Нет категорий"
       }
     }
   },
