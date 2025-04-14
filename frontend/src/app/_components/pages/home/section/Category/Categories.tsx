@@ -43,11 +43,11 @@ export default function Categories() {
         res.sort((a, b) => b.monthIncome - a.monthIncome);
 
         setCategories(res);
+
+        dispatch(setUserCategories(res));
       } catch (err) {
         console.log(err);
       } finally {
-        dispatch(setUserCategories(categories));
-
         dispatch(setCategoriesActuality(true));
 
         setLoading(false);
