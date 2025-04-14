@@ -23,10 +23,10 @@ public class ConstraintDTO {
     @Override
     public String toString() {
         return String.format("""
-                Value: %d
+                Value: %f
                 Expire date: %s
                 Creation date: %s
-                Available: %d
+                Available: %f
                 """, value, timeToExpire.toString(), timeCreated.toString(), available);
     }
 }

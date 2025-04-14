@@ -3,6 +3,7 @@ package org.example.budgetservice.controllers;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.budgetservice.clients.NotificationServiceClient;
 import org.example.budgetservice.dto.CreateConstraintRequest;
 import org.example.budgetservice.dto.UpdateConstraintRequest;
 import org.example.budgetservice.exceptions.ConstraintNotFoundException;
@@ -13,12 +14,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RestController
 @RequiredArgsConstructor
 public class ConstraintController {
     private final ConstraintService constraintService;
+    private final NotificationServiceClient notificationServiceClient;
 
     private final static String X_USER_ID = "X-User-Id";
 
@@ -50,6 +53,21 @@ public class ConstraintController {
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
+    }
+
+    @GetMapping("/by-category/{categoryId}/check-limits/")
+    public ResponseEntity<Void> checkConstraintLimitsForCategory(
+            @PathVariable Long categoryId,
+            @RequestHeader(X_USER_ID) Long userId
+    ) {
+        List<Constraint> constraintsByCategory = constraintService.getConstraintsByCategory(categoryId, userId);
+
+        constraintsByCategory.stream()
+                .filter(it -> it.getAvailable() <= 0)
+                .findFirst()
+                .ifPresent(constraint -> notificationServiceClient.createLimitNotification(userId, constraint));
+
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("")

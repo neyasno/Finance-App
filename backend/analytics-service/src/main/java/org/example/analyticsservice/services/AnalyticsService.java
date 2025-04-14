@@ -305,16 +305,17 @@ public class AnalyticsService {
         validateBody(response);
 
         List<TransactionDTO> transactions = response.getBody();
-        if (transactions == null) {
-            transactions = Collections.emptyList();
-        }
+        if (transactions == null) transactions = Collections.emptyList();
+
+        Map<Long, String> categoryIdToTitle = getCategoryIdToTitleMapping(userId);
 
         // Группируем по часу -> по категории -> сумма
         Map<LocalDateTime, Map<String, Double>> hourlyCategorySums = new HashMap<>();
 
         for (TransactionDTO tx : transactions) {
             LocalDateTime hour = tx.getTime().truncatedTo(ChronoUnit.HOURS);
-            String category = tx.getTitle() != null ? tx.getTitle() : "No Category";
+            String category = categoryIdToTitle.getOrDefault(tx.getCategoryId(), "No Category");
+
             double value = tx.getValue();
             if ("outcome".equalsIgnoreCase(tx.getType())) {
                 value = -value;
@@ -350,12 +351,15 @@ public class AnalyticsService {
             List<TransactionDTO> transactions = response.getBody();
             if (transactions == null) transactions = Collections.emptyList();
 
+            Map<Long, String> categoryIdToTitle = getCategoryIdToTitleMapping(userId);
+
             // Группируем по дате -> по категории -> сумма
             Map<LocalDate, Map<String, Double>> dailyCategorySums = new HashMap<>();
 
             for (TransactionDTO tx : transactions) {
                 LocalDate day = tx.getTime().toLocalDate();
-                String category = tx.getTitle() != null ? tx.getTitle() : "No Category";
+                String category = categoryIdToTitle.getOrDefault(tx.getCategoryId(), "No Category");
+
                 double value = tx.getValue();
 
                 if ("outcome".equalsIgnoreCase(tx.getType())) {
@@ -403,12 +407,15 @@ public class AnalyticsService {
             List<TransactionDTO> transactions = response.getBody();
             if (transactions == null) transactions = Collections.emptyList();
 
+            Map<Long, String> categoryIdToTitle = getCategoryIdToTitleMapping(userId);
+
             // Группируем по месяцу -> по категории -> сумма
             Map<YearMonth, Map<String, Double>> monthlyCategorySums = new HashMap<>();
 
             for (TransactionDTO tx : transactions) {
                 YearMonth month = YearMonth.from(tx.getTime());
-                String category = tx.getTitle() != null ? tx.getTitle() : "No Category";
+                String category = categoryIdToTitle.getOrDefault(tx.getCategoryId(), "No Category");
+
                 double value = tx.getValue();
 
                 if ("outcome".equalsIgnoreCase(tx.getType())) {
@@ -448,12 +455,15 @@ public class AnalyticsService {
             List<TransactionDTO> transactions = response.getBody();
             if (transactions == null) transactions = Collections.emptyList();
 
+            Map<Long, String> categoryIdToTitle = getCategoryIdToTitleMapping(userId);
+
             // Группируем по году -> по категории -> сумма
             Map<Integer, Map<String, Double>> yearlyCategorySums = new HashMap<>();
 
             for (TransactionDTO tx : transactions) {
                 int year = tx.getTime().getYear();
-                String category = tx.getTitle() != null ? tx.getTitle() : "No Category";
+
+                String category = categoryIdToTitle.getOrDefault(tx.getCategoryId(), "No Category");
                 double value = tx.getValue();
 
                 if ("outcome".equalsIgnoreCase(tx.getType())) {
@@ -480,6 +490,20 @@ public class AnalyticsService {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private Map<Long, String> getCategoryIdToTitleMapping(Long userId) {
+        ResponseEntity<List<CategoryDTO>> categoryResponse = transactionService.getAllCategories(userId);
+        List<CategoryDTO> categories = categoryResponse.getBody();
+
+        if (categories == null) categories = Collections.emptyList();
+
+        Map<Long, String> categoryIdToTitle = new HashMap<>();
+
+        for (CategoryDTO category : categories) {
+            categoryIdToTitle.put(category.getId(), category.getTitle());
+        }
+        return categoryIdToTitle;
     }
 
 

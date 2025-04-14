@@ -58,7 +58,7 @@ public class NotificationController {
                 SimpleMailMessage message = new SimpleMailMessage();
                 message.setFrom(this.APP_EMAIL);
                 message.setTo(notificationService.getUserEmail(userId));
-                message.setSubject(Constants.PASSWORD_NOTIFICATION_HEADER);
+                message.setSubject(Constants.LIMIT_NOTIFICATION_HEADER);
                 message.setText(
                         notificationService.constructLimitNotification(userId,
                         constraint.toString(),
