@@ -14,24 +14,6 @@ export default function GenerateCSVButton() {
   ) => {
     e.preventDefault();
 
-    const convertToCSV = (data: object[]) => {
-      if (!data.length) return '';
-
-      const headers = Object.keys(data[0]);
-      const csvRows = [headers.join(',')];
-
-      for (const row of data) {
-        const values = headers.map((header) => {
-          const cellValue = (row as Record<string, unknown>)[header] ?? '';
-          const escaped = String(cellValue).replace(/"/g, '""');
-          return `"${escaped}"`;
-        });
-        csvRows.push(values.join(','));
-      }
-
-      return csvRows.join('\n');
-    };
-
     const res = await fetchApi(EApi.TRANSACTIONS + '?page=0&size=200', 'GET');
     console.log(res.content);
   };
