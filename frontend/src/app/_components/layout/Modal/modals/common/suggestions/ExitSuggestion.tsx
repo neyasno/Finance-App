@@ -1,4 +1,6 @@
 import Button from '@/app/_components/common/Button';
+import { ERoutes } from '@/enums';
+import { useRouter } from '@/i18n/routing';
 import { ModalType } from '@/store/slices/modalSlice';
 import { setCookie } from '@/utils/cookie';
 import { useLogin } from '@/utils/hooks/useLogin';
@@ -8,6 +10,7 @@ import React from 'react';
 export default function ExitSuggestion() {
   const setModal = useModal();
   const { setLogined } = useLogin();
+  const router = useRouter();
 
   const logOut = () => {
     setCookie('token', '');
@@ -15,6 +18,8 @@ export default function ExitSuggestion() {
     setLogined(false);
 
     setModal(ModalType.None);
+
+    router.push(ERoutes.LOGIN);
   };
 
   return (

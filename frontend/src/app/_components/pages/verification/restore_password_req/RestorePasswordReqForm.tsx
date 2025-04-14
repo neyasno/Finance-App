@@ -25,7 +25,8 @@ export default function RestorePasswordReqForm() {
 
       setError('');
 
-      await fetchApi(EApi.LOGIN, 'POST', { email });
+      const res = await fetchApi(EApi.RESTORE_PASSWORD_REQ, 'POST', { email });
+      console.log(res);
     } catch (err) {
       console.log(err);
     } finally {

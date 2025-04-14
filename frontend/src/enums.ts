@@ -7,6 +7,8 @@ export const EApi = {
   LOGIN: apiUrl + '/api/auth/login',
   VERIFICATION: apiUrl + '/api/auth/verification',
   REGISTRATION: apiUrl + '/api/auth/registration',
+  RESTORE_PASSWORD: apiUrl + '/api/auth/recovery/confirmation',
+  RESTORE_PASSWORD_REQ: apiUrl + '/api/auth/recovery/request',
 
   TRANSACTIONS: apiUrl + '/api/transactions',
   CATEGORIES: apiUrl + '/api/transactions/categories',

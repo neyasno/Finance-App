@@ -6,10 +6,12 @@ import TextInput from '@/app/_components/common/TextInput';
 import { EApi } from '@/enums';
 import fetchApi from '@/utils/fetchApi';
 import { useTranslations } from 'next-intl';
+import { useSearchParams } from 'next/navigation';
 import React, { useState } from 'react';
 
 export default function RestorePasswordForm() {
   const t = useTranslations('verification.restore_password');
+  const params = useSearchParams();
 
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -25,7 +27,12 @@ export default function RestorePasswordForm() {
 
       setError('');
 
-      await fetchApi(EApi.LOGIN, 'POST', { password });
+      const res = await fetchApi(EApi.RESTORE_PASSWORD, 'POST', {
+        password,
+        token: params.get('token'),
+      });
+
+      console.log(res);
     } catch (err) {
       console.log(err);
     } finally {
