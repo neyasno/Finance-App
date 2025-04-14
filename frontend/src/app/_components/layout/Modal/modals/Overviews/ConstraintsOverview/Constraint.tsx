@@ -5,14 +5,23 @@ import { RConstraint } from './ConstraintsOverwiev';
 import { useTranslations } from 'next-intl';
 import ContsraintValue from '@/app/_components/common/ContsraintValue';
 import { useConstraintOverview } from '@/utils/hooks/useModal';
+import { useAppSelector } from '@/store/store';
 
 export default function Constraint({
   constraintData,
 }: {
   constraintData: RConstraint;
 }) {
-  const { value, available, timeToExpire } = constraintData;
+  const { value, available, timeToExpire, categoryId } = constraintData;
   const t = useTranslations('home.content.constraint');
+
+  const categories = useAppSelector(
+    (state) => state.dataActuality.userCategories
+  );
+
+  console.log('Cattterrr:::');
+
+  console.log(categories);
 
   const { setConstraint } = useConstraintOverview();
 
@@ -26,7 +35,11 @@ export default function Constraint({
       onClick={openChangeConstraintModal}
     >
       <div className="flex justify-between gap-2">
-        <p className="text-lg">{'Food'}</p>
+        <p className="text-lg">
+          {categoryId !== null
+            ? categories.find((item) => item.id == categoryId)?.title
+            : t('no_category')}
+        </p>
         <p className="text-gray_d dark:text-gray_l">
           {timeToExpire.split('T')[0]}
         </p>
@@ -35,9 +48,9 @@ export default function Constraint({
         <p>
           {t('value')} : {value}
         </p>
-        <p className="text-xl">
+        <div className="text-xl">
           <ContsraintValue value={available} />
-        </p>
+        </div>
       </div>
     </div>
   );

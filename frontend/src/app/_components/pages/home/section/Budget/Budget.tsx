@@ -5,7 +5,7 @@ import React, { useEffect } from 'react';
 import PeriodStatistic from './Statistic/PeriodStatistic';
 import fetchApi from '@/utils/fetchApi';
 import { EApi } from '@/enums';
-import calculateBudget from '@/utils/hooks/budgetCalculator';
+import calculateBudget from '@/utils/budgetCalculator';
 import { useAppSelector } from '@/store/store';
 
 export default function Budget() {

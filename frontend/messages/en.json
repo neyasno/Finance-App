@@ -54,6 +54,8 @@
       "transactions": {
         "create": "Create",
         "history": "History",
+        "no_transactions": "No transactions",
+        "no_constraints": "No constraints",
         "all": "All",
         "transaction": {
           "title": "Title",
@@ -76,14 +78,16 @@
         "available": "Available",
         "change": "Change",
         "value": "Value",
-        "create": "Create"
+        "create": "Create",
+        "no_category": "No category"
       },
       "categories": {
         "sort_by": "Sort by",
         "income": "income",
         "outcome": "outcome",
         "create": "Create",
-        "category_name": "New category name..."
+        "category_name": "New category name...",
+        "no_categories": "No categories"
       }
     }
   },

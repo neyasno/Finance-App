@@ -10,6 +10,7 @@ import Constraint from './Constraint';
 export type RConstraint = {
   available: number;
   id: number;
+  categoryId: number | null;
   timeCreated: string;
   timeToExpire: string;
   value: number;
@@ -39,11 +40,17 @@ export default function ConstraintsOverwiev() {
   return (
     <div className="flex flex-col">
       <ul className="flex flex-col gap-1">
-        {constraints.map((c, index) => (
-          <li key={index}>
-            <Constraint constraintData={c} />
-          </li>
-        ))}
+        {constraints.length > 0 ? (
+          constraints.map((c, index) => (
+            <li key={index}>
+              <Constraint constraintData={c} />
+            </li>
+          ))
+        ) : (
+          <p className="w-full text-center italic py-2 text-gray_d dark:text-gray_l">
+            {t('no_constraints')}...
+          </p>
+        )}
       </ul>
       <div className="flex mt-2">
         <Button

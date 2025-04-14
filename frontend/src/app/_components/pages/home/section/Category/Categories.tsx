@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import CategoryBrick from './CategoryBrick';
 import CreateCategoryButton from './CreateCategoryButton';
 import { useTranslations } from 'next-intl';
 import fetchApi from '@/utils/fetchApi';
@@ -10,6 +9,7 @@ import {
   setCategoriesActuality,
   setUserCategories,
 } from '@/store/slices/dataActualitySlice';
+import CategoriesContainer from './CategoriesContainer';
 
 export type RCategory = {
   id: number;
@@ -89,19 +89,12 @@ export default function Categories() {
       <div className="flex flex-wrap gap-2 max-w-lg">
         {isLoading ? (
           <Loading />
+        ) : categories.length > 0 ? (
+          <CategoriesContainer categories={categories} />
         ) : (
-          categories.map((c, index) => (
-            <div className="w-5/12" key={index}>
-              <CategoryBrick
-                id={c.id}
-                title={c.title}
-                day_income={c.dayIncome}
-                day_outcome={c.dayOutcome}
-                month_income={c.monthIncome}
-                month_outcome={c.monthOutcome}
-              />
-            </div>
-          ))
+          <p className="w-full text-center italic py-2 text-gray_d dark:text-gray_l">
+            {t('no_categories')}...
+          </p>
         )}
         <div className="w-1/3 h-16">
           <CreateCategoryButton />
