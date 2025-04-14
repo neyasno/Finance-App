@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.authservice.dto.RecoverPasswordByEmailRequest;
 import org.example.authservice.dto.RecoverPasswordByTokenRequest;
 import org.example.authservice.services.AccountRecoveryService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,14 +21,18 @@ public class AccountRecoveryController {
 
     @Operation(summary = "Send email message for recovery")
     @PostMapping("/request")
-    public void RecoverPasswordForEmail(@RequestBody @Valid RecoverPasswordByEmailRequest request) {
+    public ResponseEntity<Void> RecoverPasswordForEmail(@RequestBody @Valid RecoverPasswordByEmailRequest request) {
         accountRecoveryService.sendRecoverPasswordEmailRequest(request.getEmail());
+
+        return ResponseEntity.noContent().build();
     }
 
     @Operation(summary = "Confirm recovery and change password")
     @PostMapping("/confirmation")
-    public void RecoverPasswordByToken(@RequestBody @Valid RecoverPasswordByTokenRequest request) {
+    public ResponseEntity<Void> RecoverPasswordByToken(@RequestBody @Valid RecoverPasswordByTokenRequest request) {
         accountRecoveryService.updatePasswordWithToken(request.getToken(), request.getPassword());
+
+        return ResponseEntity.noContent().build();
     }
 
 }
