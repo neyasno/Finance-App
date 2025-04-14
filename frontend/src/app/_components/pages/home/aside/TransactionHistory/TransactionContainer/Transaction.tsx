@@ -33,7 +33,7 @@ export default function Transaction(transaction: TransactionProps) {
         <p className="overflow-hidden text-nowrap">
           {category.length > 7 ? `${category.slice(0, 7)}...` : category}
         </p>
-        <p className="dark:text-gray_l text-gray_d">
+        <p className="dark:text-gray_l text-gray_d ">
           {new Date(time).toLocaleDateString()}
         </p>
         <MoneyValue type={type} value={value} />

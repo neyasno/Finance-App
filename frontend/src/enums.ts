@@ -17,7 +17,7 @@ export const EApi = {
   ANALYTICS_GENERAL: apiUrl + '/api/analytics/general',
   ANALYTICS_INCOME: apiUrl + '/api/analytics/income',
   ANALYTICS_OUTCOME: apiUrl + '/api/analytics/outcome',
-  ANALYTICS_CATEGORIES: apiUrl + '/api/analytics/categories',
+  ANALYTICS_CATEGORIES: apiUrl + '/api/analytics/category',
 } as const;
 
 export enum ERoutes {

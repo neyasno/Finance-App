@@ -29,23 +29,23 @@ export default function GeneralBrick() {
   const [generalData, setGeneralData] = React.useState<TAnaliticUnit[]>([]);
   const [period, setPeriod] = React.useState<'day' | 'month' | 'year'>('month');
 
-  const getGeneralDataReq = async () => {
-    try {
-      const res: TAnaliticUnit[] = await fetchApi(
-        EApi.ANALYTICS_GENERAL + '?period=' + period,
-        'GET'
-      );
-      console.log(res);
-
-      setGeneralData(res);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   useEffect(() => {
+    const getGeneralDataReq = async () => {
+      try {
+        const res: TAnaliticUnit[] = await fetchApi(
+          EApi.ANALYTICS_GENERAL + '?period=' + period,
+          'GET'
+        );
+        console.log(res);
+
+        setGeneralData(res);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
     getGeneralDataReq();
-  });
+  }, []);
 
   return (
     <div className="flex flex-col">

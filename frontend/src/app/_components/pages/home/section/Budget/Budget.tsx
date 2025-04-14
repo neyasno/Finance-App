@@ -67,21 +67,25 @@ export default function Budget() {
   return (
     <div className="flex gap-5 border-b-1 justify-between border-black dark:border-white py-4">
       <h1 className="text-4xl ">{budget}</h1>
-      <PeriodStatistic
-        title={t('day')}
-        income={dayIncome}
-        outcome={dayOutcome}
-      />
-      <PeriodStatistic
-        title={t('month')}
-        income={monthIncome}
-        outcome={monthOutcome}
-      />
-      <PeriodStatistic
-        title={t('year')}
-        income={yearIncome}
-        outcome={yearOutcome}
-      />
+      <div className="flex gap-1">
+        <PeriodStatistic
+          title={t('day')}
+          income={dayIncome}
+          outcome={dayOutcome}
+        />
+        <PeriodStatistic
+          title={t('month')}
+          income={monthIncome}
+          outcome={monthOutcome}
+        />
+        <div className="hidden sm:flex">
+          <PeriodStatistic
+            title={t('year')}
+            income={yearIncome}
+            outcome={yearOutcome}
+          />
+        </div>
+      </div>
     </div>
   );
 }

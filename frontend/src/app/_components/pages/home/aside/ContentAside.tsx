@@ -4,7 +4,7 @@ import AddTransactionButton from './AddTransactionButton/AddTransactionButton';
 
 export default function ContentAside() {
   return (
-    <aside className="flex flex-col gap-2 min-w-64">
+    <aside className="flex flex-col gap-2 w-full sm:min-w-64 ">
       <TransactionHistory />
       <AddTransactionButton />
     </aside>
