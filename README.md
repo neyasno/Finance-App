@@ -28,15 +28,15 @@
     - Redis
     - Docker
     - Docker Compose
-    - Kafka
+    - Kafka (optional)
 
 - Mobile : 
-    - Capacitor / React-Native(WebWiew)
+    - Capacitor
 
 ### Requirements
 
 - Backend
-    1. Microservice arhitecture (Optional)
+    1. Microservice arhitecture
 
 - Mobile
     1. User authentication and secure login.
@@ -46,9 +46,6 @@
     5. Categorization of transactions (food, transport, rent, etc.).
     6. Cloud backup and synchronization across multiple devices.
     7. Export reports to CSV or PDF.
-
-- Frontend
-    1. Well
 
 ### Microsevice Arhitecture
 
@@ -96,12 +93,6 @@
 
 - Financial Analitics Servise
     1. Create raw report (CSV) <- ( Transaction-Service )
-    2. Create diagrams report (PDV) <- ( Transaction-Service )
-        - all income
-        - all outcome
-        - categories outcome
-        - timeline income/outcome
-        - ...
     3. Get analitics data for diagrams. (...)
 
 - Statistic servise
