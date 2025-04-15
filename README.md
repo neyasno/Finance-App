@@ -25,7 +25,6 @@
     - Spring Cloud (Eureka)
     - Spring Security + JWT 
     - Spring Data JPA + PostgreSQL
-    - Redis
     - Docker
     - Docker Compose
     - Kafka (optional)
