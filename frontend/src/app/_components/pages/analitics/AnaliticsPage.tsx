@@ -8,8 +8,12 @@ export default function AnaliticsPage() {
     <div className="flex flex-col gap-2 pt-10">
       <div className="flex justify-center sm:justify-end print:hidden">
         <div className="flex gap-2 w-1/3">
-          <GeneratePDFButton />
-          <GenerateCSVButton />
+          <div className="hidden sm:flex">
+            <GeneratePDFButton />
+          </div>
+          <div className="flex">
+            <GenerateCSVButton />
+          </div>
         </div>
       </div>
       <AnaliticsContent />
