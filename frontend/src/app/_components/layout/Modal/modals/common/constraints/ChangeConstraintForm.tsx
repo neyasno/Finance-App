@@ -1,7 +1,7 @@
 'use client';
 
-import Button from '@/app/_components/common/Button';
-import NumberInput from '@/app/_components/common/NumberInput';
+import Button from '@/app/_components/common/buttons/Button';
+import NumberInput from '@/app/_components/common/inputs/NumberInput';
 import { EApi } from '@/enums';
 import fetchApi from '@/utils/fetchApi';
 import { useTranslations } from 'next-intl';
@@ -9,7 +9,7 @@ import React from 'react';
 import ConstraintCategorySelector from './ConstraintCategorySelector';
 import { useModal } from '@/utils/hooks/useModal';
 import { ModalType } from '@/store/slices/modalSlice';
-import DeleteButton from '@/app/_components/common/DeleteButton';
+import DeleteButton from '@/app/_components/common/buttons/DeleteButton';
 import useConstraintOverview from '@/utils/hooks/useConstraintOverview';
 
 export default function ChangeConstraintForm() {

@@ -1,6 +1,6 @@
 'use client';
 
-import Button from '@/app/_components/common/Button';
+import Button from '@/app/_components/common/buttons/Button';
 import { EApi } from '@/enums';
 import fetchApi from '@/utils/fetchApi';
 import { useTranslations } from 'next-intl';

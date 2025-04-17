@@ -1,8 +1,8 @@
 'use client';
 
-import Button from '@/app/_components/common/Button';
+import Button from '@/app/_components/common/buttons/Button';
 import Loading from '@/app/_components/common/Loading';
-import TextInput from '@/app/_components/common/TextInput';
+import TextInput from '@/app/_components/common/inputs/TextInput';
 import { EApi, ERoutes } from '@/enums';
 import { Link, useRouter } from '@/i18n/routing';
 import { setCookie } from '@/utils/cookie';

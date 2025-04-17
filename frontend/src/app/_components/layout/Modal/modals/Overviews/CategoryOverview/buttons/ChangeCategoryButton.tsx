@@ -1,4 +1,4 @@
-import Button from '@/app/_components/common/Button';
+import Button from '@/app/_components/common/buttons/Button';
 import { setCurrentCategory } from '@/store/slices/dataActualitySlice';
 import { ModalType } from '@/store/slices/modalSlice';
 import { useAppDispatch } from '@/store/store';

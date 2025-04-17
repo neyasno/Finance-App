@@ -1,4 +1,4 @@
-import Button from '@/app/_components/common/Button';
+import Button from '@/app/_components/common/buttons/Button';
 import { EApi } from '@/enums';
 import { ModalType } from '@/store/slices/modalSlice';
 import fetchApi from '@/utils/fetchApi';

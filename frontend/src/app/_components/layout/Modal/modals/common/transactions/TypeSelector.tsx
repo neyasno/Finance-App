@@ -1,5 +1,5 @@
 import React from 'react';
-import Select from '@/app/_components/common/Select';
+import Select from '@/app/_components/common/inputs/Select';
 
 const typeOptions = [
   { value: 'income', label: 'Income' },

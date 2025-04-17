@@ -14,7 +14,7 @@ import {
   Bar,
 } from 'recharts';
 import { TPeriod } from './AllIncomeBrick';
-import Button from '@/app/_components/common/Button';
+import Button from '@/app/_components/common/buttons/Button';
 
 export default function CategoriesBrick() {
   const [period, setPeriod] = React.useState<TPeriod>('month');

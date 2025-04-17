@@ -1,4 +1,4 @@
-import Button from '@/app/_components/common/Button';
+import Button from '@/app/_components/common/buttons/Button';
 import { ERoutes } from '@/enums';
 import { useRouter } from '@/i18n/routing';
 import { ModalType } from '@/store/slices/modalSlice';

@@ -1,6 +1,6 @@
 'use client';
 
-import Select from '@/app/_components/common/Select';
+import Select from '@/app/_components/common/inputs/Select';
 import { useAppSelector } from '@/store/store';
 import React, { useCallback } from 'react';
 

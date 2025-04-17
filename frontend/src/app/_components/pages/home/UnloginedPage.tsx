@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import React from 'react';
 import AppIcon from '../../../../../public/images/components/AppIcon';
-import Button from '../../common/Button';
+import Button from '../../common/buttons/Button';
 import { useRouter } from '@/i18n/routing';
 import { ERoutes } from '@/enums';
 

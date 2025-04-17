@@ -1,9 +1,9 @@
-import NumberInput from '@/app/_components/common/NumberInput';
-import TextInput from '@/app/_components/common/TextInput';
+import NumberInput from '@/app/_components/common/inputs/NumberInput';
+import TextInput from '@/app/_components/common/inputs/TextInput';
 import React from 'react';
 import TypeSelector from './TypeSelector';
 import CategorySelector from './CategorySelector';
-import Button from '@/app/_components/common/Button';
+import Button from '@/app/_components/common/buttons/Button';
 import { useTranslations } from 'next-intl';
 
 type TransactionFormProps = {

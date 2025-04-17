@@ -1,6 +1,6 @@
 'use client';
 
-import DeleteButton from '@/app/_components/common/DeleteButton';
+import DeleteButton from '@/app/_components/common/buttons/DeleteButton';
 import Loading from '@/app/_components/common/Loading';
 import { EApi } from '@/enums';
 import { setTransactionActuality } from '@/store/slices/dataActualitySlice';
