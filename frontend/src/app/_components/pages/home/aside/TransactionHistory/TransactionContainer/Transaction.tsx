@@ -2,7 +2,7 @@
 
 import MoneyValue from '@/app/_components/common/MoneyValue';
 import { useAppSelector } from '@/store/store';
-import { useTransactionOverview } from '@/utils/hooks/useModal';
+import useTransactionOverview from '@/utils/hooks/useTransactionOverview';
 import React from 'react';
 
 export type TransactionProps = {

@@ -1,9 +1,9 @@
-import { useCategoryOverview } from '@/utils/hooks/useModal';
 import React from 'react';
 import ChangeCategoryButton from './buttons/ChangeCategoryButton';
 import DeleteCategoryButton from './buttons/DeleteCategoryButton';
 import PeriodStatistic from '@/app/_components/pages/home/section/Budget/Statistic/PeriodStatistic';
 import { useTranslations } from 'next-intl';
+import useCategoryOverview from '@/utils/hooks/useCategoryOverview';
 
 export default function CategoryOverview() {
   const t = useTranslations('home.content.statistic');

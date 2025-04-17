@@ -1,13 +1,13 @@
 'use client';
 
 import { TransactionProps } from '@/app/_components/pages/home/aside/TransactionHistory/TransactionContainer/Transaction';
-import { useTransactionOverview } from '@/utils/hooks/useModal';
 import { useTranslations } from 'next-intl';
 import React from 'react';
 import ChangeTransactionButton from './buttons/ChangeTransactionButton';
 import DeleteTransactionButton from './buttons/DeleteTransactionButton';
 import MoneyValue from '@/app/_components/common/MoneyValue';
 import { useAppSelector } from '@/store/store';
+import useTransactionOverview from '@/utils/hooks/useTransactionOverview';
 
 export default function TransactionOverview() {
   const t = useTranslations('home.content.transactions.transaction');

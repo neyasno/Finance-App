@@ -1,6 +1,6 @@
 import MoneyValue from '@/app/_components/common/MoneyValue';
 import { getDifference } from '@/utils/calculator';
-import { useCategoryOverview } from '@/utils/hooks/useModal';
+import useCategoryOverview from '@/utils/hooks/useCategoryOverview';
 import React from 'react';
 
 export type CategoryBrickProps = {

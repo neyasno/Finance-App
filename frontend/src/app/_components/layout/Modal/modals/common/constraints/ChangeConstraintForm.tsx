@@ -7,9 +7,10 @@ import fetchApi from '@/utils/fetchApi';
 import { useTranslations } from 'next-intl';
 import React from 'react';
 import ConstraintCategorySelector from './ConstraintCategorySelector';
-import { useConstraintOverview, useModal } from '@/utils/hooks/useModal';
+import { useModal } from '@/utils/hooks/useModal';
 import { ModalType } from '@/store/slices/modalSlice';
 import DeleteButton from '@/app/_components/common/DeleteButton';
+import useConstraintOverview from '@/utils/hooks/useConstraintOverview';
 
 export default function ChangeConstraintForm() {
   const t = useTranslations('home.content.transactions.transaction');

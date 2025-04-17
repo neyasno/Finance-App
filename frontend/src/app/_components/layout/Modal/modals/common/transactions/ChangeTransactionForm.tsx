@@ -4,8 +4,9 @@ import { ModalType } from '@/store/slices/modalSlice';
 import { setTransactionActuality } from '@/store/slices/dataActualitySlice';
 import fetchApi from '@/utils/fetchApi';
 import { EApi } from '@/enums';
-import { useModal, useTransactionOverview } from '@/utils/hooks/useModal';
+import { useModal } from '@/utils/hooks/useModal';
 import { useAppDispatch } from '@/store/store';
+import useTransactionOverview from '@/utils/hooks/useTransactionOverview';
 
 export default function ChangeTransactionForm() {
   const dispatch = useAppDispatch();

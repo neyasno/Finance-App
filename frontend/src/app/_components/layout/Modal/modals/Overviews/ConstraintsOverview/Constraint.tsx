@@ -4,8 +4,8 @@ import React from 'react';
 import { RConstraint } from './ConstraintsOverwiev';
 import { useTranslations } from 'next-intl';
 import ContsraintValue from '@/app/_components/common/ContsraintValue';
-import { useConstraintOverview } from '@/utils/hooks/useModal';
 import { useAppSelector } from '@/store/store';
+import useConstraintOverview from '@/utils/hooks/useConstraintOverview';
 
 export default function Constraint({
   constraintData,
