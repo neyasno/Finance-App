@@ -26,19 +26,15 @@ export default function CreateCategoryForm() {
   ) => {
     e.preventDefault();
 
-    try {
-      setLoading(true);
+    setLoading(true);
 
-      await fetchApi(EApi.CATEGORIES, 'POST', { title });
+    await fetchApi(EApi.CATEGORIES, 'POST', { title });
 
-      dispatch(setCategoriesActuality(false));
+    dispatch(setCategoriesActuality(false));
 
-      setModal(ModalType.None);
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setLoading(false);
-    }
+    setModal(ModalType.None);
+
+    setLoading(false);
   };
   return (
     <form className="flex flex-col gap-2 ">
