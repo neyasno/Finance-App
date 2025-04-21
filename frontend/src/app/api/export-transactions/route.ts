@@ -1,36 +1,17 @@
 // app/api/export-transactions/route.ts
-import { cookies } from 'next/headers';
-import { EApi } from '@/enums';
 import { TransactionProps } from '@/app/_components/pages/home/aside/TransactionHistory/TransactionContainer/Transaction';
 
-export async function GET() {
-  console.log('GET /api/export-transactions');
+export async function POST(req: Request) {
+  console.log('POST /api/export-transactions');
 
-  const cookieStore = await cookies();
-  const token = cookieStore.get('token')?.value;
+  const transactions: TransactionProps[] = await req.json();
 
-  if (!token) {
-    return new Response('Unauthorized', { status: 401 });
+  if (!transactions || transactions.length === 0) {
+    return new Response('No transactions provided', { status: 400 });
   }
-
-  const apiRes = await fetch(`${EApi.TRANSACTIONS}?page=0&size=200`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  if (!apiRes.ok) {
-    const text = await apiRes.text();
-    console.error('Ошибка при запросе транзакций:', apiRes.status, text);
-
-    return new Response('Ошибка при загрузке транзакций', { status: 500 });
-  }
-
-  const { content } = await apiRes.json();
 
   const header = ['id', 'title', 'value', 'type', 'time', 'categoryId'];
-  const rows = content.map((tx: TransactionProps) =>
+  const rows = transactions.map((tx: TransactionProps) =>
     [
       tx.id,
       `"${tx.title}"`,

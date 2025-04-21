@@ -9,23 +9,39 @@ import { TransactionProps } from '../../home/aside/TransactionHistory/Transactio
 
 export default function GenerateCSVButton() {
   const t = useTranslations('analitics.content');
+
   const getCSVReportReq = async (
     e: React.MouseEvent<HTMLElement, MouseEvent>
   ) => {
     e.preventDefault();
 
+    const res = await fetchApi(`${EApi.TRANSACTIONS}?page=0&size=200`, 'GET');
+
+    const transactions: TransactionProps[] = res.content;
+
+    console.log(transactions);
+
+    const response = await fetch('/api/export-transactions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(transactions),
+    });
+
+    if (!response.ok) {
+      console.error('Ошибка при загрузке CSV', response.status);
+
+      return;
+    }
+
+    const blob = await response.blob();
     const link = document.createElement('a');
-    link.href = 'http://localhost:3000/api/export-transactions';
+    link.href = URL.createObjectURL(blob);
 
     link.setAttribute('download', 'transactions.csv');
 
-    link.setAttribute('target', '_blank');
-
-    document.body.appendChild(link);
-
     link.click();
-
-    document.body.removeChild(link);
   };
 
   return <Button text={t('export_csv')} handleClick={getCSVReportReq} />;
