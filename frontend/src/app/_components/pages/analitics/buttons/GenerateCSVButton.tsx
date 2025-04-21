@@ -14,42 +14,18 @@ export default function GenerateCSVButton() {
   ) => {
     e.preventDefault();
 
-    const res = await fetchApi(EApi.TRANSACTIONS + '?page=0&size=200', 'GET');
-    console.log(res.content);
-
-    const header = ['id', 'title', 'value', 'type', 'time', 'categoryId'];
-    const csvRows = [];
-    csvRows.push(header.join(','));
-
-    res.content.forEach((transaction: TransactionProps) => {
-      const values = [
-        transaction.id,
-        `"${transaction.title}"`,
-        transaction.value,
-        transaction.type,
-        `"${transaction.time}"`,
-        transaction.categoryId,
-      ];
-      csvRows.push(values.join(','));
-    });
-
-    const csvData = csvRows.join('\n');
-
-    const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
-    const url = window.URL.createObjectURL(blob);
-
     const link = document.createElement('a');
-    link.href = url;
+    link.href = 'http://localhost:3000/api/export-transactions';
 
-    link.download = 'transactions.csv';
+    link.setAttribute('download', 'transactions.csv');
+
+    link.setAttribute('target', '_blank');
 
     document.body.appendChild(link);
 
     link.click();
 
     document.body.removeChild(link);
-
-    window.URL.revokeObjectURL(url);
   };
 
   return <Button text={t('export_csv')} handleClick={getCSVReportReq} />;
