@@ -18,6 +18,7 @@ public class AnalyticsFilesConverterService {
         List<GeneralTransactionDataForChart> data = analyticsService.getGeneralTransactionDataForAllTime(userId);
 
         StringBuilder csv = new StringBuilder();
+        csv.append("%s,%s,%s\n".formatted("year", "income", "outcome"));
 
         for (GeneralTransactionDataForChart dataItem : data) {
             csv.append("%s,%s,%s\n".formatted(dataItem.getName(), dataItem.getIncome(), dataItem.getOutcome()));
