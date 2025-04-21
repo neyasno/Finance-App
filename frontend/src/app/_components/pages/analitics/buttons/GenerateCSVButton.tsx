@@ -36,12 +36,9 @@ export default function GenerateCSVButton() {
     }
 
     const blob = await response.blob();
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
+    const downloadUrl = URL.createObjectURL(blob);
 
-    link.setAttribute('download', 'transactions.csv');
-
-    link.click();
+    window.open(downloadUrl, '_blank');
   };
 
   return <Button text={t('export_csv')} handleClick={getCSVReportReq} />;
