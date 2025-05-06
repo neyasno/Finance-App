@@ -33,6 +33,9 @@ export default {
       borderWidth: {
         1: '1px',
       },
+      fontFamily: {
+        fira: ['"Fira Mono"', 'monospace'],
+      },
     },
   },
   plugins: [],

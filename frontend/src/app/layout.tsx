@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
-import { Fira_Mono } from 'next/font/google';
+//import { Fira_Mono } from 'next/font/google';
 import './globals.css';
 import ReduxProvider from '@/store/ReduxProvider';
 
-const firaMono = Fira_Mono({
-  weight: '400',
-  subsets: ['latin', 'cyrillic'],
-});
+// const firaMono = Fira_Mono({
+//   weight: '400',
+//   subsets: ['latin', 'cyrillic'],
+// });
 
 export const metadata: Metadata = {
   title: 'Koi',
@@ -23,7 +23,7 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${firaMono.className} antialiased`}>
+      <body className={'font-fira antialiased'}>
         <ReduxProvider>{children}</ReduxProvider>
       </body>
     </html>
