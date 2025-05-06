@@ -14,7 +14,7 @@ export default function CreateTransactionForm() {
   const [value, setValue] = React.useState(0);
   const [type, setType] = React.useState<'income' | 'outcome'>('income');
   const [title, setTitle] = React.useState('');
-  const [category, setCategory] = React.useState('1');
+  const [category, setCategory] = React.useState('2');
 
   const createTransactionReq = async (
     e: React.MouseEvent<HTMLElement, MouseEvent>
