@@ -224,18 +224,12 @@
     - Header
         - Navigation
             - Analitics
-            - Home 
         - Button-Bar
             - Change-Locale-Button
             - Change-Theme-Button
             - Logout-Button
 
 - Modal Windows
-    - Create Transaction
-    - Update Transaction
-    - Delete Suggestion
-    - Create Constraint
-    - Change Constraint
 
 - Verification Page
     - Login Page
@@ -251,7 +245,6 @@
     - Section
         - Current Budget Brick
         - Constraint-Block
-            - Constraint Brick
             - Add-Constraints-Button
         - Categories Bricks
     - Aside
@@ -259,25 +252,26 @@
         - Add-Transaction-Button
 
 - Analitics Page
-    - Section
-        - all income Brick
-        - all outcome Brick
-        - all income Circle-Diagram
-        - all outcome  Circle-Diagram
-        - Categories Outcome Bricks
-        - timeline income/outcome Time-Graph
-    - Aside
-        - Raw Data Container 
-        - Generate-CSV-Button
+    - Generate-CSV-Button
+    - Generate-PDF-Button
+    - Categories Bricks:
+        - General Brick
+        - Income Brick
+        - Outcome Brick
+        - Categories brick
 
 
 ```
 
 ├── app
-|  ├── favicon.ico
+|  ├── api
+|  |  └── export-transactions
+|  |     └── route.ts
 |  ├── globals.css
 |  ├── layout.tsx
 |  ├── [locale]
+|  |  ├── analitics
+|  |  |  └── page.tsx
 |  |  ├── layout.tsx
 |  |  ├── page.tsx
 |  |  └── verification
@@ -292,13 +286,16 @@
 |  |        └── page.tsx
 |  └── _components
 |     ├── common
-|     |  ├── Button.tsx
+|     |  ├── buttons
+|     |  |  ├── Button.tsx
+|     |  |  └── DeleteButton.tsx
 |     |  ├── ContsraintValue.tsx
-|     |  ├── DeleteButton.tsx
-|     |  ├── DropdownMenu.tsx
+|     |  ├── inputs
+|     |  |  ├── NumberInput.tsx
+|     |  |  ├── Select.tsx
+|     |  |  └── TextInput.tsx
 |     |  ├── Loading.tsx
-|     |  ├── MoneyValue.tsx
-|     |  └── TextInput.tsx
+|     |  └── MoneyValue.tsx
 |     ├── layout
 |     |  ├── Header
 |     |  |  ├── AppTitle.tsx
@@ -311,71 +308,97 @@
 |     |  |  ├── Header.tsx
 |     |  |  └── Navigation
 |     |  |     ├── links
-|     |  |     |  ├── AnaliticsLink.tsx
-|     |  |     |  └── HomeLink.tsx
+|     |  |     |  └── AnaliticsLink.tsx
 |     |  |     └── Navigation.tsx
 |     |  ├── Modal
 |     |  |  ├── Modal.tsx
 |     |  |  ├── ModalLayout.tsx
 |     |  |  └── modals
-|     |  |     ├── CategoryOverview
-|     |  |     |  ├── buttons
-|     |  |     |  |  ├── ChangeCategoryButton.tsx
-|     |  |     |  |  └── DeleteCategoryButton.tsx
-|     |  |     |  └── CategoryOverview.tsx
-|     |  |     ├── ChangeConstraintForm.tsx
-|     |  |     ├── ChangeTransactionForm.tsx
-|     |  |     ├── CreateCategoryForm.tsx
-|     |  |     ├── CreateConstraintForm.tsx
-|     |  |     ├── CreateTransantionForm.tsx
-|     |  |     ├── DeleteSuggestion.tsx
-|     |  |     ├── ExitSuggestion.tsx
-|     |  |     └── TransactionOverview
-|     |  |        ├── buttons
-|     |  |        |  ├── ChangeTransactionButton.tsx
-|     |  |        |  └── DeleteTransactionButton.tsx
-|     |  |        └── TransactionOverview.tsx
+|     |  |     ├── common
+|     |  |     |  ├── categories
+|     |  |     |  |  ├── ChangeCategoryForm.tsx
+|     |  |     |  |  └── CreateCategoryForm.tsx
+|     |  |     |  ├── constraints
+|     |  |     |  |  ├── ChangeConstraintForm.tsx
+|     |  |     |  |  ├── ConstraintCategorySelector.tsx
+|     |  |     |  |  └── CreateConstraintForm.tsx
+|     |  |     |  ├── suggestions
+|     |  |     |  |  ├── DeleteSuggestion.tsx
+|     |  |     |  |  └── ExitSuggestion.tsx
+|     |  |     |  └── transactions
+|     |  |     |     ├── CategorySelector.tsx
+|     |  |     |     ├── ChangeTransactionForm.tsx
+|     |  |     |     ├── CreateTransactionForm.tsx
+|     |  |     |     ├── TransactionForm.tsx
+|     |  |     |     └── TypeSelector.tsx
+|     |  |     └── Overviews
+|     |  |        ├── CategoryOverview
+|     |  |        |  ├── buttons
+|     |  |        |  |  ├── ChangeCategoryButton.tsx
+|     |  |        |  |  └── DeleteCategoryButton.tsx
+|     |  |        |  └── CategoryOverview.tsx
+|     |  |        ├── ConstraintsOverview
+|     |  |        |  ├── Constraint.tsx
+|     |  |        |  └── ConstraintsOverwiev.tsx
+|     |  |        └── TransactionOverview
+|     |  |           ├── buttons
+|     |  |           |  ├── ChangeTransactionButton.tsx
+|     |  |           |  └── DeleteTransactionButton.tsx
+|     |  |           └── TransactionOverview.tsx
+|     |  ├── ThemesProvider
+|     |  |  └── ThemesProvider.tsx
 |     |  └── VerificationWrapper
 |     |     └── VerificationWrapper.tsx
 |     └── pages
 |        ├── analitics
-|        |  ├── aside
+|        |  ├── AnaliticsPage.tsx
+|        |  ├── buttons
 |        |  |  ├── GenerateCSVButton.tsx
-|        |  |  └── RawDataContainer.tsx
+|        |  |  └── GeneratePDFButton.tsx
 |        |  └── section
-|        |     ├── CategoriesStatistic
-|        |     |  └── StatisticCategory.tsx
-|        |     ├── CircleDiagrams
-|        |     |  └── CircleDiagram.tsx
-|        |     ├── StatisticBricks
-|        |     |  └── StatisticBrick.tsx
-|        |     └── TimeGraph
-|        |        └── TimeGraph.tsx
-|        └── home
-|           ├── aside
-|           |  ├── AddTransactionButton
-|           |  |  └── AddTransactionButton.tsx
-|           |  ├── ContentAside.tsx
-|           |  └── TransactionHistory
-|           |     ├── TransactionContainer
-|           |     |  ├── Transaction.tsx
-|           |     |  └── TransactionContainer.tsx
-|           |     └── TransactionHistory.tsx
-|           ├── ContentPage.tsx
-|           ├── section
-|           |  ├── Budget
-|           |  |  ├── Budget.tsx
-|           |  |  └── Statistic
-|           |  |     └── PeriodStatistic.tsx
-|           |  ├── Category
-|           |  |  ├── Categories.tsx
-|           |  |  ├── CategoryBrick.tsx
-|           |  |  └── CreateCategoryButton.tsx
-|           |  ├── Constraint
-|           |  |  ├── AddConstraintButton.tsx
-|           |  |  └── Constraint.tsx
-|           |  └── ContentSection.tsx
-|           └── UnloginedPage.tsx
+|        |     ├── AnaliticsContent.tsx
+|        |     └── StatisticBricks
+|        |        ├── AllIncomeBrick.tsx
+|        |        ├── AllOutcomeBrick.tsx
+|        |        ├── CategoriesBrick.tsx
+|        |        ├── GeneralBrick.tsx
+|        |        └── StatisticBricks.tsx
+|        ├── home
+|        |  ├── aside
+|        |  |  ├── AddTransactionButton
+|        |  |  |  └── AddTransactionButton.tsx
+|        |  |  ├── ContentAside.tsx
+|        |  |  └── TransactionHistory
+|        |  |     ├── TransactionContainer
+|        |  |     |  ├── Transaction.tsx
+|        |  |     |  └── TransactionContainer.tsx
+|        |  |     └── TransactionHistory.tsx
+|        |  ├── ContentPage.tsx
+|        |  ├── HomePage.tsx
+|        |  ├── section
+|        |  |  ├── Budget
+|        |  |  |  ├── Budget.tsx
+|        |  |  |  └── Statistic
+|        |  |  |     └── PeriodStatistic.tsx
+|        |  |  ├── Category
+|        |  |  |  ├── Categories.tsx
+|        |  |  |  ├── CategoriesContainer.tsx
+|        |  |  |  ├── CategoryBrick.tsx
+|        |  |  |  └── CreateCategoryButton.tsx
+|        |  |  ├── Constraint
+|        |  |  |  ├── AddConstraintButton.tsx
+|        |  |  |  └── Constraints.tsx
+|        |  |  └── ContentSection.tsx
+|        |  └── UnloginedPage.tsx
+|        └── verification
+|           ├── login
+|           |  └── LoginForm.tsx
+|           ├── registration
+|           |  └── RegistrationForm.tsx
+|           ├── restore_password
+|           |  └── RestorePasswordForm.tsx
+|           └── restore_password_req
+|              └── RestorePasswordReqForm.tsx
 ├── enums.ts
 ├── i18n
 |  ├── request.ts
@@ -384,19 +407,21 @@
 ├── store
 |  ├── ReduxProvider.tsx
 |  ├── slices
-|  |  ├── dragSlice.ts
+|  |  ├── dataActualitySlice.ts
 |  |  ├── modalSlice.ts
-|  |  ├── taskBoardsSlice.ts
 |  |  └── userSlice.ts
 |  └── store.ts
 └── utils
+   ├── budgetCalculator.ts
    ├── calculator.ts
+   ├── cookie.ts
    ├── fetchApi.ts
-   ├── hooks
-   |  ├── useLogin.ts
-   |  └── useModal.ts
-   ├── jwt.ts
-   └── ThemesProvider.tsx
+   └── hooks
+      ├── useCategoryOverview.ts
+      ├── useConstraintOverview.ts
+      ├── useLogin.ts
+      ├── useModal.ts
+      └── useTransactionOverview.ts
 
 ```        
 
