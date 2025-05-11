@@ -88,7 +88,7 @@ public class AnalyticsService {
         List<GeneralTransactionDataForChart> data = getGeneralTransactionDataForLast24Hours(userId);
 
         return data.stream()
-                .map(t -> new OutcomeTransactionDataForChart(t.getName(), t.getIncome()))
+                .map(t -> new OutcomeTransactionDataForChart(t.getName(), t.getOutcome()))
                 .toList();
     }
 
