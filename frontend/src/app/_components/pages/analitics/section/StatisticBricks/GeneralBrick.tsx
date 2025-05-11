@@ -45,7 +45,7 @@ export default function GeneralBrick() {
     };
 
     getGeneralDataReq();
-  }, []);
+  }, [period]);
 
   return (
     <div className="flex flex-col">
