@@ -2,7 +2,7 @@ import { EApi } from '@/enums';
 import fetchApi from '@/utils/fetchApi';
 import React from 'react';
 import { setTransactionActuality } from '@/store/slices/dataActualitySlice';
-import { useAppDispatch } from '@/store/store';
+import { useAppDispatch, useAppSelector } from '@/store/store';
 import { ModalType } from '@/store/slices/modalSlice';
 import { useModal } from '@/utils/hooks/useModal';
 import TransactionForm from './TransactionForm';
@@ -14,7 +14,12 @@ export default function CreateTransactionForm() {
   const [value, setValue] = React.useState(0);
   const [type, setType] = React.useState<'income' | 'outcome'>('income');
   const [title, setTitle] = React.useState('');
-  const [category, setCategory] = React.useState('2');
+
+  const categories = useAppSelector(
+    (state) => state.dataActuality.userCategories
+  );
+
+  const [category, setCategory] = React.useState(categories[0]?.id.toString());
 
   const createTransactionReq = async (
     e: React.MouseEvent<HTMLElement, MouseEvent>
